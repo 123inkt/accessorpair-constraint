@@ -25,7 +25,8 @@
         }
     },
     "scripts": {
-        "test:unit": "phpunit --testsuite unit --strict-coverage",
+        "test": "phpunit",
+        "test:unit": "phpunit --testsuite unit",
         "test:integration": "phpunit --testsuite integration"
     }
 }
