@@ -1,0 +1,31 @@
+{
+    "name": "digitalrevolution/phpunit-constraint-accessorpair",
+    "description": "Digital Revolution PHPUnit Constraint for accessorpairs",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "config": {
+        "platform": {
+            "php": "7.0.0"
+        }
+    },
+    "require": {
+        "php": "7.0.* || 7.1.* || 7.2.*",
+        "phpunit/phpunit": "6.5.*",
+        "phpdocumentor/type-resolver": "0.5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "DigitalRevolution\\AccessorPairConstraint\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DigitalRevolution\\AccessorPairConstraint\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test:unit": "phpunit --testsuite unit --strict-coverage",
+        "test:integration": "phpunit --testsuite integration"
+    }
+}
