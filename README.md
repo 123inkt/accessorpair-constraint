@@ -11,7 +11,7 @@ Once you've imported the AccessorPairAsserter trait into your own testclass,
 or TestCase base class, you can call the ```assertAccessorPairs``` method to automatically test all your getters/setters.  
 If you want to keep track of the coverage, configure the PHPUnit annotation to cover all methods of your class.
 
-Optionally, the asserter can also check the initial values of all your class properties and whether or not directly calling the getter will work.
+Optionally, the asserter can also check the initial values of all your class properties and whether or not calling the getter before having called the setter will work.
 
 ### Example
 ```php
