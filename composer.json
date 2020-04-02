@@ -1,5 +1,5 @@
 {
-    "name": "digitalrevolution/phpunit-constraint-accessorpair",
+    "name": "digitalrevolution/accessorpair-constraint",
     "description": "Digital Revolution PHPUnit Constraint for accessorpairs",
     "type": "library",
     "license": "MIT",
