@@ -48,7 +48,7 @@ class TypehintResolver
         if ($parameter->getType()) {
             $signatureType = (string)$parameter->getType();
             if ($parameter->isOptional() && $parameter->allowsNull()) {
-                $signatureType = '?' . $signatureType;
+                $signatureType .= '|null';
             }
         } else {
             $signatureType = 'mixed';
