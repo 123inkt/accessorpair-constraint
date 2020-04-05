@@ -29,6 +29,27 @@ class InstanceProviderTest extends AbstractValueProviderTest
             static::assertInstanceOf(Iterator::class, $value);
         }
     }
+
+    /**
+     * Test that the InstanceProvider returns a correct value
+     * When the requested class has a constructor requirement
+     *
+     * @covers ::__construct
+     * @covers ::getValues
+     *
+     * @throws Exception
+     */
+    public function testGetValuesConstructorRequirements()
+    {
+        $valueProvider = new InstanceProvider(InstanceProvider::class);
+        $values        = $valueProvider->getValues();
+
+        static::assertNotEmpty($values);
+        foreach ($values as $value) {
+            static::assertInstanceOf(InstanceProvider::class, $value);
+        }
+    }
+
     /**
      * @covers ::__construct
      * @throws Exception
