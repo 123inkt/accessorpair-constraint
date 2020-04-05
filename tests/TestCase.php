@@ -6,6 +6,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests;
 use Generator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use ReflectionClass;
 use SplFileInfo;
 
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -25,7 +26,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
             $key       = str_replace([$path, '/'], ['', '\\'], $file->getPath()) . '\\' . $file->getBasename('.php');
             $namespace = $namespacePrefix . "\\" . trim($key, '\\');
 
-            yield $key => [new $namespace];
+            $reflectionClass = new ReflectionClass($namespace);
+
+            yield $key => [$reflectionClass->newInstanceWithoutConstructor()];
         }
     }
 }

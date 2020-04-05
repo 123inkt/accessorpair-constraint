@@ -14,7 +14,10 @@ use TypeError;
  * @covers \DigitalRevolution\AccessorPairConstraint\Constraint\AccessorPairConstraint
  * @covers \DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPair
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPairProvider
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPairProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\FalseType

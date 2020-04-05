@@ -34,5 +34,73 @@ class DataClassTest extends TestCase
 }
 ```
 
+#### Example: DataClass with getters and setters
+In this example the data class consists of getter and setter methods.
+The AccessorPair constraint can match the setter methods with the getter methods and will execute tests for each pair.
+```php
+class DataClass
+{
+    /** @var string */
+    private $property;
+
+    /** @var string */
+    private $default;
+
+    public function getProperty(): string
+    {
+        return $this->property;
+    }
+
+    public function setProperty(string $param): self
+    {
+        $this->property = $param;
+
+        return $this;
+    }
+
+    public function getDefault(): string
+    {
+        return $this->default;
+    }
+
+    public function setDefault(string $param): self
+    {
+        $this->default= $param;
+
+        return $this;
+    }
+}
+```
+
+#### Example: DataClass with the constructor as a setter
+In this example the constructor is used to set the value of some properties.   
+The AccessorPair constraint can match the constructor's parameters with the getter methods and will execute tests for each pair.
+```php
+class DataClass
+{
+    /** @var string */
+    private $property;
+
+    /** @var string */
+    private $default;
+
+    public function __construct(string $property, string $default)
+    {
+        $this->property = $property;
+        $this->default  = $default;
+    }
+
+    public function getProperty(): string
+    {
+        return $this->property;
+    }
+
+    public function getDefault(): string
+    {
+        return $this->default;
+    }
+}
+```
+
 ## About us
 At 123inkt (Part of Digital Revolution B.V.), every day more than 30 developers are working on improving our internal ERP and our several shops. Do you want to join us? [We are looking for developers](https://www.123inkt.nl/page/werken_ict.html).

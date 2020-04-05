@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
 
-class GetSet implements DataInterface
+class GetParams implements DataInterface
 {
     /** @var string */
     private $property;
 
-    public function getProperty(): string
+    public function getProperty(string $default): string
     {
-        return $this->property;
+        return $this->property ?? $default;
     }
 
     public function setProperty(string $param): self
@@ -22,8 +22,8 @@ class GetSet implements DataInterface
         return $this;
     }
 
-    public function getExpectedMethodPairs(): array
+    public function getExpectedPairs(): array
     {
-        return [['getProperty', 'setProperty', false]];
+        return [];
     }
 }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
 
@@ -25,7 +25,7 @@ class GetOptionalSet implements DataInterface
         return $this;
     }
 
-    public function getExpectedMethodPairs(): array
+    public function getExpectedPairs(): array
     {
         return [['getProperty', 'setProperty', false]];
     }

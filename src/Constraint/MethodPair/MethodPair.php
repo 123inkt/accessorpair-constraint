@@ -14,14 +14,10 @@ class MethodPair
     /** @var ReflectionMethod */
     protected $getter;
 
-    /** @var ReflectionMethod */
-    protected $setter;
-
-    public function __construct(ReflectionClass $class, ReflectionMethod $getter, ReflectionMethod $setter)
+    public function __construct(ReflectionClass $class, ReflectionMethod $getter)
     {
-        $this->class  = $class;
-        $this->getter = $getter;
-        $this->setter = $setter;
+        $this->class     = $class;
+        $this->getter    = $getter;
     }
 
     public function getClass(): ReflectionClass
@@ -32,19 +28,5 @@ class MethodPair
     public function getGetMethod(): ReflectionMethod
     {
         return $this->getter;
-    }
-
-    public function getSetMethod(): ReflectionMethod
-    {
-        return $this->setter;
-    }
-
-    /**
-     * Returns true if the setter is an "add" method, and the getter should return multiple values.
-     * When the setter is an "add" method, the getter returns all values that were passed to the "add" method, instead of only the latest.
-     */
-    public function hasMultiGetter(): bool
-    {
-        return strpos($this->setter->getName(), 'add') === 0;
     }
 }
