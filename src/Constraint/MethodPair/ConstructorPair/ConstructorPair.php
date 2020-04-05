@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPair;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
 
-class ConstructorPair extends MethodPair
+class ConstructorPair extends AbstractMethodPair
 {
     /** @var ReflectionParameter */
     protected $parameter;

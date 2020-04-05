@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPair;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair;
 use ReflectionClass;
 use ReflectionMethod;
 
-class AccessorPair extends MethodPair
+class AccessorPair extends AbstractMethodPair
 {
     /** @var ReflectionMethod */
     protected $setter;

@@ -13,7 +13,7 @@ use TypeError;
 /**
  * @covers \DigitalRevolution\AccessorPairConstraint\Constraint\AccessorPairConstraint
  * @covers \DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPair
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair

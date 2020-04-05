@@ -6,7 +6,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair;
 use ReflectionClass;
 use ReflectionMethod;
 
-class MethodPair
+abstract class AbstractMethodPair
 {
     /** @var ReflectionClass */
     protected $class;

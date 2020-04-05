@@ -21,7 +21,7 @@ class AccessorPairProviderTest extends TestCase
      * @dataProvider dataProvider
      * @covers ::getAccessorPairs
      * @covers ::validateAccessorPair
-     * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPair
+     * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
      * @throws ReflectionException
      */

@@ -21,7 +21,7 @@ class ConstructorPairProviderTest extends TestCase
      * @dataProvider dataProvider
      * @covers ::getConstructorPairs
      * @covers ::validateConstructorPair
-     * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPair
+     * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair
      * @throws ReflectionException
      */
