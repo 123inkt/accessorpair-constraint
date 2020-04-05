@@ -27,7 +27,7 @@ class InstanceProvider implements ValueProvider
     public function getValues(): array
     {
         $mockGenerator = new Generator();
-        $instance      = $mockGenerator->getMock($this->typehint);
+        $instance      = $mockGenerator->getMock($this->typehint, [], [], '', false);
 
         return [$instance];
     }
