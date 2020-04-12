@@ -13,7 +13,7 @@ trait AccessorPairAsserter
      * @param bool   $testPropertyDefaults When true, the getter methods are called on an empty instance of the test object.
      *                                     This makes sure that all the properties have the correct default type,
      *                                     conforming the getter return typehint.
-     * @param string $message              Customer PHPUnit error message in case of constraint failure
+     * @param string $message              Custom PHPUnit error message in case of constraint failure
      */
     public static function assertAccessorPairs(string $object, bool $testPropertyDefaults = false, string $message = '')
     {
