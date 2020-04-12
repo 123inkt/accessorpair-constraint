@@ -275,7 +275,6 @@ class AccessorPairConstraint extends Constraint
             return [];
         }
 
-        // Create arguments array for constructor, with a single test value for all parameters
         $arguments = [];
         foreach ($constructor->getParameters() as $parameter) {
             $testValues  = $this->getTestValues($constructor, $parameter);
