@@ -47,9 +47,9 @@ class AccessorPairAsserterTest extends TestCase
         $exception = null;
 
         try {
-            static::assertAccessorPairs('UnknowClass');
+            static::assertAccessorPairs('UnknownClass');
         } catch (ExpectationFailedException $exception) {
-            static::assertSame("Unable to load class\nFailed asserting that 'UnknowClass' matches constraint.", $exception->getMessage());
+            static::assertSame("Unable to load class\nFailed asserting that 'UnknownClass' matches constraint.", $exception->getMessage());
         }
 
         static::assertNotNull($exception);

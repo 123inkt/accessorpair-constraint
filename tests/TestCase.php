@@ -7,10 +7,14 @@ use Generator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ReflectionClass;
+use ReflectionException;
 use SplFileInfo;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @throws ReflectionException
+     */
     public function getClassDataProvider(string $path, string $namespacePrefix): Generator
     {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));

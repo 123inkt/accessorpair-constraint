@@ -7,7 +7,7 @@ $ composer require --dev digitalrevolution/accessorpair-constraint
 ```
 
 ## Usage
-Once you've imported the AccessorPairAsserter trait into your own testclass,
+Once you've imported the AccessorPairAsserter trait into your own test class,
 or TestCase base class, you can call the ```assertAccessorPairs``` method to automatically test all your getters/setters.  
 If you want to keep track of the coverage, configure the PHPUnit annotation to cover all methods of your class.
 
@@ -43,7 +43,7 @@ class DataClass
     /** @var string */
     private $property;
 
-    /** @var string */
+    /** @var bool */
     private $default;
 
     public function getProperty(): string
@@ -58,14 +58,14 @@ class DataClass
         return $this;
     }
 
-    public function getDefault(): string
+    public function hasDefault(): bool
     {
         return $this->default;
     }
 
-    public function setDefault(string $param): self
+    public function setDefault(bool $param): self
     {
-        $this->default= $param;
+        $this->default = $param;
 
         return $this;
     }

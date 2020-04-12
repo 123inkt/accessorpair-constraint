@@ -48,7 +48,7 @@ class ValueProviderFactory
             return new ValueProviderList(...$this->getProviders(iterator_to_array($typehint)));
         }
 
-        // Support nullable typehints, such as "?string". Adds a NullProvider to the regular typehint's valueprovider.
+        // Support nullable typehints, such as "?string". Adds a NullProvider to the regular typehint's ValueProvider.
         if ($typehint instanceof Nullable) {
             return new ValueProviderList(new NullProvider(), $this->getProvider($typehint->getActualType()));
         }

@@ -60,8 +60,9 @@ class AccessorPairConstraint extends Constraint
 
         try {
             // Inspect the provided class, and fetch all accessorPairs
-            $accessorPairs    = $this->accessorPairProvider->getAccessorPairs(new ReflectionClass($other));
-            $constructorPairs = $this->constructorPairProvider->getConstructorPairs(new ReflectionClass($other));
+            $class            = new ReflectionClass($other);
+            $accessorPairs    = $this->accessorPairProvider->getAccessorPairs($class);
+            $constructorPairs = $this->constructorPairProvider->getConstructorPairs($class);
 
             // If requested, test the default values of all properties
             if ($this->testPropertyDefaults) {
@@ -105,26 +106,29 @@ class AccessorPairConstraint extends Constraint
      * Calling all getter methods should not throw any TypeErrors for example, without calling a setter first.
      *
      * @param AccessorPair[] $accessorPairs
+     *
+     * @throws Exception
      */
     protected function testPropertyDefaults(array $accessorPairs)
     {
         $this->additionalFailureDesc = 'Testing initial state of class.';
 
         foreach ($accessorPairs as $accessorPair) {
-            $instance = $accessorPair->getClass()->newInstance();
+            $instance = $accessorPair->getClass()->newInstanceArgs($this->getInstanceArgs($accessorPair->getClass()));
             $accessorPair->getGetMethod()->invoke($instance);
         }
     }
 
     /**
-     * Test all accessorPairs, by passing testvalues to the setter and expect the exact same value back from the getter.
+     * Test all accessorPairs, by passing test values to the setter and expect the exact same value back from the getter.
      *
      * @throws ReflectionException
      * @throws Exception
      */
     protected function testAccessorPair(AccessorPair $accessorPair)
     {
-        $this->additionalFailureDesc = 'Testing method ' . $accessorPair->getGetMethod()->getName() . ' and ' . $accessorPair->getSetMethod()->getName();
+        $this->additionalFailureDesc = 'Testing method ' . $accessorPair->getGetMethod()->getName() .
+            ' and ' . $accessorPair->getSetMethod()->getName();
 
         // If the parameter has a default value:
         // assert that when calling the setter without a value provided, the getter returns the parameter default
@@ -133,16 +137,8 @@ class AccessorPairConstraint extends Constraint
             $this->testOptionalParameter($accessorPair, $parameter);
         }
 
-        $testValues = [];
-
-        try {
-            // Get list of test values based on the typehint
-            $testValues = $this->getTestValues($accessorPair->getSetMethod(), $parameter);
-        } catch (LogicException $e) {
-            $this->fail($accessorPair->getClass()->getNamespaceName(), "It was not possible to get testValues for parameter: " . $parameter->getName());
-        }
-
         // Test the accessorPair with the setup test values
+        $testValues = $this->getTestValues($accessorPair->getSetMethod(), $parameter);
         $this->testParameter($parameter, $accessorPair, $testValues);
     }
 
@@ -183,7 +179,7 @@ class AccessorPairConstraint extends Constraint
         $addedValues = [];
         $instance    = $accessorPair->getClass()->newInstanceWithoutConstructor();
         foreach ($testValues as $testValue) {
-            // Pass testvalue to the instance
+            // Pass test value to the instance
             $accessorPair->getSetMethod()->invoke($instance, $testValue);
             $addedValues[] = $testValue;
 
@@ -223,15 +219,9 @@ class AccessorPairConstraint extends Constraint
 
         $class       = $constructorPair->getClass();
         $constructor = $class->getConstructor();
+        $arguments   = $this->getInstanceArgs($class);
 
-        // Create arguments array for constructor, with a single testvalue for all parameters
-        $arguments = [];
-        foreach ($constructor->getParameters() as $parameter) {
-            $testValues  = $this->getTestValues($constructor, $parameter);
-            $arguments[] = $testValues[0];
-        }
-
-        // Get all testvalues for the constructorPair parameter
+        // Get all test values for the constructorPair parameter
         $testValues = $this->getTestValues($constructor, $constructorPair->getParameter());
         foreach ($testValues as $testValue) {
             // Set the testValue for the constructorPair parameter
@@ -271,5 +261,27 @@ class AccessorPairConstraint extends Constraint
         $typehint = $resolver->getParamTypehint($parameter);
 
         return $this->valueProviderFactory->getProvider($typehint)->getValues();
+    }
+
+    /**
+     * Create arguments array for constructor, with a single test value for all parameters
+     *
+     * @throws Exception
+     */
+    protected function getInstanceArgs(ReflectionClass $class): array
+    {
+        $constructor = $class->getConstructor();
+        if ($constructor === null) {
+            return [];
+        }
+
+        // Create arguments array for constructor, with a single test value for all parameters
+        $arguments = [];
+        foreach ($constructor->getParameters() as $parameter) {
+            $testValues  = $this->getTestValues($constructor, $parameter);
+            $arguments[] = $testValues[0];
+        }
+
+        return $arguments;
     }
 }
