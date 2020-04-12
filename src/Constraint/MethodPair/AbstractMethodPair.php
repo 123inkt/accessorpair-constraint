@@ -16,8 +16,8 @@ abstract class AbstractMethodPair
 
     public function __construct(ReflectionClass $class, ReflectionMethod $getter)
     {
-        $this->class     = $class;
-        $this->getter    = $getter;
+        $this->class  = $class;
+        $this->getter = $getter;
     }
 
     public function getClass(): ReflectionClass

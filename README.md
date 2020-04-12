@@ -58,7 +58,7 @@ class DataClass
         return $this;
     }
 
-    public function hasDefault(): bool
+    public function isDefault(): bool
     {
         return $this->default;
     }
