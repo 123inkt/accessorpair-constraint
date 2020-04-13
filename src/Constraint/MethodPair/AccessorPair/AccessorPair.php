@@ -1,37 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair;
+namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair;
 use ReflectionClass;
 use ReflectionMethod;
 
-class MethodPair
+class AccessorPair extends AbstractMethodPair
 {
-    /** @var ReflectionClass */
-    protected $class;
-
-    /** @var ReflectionMethod */
-    protected $getter;
-
     /** @var ReflectionMethod */
     protected $setter;
 
     public function __construct(ReflectionClass $class, ReflectionMethod $getter, ReflectionMethod $setter)
     {
-        $this->class  = $class;
-        $this->getter = $getter;
+        parent::__construct($class, $getter);
+
         $this->setter = $setter;
-    }
-
-    public function getClass(): ReflectionClass
-    {
-        return $this->class;
-    }
-
-    public function getGetMethod(): ReflectionMethod
-    {
-        return $this->getter;
     }
 
     public function getSetMethod(): ReflectionMethod

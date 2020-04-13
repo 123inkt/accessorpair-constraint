@@ -5,5 +5,5 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodP
 
 interface DataInterface
 {
-    public function getExpectedMethodPairs(): array;
+    public function getExpectedPairs(): array;
 }

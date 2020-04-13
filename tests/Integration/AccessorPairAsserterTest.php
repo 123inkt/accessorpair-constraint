@@ -13,8 +13,11 @@ use TypeError;
 /**
  * @covers \DigitalRevolution\AccessorPairConstraint\Constraint\AccessorPairConstraint
  * @covers \DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPair
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPairProvider
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPairProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\FalseType
@@ -44,9 +47,9 @@ class AccessorPairAsserterTest extends TestCase
         $exception = null;
 
         try {
-            static::assertAccessorPairs('UnknowClass');
+            static::assertAccessorPairs('UnknownClass');
         } catch (ExpectationFailedException $exception) {
-            static::assertSame("Unable to load class\nFailed asserting that 'UnknowClass' matches constraint.", $exception->getMessage());
+            static::assertSame("Unable to load class\nFailed asserting that 'UnknownClass' matches constraint.", $exception->getMessage());
         }
 
         static::assertNotNull($exception);

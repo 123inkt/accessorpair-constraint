@@ -7,7 +7,7 @@ $ composer require --dev digitalrevolution/accessorpair-constraint
 ```
 
 ## Usage
-Once you've imported the AccessorPairAsserter trait into your own testclass,
+Once you've imported the AccessorPairAsserter trait into your own test class,
 or TestCase base class, you can call the ```assertAccessorPairs``` method to automatically test all your getters/setters.  
 If you want to keep track of the coverage, configure the PHPUnit annotation to cover all methods of your class.
 
@@ -30,6 +30,74 @@ class DataClassTest extends TestCase
     public function testDataClass()
     {
         static::assertAccessorPairs(DataClass::class);
+    }
+}
+```
+
+#### Example: DataClass with getters and setters
+In this example the data class consists of getter and setter methods.
+The AccessorPair constraint can match the setter methods with the getter methods and will execute tests for each pair.
+```php
+class DataClass
+{
+    /** @var string */
+    private $property;
+
+    /** @var bool */
+    private $default;
+
+    public function getProperty(): string
+    {
+        return $this->property;
+    }
+
+    public function setProperty(string $param): self
+    {
+        $this->property = $param;
+
+        return $this;
+    }
+
+    public function isDefault(): bool
+    {
+        return $this->default;
+    }
+
+    public function setDefault(bool $param): self
+    {
+        $this->default = $param;
+
+        return $this;
+    }
+}
+```
+
+#### Example: DataClass with the constructor as a setter
+In this example the constructor is used to set the value of some properties.   
+The AccessorPair constraint can match the constructor's parameters with the getter methods and will execute tests for each pair.
+```php
+class DataClass
+{
+    /** @var string */
+    private $property;
+
+    /** @var string */
+    private $default;
+
+    public function __construct(string $property, string $default)
+    {
+        $this->property = $property;
+        $this->default  = $default;
+    }
+
+    public function getProperty(): string
+    {
+        return $this->property;
+    }
+
+    public function getDefault(): string
+    {
+        return $this->default;
     }
 }
 ```

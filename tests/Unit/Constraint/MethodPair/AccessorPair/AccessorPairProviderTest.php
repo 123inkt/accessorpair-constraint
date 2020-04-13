@@ -1,34 +1,36 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPairProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
 use Generator;
 use ReflectionClass;
 use ReflectionException;
 
 /**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPairProvider
+ * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver
  */
-class MethodPairProviderTest extends TestCase
+class AccessorPairProviderTest extends TestCase
 {
     /**
      * @dataProvider dataProvider
-     * @covers ::getMethodPairs
-     * @covers ::validateMethodPair
-     * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\MethodPair
+     * @covers ::getAccessorPairs
+     * @covers ::validateAccessorPair
+     * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
+     * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
      * @throws ReflectionException
      */
-    public function testGetMethodPairs(DataInterface $class)
+    public function testGetAccessorPairs(DataInterface $class)
     {
-        $provider    = new MethodPairProvider();
-        $actualPairs = $provider->getMethodPairs(new ReflectionClass($class));
+        $provider    = new AccessorPairProvider();
+        $actualPairs = $provider->getAccessorPairs(new ReflectionClass($class));
 
-        $expectedPairs = $class->getExpectedMethodPairs();
+        $expectedPairs = $class->getExpectedPairs();
         static::assertCount(count($expectedPairs), $actualPairs);
         foreach ($actualPairs as $key => $actualPair) {
             $expectedPair = $expectedPairs[$key];

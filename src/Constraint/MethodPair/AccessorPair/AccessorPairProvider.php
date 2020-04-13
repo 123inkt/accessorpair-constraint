@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair;
+namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
 use LogicException;
@@ -10,7 +10,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 
-class MethodPairProvider
+class AccessorPairProvider
 {
     const GET_PREFIXES = ['get', 'is', 'has'];
     const SET_PREFIXES = ['set', 'add'];
@@ -19,11 +19,11 @@ class MethodPairProvider
      * Inspect the given class, using reflection, and pair all get/set methods together
      * Loops over the public methods, and for each "getter" it tries to find the corresponding "set" and/or "add" method
      *
-     * @return MethodPair[]
+     * @return AccessorPair[]
      * @throws ReflectionException
      * @throws LogicException
      */
-    public function getMethodPairs(ReflectionClass $class): array
+    public function getAccessorPairs(ReflectionClass $class): array
     {
         $pairs = [];
         foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
@@ -43,9 +43,9 @@ class MethodPairProvider
                     }
 
                     $setterMethod = $class->getMethod($setterName);
-                    $methodPair   = new MethodPair($class, $method, $setterMethod);
-                    if ($this->validateMethodPair($methodPair)) {
-                        $pairs[] = $methodPair;
+                    $accessorPair = new AccessorPair($class, $method, $setterMethod);
+                    if ($this->validateAccessorPair($accessorPair)) {
+                        $pairs[] = $accessorPair;
                     }
                 }
             }
@@ -57,12 +57,12 @@ class MethodPairProvider
     /**
      * @throws LogicException
      */
-    protected function validateMethodPair(MethodPair $methodPair): bool
+    protected function validateAccessorPair(AccessorPair $accessorPair): bool
     {
-        $getterMethod = $methodPair->getGetMethod();
-        $setterMethod = $methodPair->getSetMethod();
+        $getterMethod = $accessorPair->getGetMethod();
+        $setterMethod = $accessorPair->getSetMethod();
 
-        // We can only test methodPairs where the getter has no parameter, and the setter has one parameter
+        // We can only test accessorPairs where the getter has no parameter, and the setter has one parameter
         if ($getterMethod->getNumberOfParameters() !== 0) {
             return false;
         }
@@ -72,7 +72,7 @@ class MethodPairProvider
 
         // Check if the getter's return typehint matches the setter's parameter typehint
         $parameter = $setterMethod->getParameters()[0];
-        if ($methodPair->hasMultiGetter() || $parameter->isVariadic()) {
+        if ($accessorPair->hasMultiGetter() || $parameter->isVariadic()) {
             $paramType  = (new TypehintResolver($setterMethod))->getParamTypehint($parameter);
             $returnType = (new TypehintResolver($getterMethod))->getReturnTypehint();
 
