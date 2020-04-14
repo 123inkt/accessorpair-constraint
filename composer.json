@@ -4,14 +4,9 @@
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",
-    "config": {
-        "platform": {
-            "php": "7.0.0"
-        }
-    },
     "require": {
-        "php": "7.0.* || 7.1.* || 7.2.*",
-        "phpunit/phpunit": "6.5.*",
+        "php": "7.0.* || 7.1.* || 7.2.* || 7.3.*",
+        "phpunit/phpunit": "6.5.* || 7.5.*",
         "phpdocumentor/type-resolver": "0.5.1"
     },
     "autoload": {
