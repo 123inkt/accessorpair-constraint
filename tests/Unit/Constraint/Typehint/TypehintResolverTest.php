@@ -7,6 +7,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolve
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use ReflectionClass;
+use ReflectionException;
 
 /**
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
@@ -19,7 +20,7 @@ class TypehintResolverTest extends TestCase
      * @dataProvider dataProvider
      * @covers ::getParamTypehint
      * @covers ::resolveTypes
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testGetParamTypehint(DataInterface $testClass)
     {
@@ -36,7 +37,7 @@ class TypehintResolverTest extends TestCase
      * @dataProvider dataProvider
      * @covers ::getReturnTypehint
      * @covers ::resolveTypes
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testGetReturnTypehint(DataInterface $testClass)
     {
@@ -49,6 +50,10 @@ class TypehintResolverTest extends TestCase
         static::assertEquals($testClass->getExpectedType(), $actualReturnType);
     }
 
+    /**
+     * @return Generator<string, array>
+     * @throws ReflectionException
+     */
     public function dataProvider(): Generator
     {
         yield from $this->getClassDataProvider(__DIR__ . '/data', __NAMESPACE__ . '\data');

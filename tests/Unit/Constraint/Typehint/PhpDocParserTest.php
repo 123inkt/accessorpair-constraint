@@ -36,6 +36,9 @@ class PhpDocParserTest extends TestCase
         static::assertSame($expectedTypehint, $parser->getReturnTypehint($docComment));
     }
 
+    /**
+     * @return Generator<int, array<string|null>>
+     */
     public function paramTypehintProvider(): Generator
     {
         // Empty docblock, no param type
@@ -60,6 +63,9 @@ class PhpDocParserTest extends TestCase
         yield ['/** @param int[] $param */', 'int[]'];
     }
 
+    /**
+     * @return Generator<int, array<string|null>>
+     */
     public function returnTypehintProvider(): Generator
     {
         // Empty docblock, no return type

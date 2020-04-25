@@ -253,6 +253,7 @@ class AccessorPairConstraint extends Constraint
     }
 
     /**
+     * @return mixed[]
      * @throws Exception
      */
     protected function getTestValues(ReflectionMethod $method, ReflectionParameter $parameter): array
@@ -266,6 +267,7 @@ class AccessorPairConstraint extends Constraint
     /**
      * Create arguments array for constructor, with a single test value for all parameters
      *
+     * @return mixed[]
      * @throws Exception
      */
     protected function getInstanceArgs(ReflectionClass $class): array

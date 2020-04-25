@@ -90,9 +90,6 @@ class TypehintResolver
         if ($phpDocType === 'mixed' && $signatureType !== 'mixed') {
             return $this->resolver->resolve($signatureType);
         }
-        if ($phpDocType !== 'mixed' && $signatureType === 'mixed') {
-            return $this->resolver->resolve($phpDocType, $this->resolverContext);
-        }
 
         return $this->resolver->resolve($phpDocType, $this->resolverContext);
     }

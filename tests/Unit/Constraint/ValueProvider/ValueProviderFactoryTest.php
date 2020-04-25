@@ -93,6 +93,9 @@ class ValueProviderFactoryTest extends TestCase
         );
     }
 
+    /**
+     * @return Generator<string, array>
+     */
     public function nativeTypeProvider(): Generator
     {
         yield "NativeType Array" => [new Array_(), new ArrayProvider()];
@@ -122,6 +125,9 @@ class ValueProviderFactoryTest extends TestCase
         ];
     }
 
+    /**
+     * @return Generator<string, array>
+     */
     public function dataProvider(): Generator
     {
         yield 'Union type' => [new Compound([new Integer(), new String_()]), new ValueProviderList(new IntProvider(), new StringProvider())];

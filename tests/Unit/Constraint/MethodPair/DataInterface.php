@@ -5,5 +5,8 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodP
 
 interface DataInterface
 {
+    /**
+     * @return array<int, array{0:string, 1:string, 2:bool}>
+     */
     public function getExpectedPairs(): array;
 }
