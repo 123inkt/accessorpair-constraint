@@ -1,16 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\success;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
 
-class GetSet implements DataInterface
+class NullableGetSet implements DataInterface
 {
-    /** @var string */
+    /** @var string|null */
     private $property;
 
-    public function getProperty(): string
+    /**
+     * @return string|null
+     */
+    public function getProperty()
     {
         return $this->property;
     }

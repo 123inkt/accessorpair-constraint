@@ -1,20 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\success;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
 
-class GetSetTypeMismatch implements DataInterface
+class GetSet implements DataInterface
 {
+    /** @var string */
     private $property;
 
-    public function getProperty(): bool
+    public function getProperty(): string
     {
         return $this->property;
     }
 
-    public function setProperty(float $param): self
+    public function setProperty(string $param): self
     {
         $this->property = $param;
 
@@ -23,6 +24,6 @@ class GetSetTypeMismatch implements DataInterface
 
     public function getExpectedPairs(): array
     {
-        return [];
+        return [['getProperty', 'setProperty', false]];
     }
 }

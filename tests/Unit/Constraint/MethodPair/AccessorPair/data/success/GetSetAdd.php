@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\success;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
 
-class GetAdd implements DataInterface
+class GetSetAdd implements DataInterface
 {
     /** @var string[] */
     private $property = [];
@@ -18,6 +18,16 @@ class GetAdd implements DataInterface
         return $this->property;
     }
 
+    /**
+     * @param string[] $param
+     */
+    public function setProperty(array $param): self
+    {
+        $this->property = $param;
+
+        return $this;
+    }
+
     public function addProperty(string $param): self
     {
         $this->property[] = $param;
@@ -27,6 +37,6 @@ class GetAdd implements DataInterface
 
     public function getExpectedPairs(): array
     {
-        return [['getProperty', 'addProperty', true]];
+        return [['getProperty', 'setProperty', false], ['getProperty', 'addProperty', true]];
     }
 }
