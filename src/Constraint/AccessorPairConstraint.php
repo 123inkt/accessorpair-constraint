@@ -13,7 +13,6 @@ use Exception;
 use LogicException;
 use PHPUnit\Framework\Constraint\Constraint;
 use ReflectionClass;
-use ReflectionException;
 use ReflectionMethod;
 use ReflectionParameter;
 
@@ -122,7 +121,6 @@ class AccessorPairConstraint extends Constraint
     /**
      * Test all accessorPairs, by passing test values to the setter and expect the exact same value back from the getter.
      *
-     * @throws ReflectionException
      * @throws Exception
      */
     protected function testAccessorPair(AccessorPair $accessorPair)
@@ -146,7 +144,7 @@ class AccessorPairConstraint extends Constraint
      * The setter's parameter has a default value
      * Call the setter without provider a parameter. Then call the getter and expect the default value return.
      *
-     * @throws ReflectionException
+     * @throws Exception
      */
     protected function testOptionalParameter(AccessorPair $accessorPair, ReflectionParameter $parameter)
     {
@@ -158,7 +156,7 @@ class AccessorPairConstraint extends Constraint
         }
 
         // Create new instance, call the setter without providing a parameter. Call the getter, and we expect the default value
-        $instance = $accessorPair->getClass()->newInstanceWithoutConstructor();
+        $instance = $accessorPair->getClass()->newInstanceArgs($this->getInstanceArgs($accessorPair->getClass()));
         $accessorPair->getSetMethod()->invoke($instance);
         $storedValue = $accessorPair->getGetMethod()->invoke($instance);
 
@@ -173,11 +171,13 @@ class AccessorPairConstraint extends Constraint
 
     /**
      * @param mixed[] $testValues
+     *
+     * @throws Exception
      */
     protected function testParameter(ReflectionParameter $parameter, AccessorPair $accessorPair, array $testValues)
     {
         $addedValues = [];
-        $instance    = $accessorPair->getClass()->newInstanceWithoutConstructor();
+        $instance    = $accessorPair->getClass()->newInstanceArgs($this->getInstanceArgs($accessorPair->getClass()));
         foreach ($testValues as $testValue) {
             // Pass test value to the instance
             $accessorPair->getSetMethod()->invoke($instance, $testValue);
