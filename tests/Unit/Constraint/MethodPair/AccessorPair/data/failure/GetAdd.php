@@ -1,31 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\failure;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
 
-class GetSetAdd implements DataInterface
+/**
+ * The add method receives a string, so we expect "string[]" back from getProperty.
+ * The generic "array" return type there is not accepted and should be expanded using docblock.
+ */
+class GetAdd implements DataInterface
 {
     /** @var string[] */
     private $property = [];
 
-    /**
-     * @return string[]
-     */
     public function getProperty(): array
     {
         return $this->property;
-    }
-
-    /**
-     * @param string[] $param
-     */
-    public function setProperty(array $param): self
-    {
-        $this->property = $param;
-
-        return $this;
     }
 
     public function addProperty(string $param): self
@@ -37,6 +28,6 @@ class GetSetAdd implements DataInterface
 
     public function getExpectedPairs(): array
     {
-        return [['getProperty', 'setProperty', false], ['getProperty', 'addProperty', true]];
+        return [];
     }
 }
