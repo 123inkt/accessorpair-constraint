@@ -73,15 +73,22 @@ class AccessorPairProvider
         // Check if the getter's return typehint matches the setter's parameter typehint
         $parameter = $setterMethod->getParameters()[0];
         if ($accessorPair->hasMultiGetter() || $parameter->isVariadic()) {
-            $paramType  = (new TypehintResolver($setterMethod))->getParamTypehint($parameter);
+            $paramType  = (string)(new TypehintResolver($setterMethod))->getParamTypehint($parameter);
             $returnType = (new TypehintResolver($getterMethod))->getReturnTypehint();
 
-            return $returnType instanceof Array_ && (string)$returnType->getValueType() === (string)$paramType;
+            // The getter should return an array containing the setter's input values
+            if ($returnType instanceof Array_ && (string)$returnType->getValueType() === $paramType) {
+                return true;
+            }
+
+            // Allow getter to return typed array or null
+            return (string)$returnType === $paramType . '[]|null';
         }
 
-        $paramType  = (new TypehintResolver($setterMethod))->getParamTypehint($parameter);
-        $returnType = (new TypehintResolver($getterMethod))->getReturnTypehint();
+        $paramType  = (string)(new TypehintResolver($setterMethod))->getParamTypehint($parameter);
+        $returnType = (string)(new TypehintResolver($getterMethod))->getReturnTypehint();
 
-        return (string)$paramType === (string)$returnType;
+        // Getter should return the same value, or nullable value
+        return $paramType === $returnType || $paramType . '|null' === $returnType;
     }
 }
