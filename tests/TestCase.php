@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Tests;
 
 use Generator;
+use LogicException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ReflectionClass;
@@ -13,6 +14,7 @@ use SplFileInfo;
 class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @return Generator<string, array>
      * @throws ReflectionException
      */
     public function getClassDataProvider(string $path, string $namespacePrefix): Generator
@@ -29,6 +31,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
             $key       = str_replace([$path, '/'], ['', '\\'], $file->getPath()) . '\\' . $file->getBasename('.php');
             $namespace = $namespacePrefix . "\\" . trim($key, '\\');
+
+            if (class_exists($namespace) === false) {
+                throw new LogicException("Unable to load class: " . $namespace);
+            }
 
             $reflectionClass = new ReflectionClass($namespace);
 

@@ -9,6 +9,10 @@ abstract class AbstractValueProviderTest extends TestCase
 {
     abstract public function testGetValues();
 
+    /**
+     * @param mixed[]  $testValues
+     * @param string[] $expectedTypes
+     */
     public static function assertValueTypes(array $testValues, array $expectedTypes)
     {
         static::assertNotEmpty($testValues);

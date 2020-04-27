@@ -8,6 +8,7 @@ use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Exception;
 use Generator;
 use PHPUnit\Framework\ExpectationFailedException;
+use ReflectionException;
 use TypeError;
 
 /**
@@ -108,21 +109,37 @@ class AccessorPairAsserterTest extends TestCase
         static::assertNotNull($exception);
     }
 
+    /**
+     * @return Generator<string, array<object>>
+     * @throws ReflectionException
+     */
     public function successDataProvider(): Generator
     {
         yield from $this->getClassDataProvider(__DIR__ . '/data/success/Regular', __NAMESPACE__ . "\data\success\Regular");
     }
 
+    /**
+     * @return Generator<string, array<object>>
+     * @throws ReflectionException
+     */
     public function successInitialStateDataProvider(): Generator
     {
         yield from $this->getClassDataProvider(__DIR__ . '/data/success/InitialState', __NAMESPACE__ . "\data\success\InitialState");
     }
 
+    /**
+     * @return Generator<string, array<object>>
+     * @throws ReflectionException
+     */
     public function failureStateDataProvider(): Generator
     {
         yield from $this->getClassDataProvider(__DIR__ . '/data/failure/Regular', __NAMESPACE__ . "\data\\failure\Regular");
     }
 
+    /**
+     * @return Generator<string, array<object>>
+     * @throws ReflectionException
+     */
     public function failureInitialStateDataProvider(): Generator
     {
         yield from $this->getClassDataProvider(__DIR__ . '/data/failure/InitialState', __NAMESPACE__ . "\data\\failure\InitialState");

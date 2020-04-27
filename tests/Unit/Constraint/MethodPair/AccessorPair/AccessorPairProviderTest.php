@@ -42,6 +42,7 @@ class AccessorPairProviderTest extends TestCase
     }
 
     /**
+     * @return Generator<string, array<DataInterface>>
      * @throws ReflectionException
      */
     public function dataProvider(): Generator

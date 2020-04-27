@@ -9,11 +9,9 @@ use phpDocumentor\Reflection\Types\Compound;
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Null_;
 
-class Optional implements DataInterface
+class OptionalNull implements DataInterface
 {
     /**
-     * @param int|null $param
-     *
      * @return int|null
      */
     public function testMethod(int $param = null)

@@ -62,8 +62,8 @@ class ConstructorPairProvider
         $getterMethod = $constructorPair->getGetMethod();
         $setterMethod = $constructorPair->getClass()->getConstructor();
 
-        // We can only test accessorPairs where the getter has no parameter, and the setter has one parameter
-        if ($getterMethod->getNumberOfParameters() !== 0) {
+        // The class should have a constructor, and we can only test accessorPairs where the getter has no parameter, and the setter has one parameter
+        if ($setterMethod === null || $getterMethod->getNumberOfParameters() !== 0) {
             return false;
         }
 
