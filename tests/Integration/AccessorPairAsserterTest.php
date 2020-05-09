@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration;
 
 use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Exception;
 use Generator;
@@ -14,6 +15,7 @@ use TypeError;
 /**
  * @covers \DigitalRevolution\AccessorPairConstraint\Constraint\AccessorPairConstraint
  * @covers \DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider
@@ -73,11 +75,45 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function testMatchesSuccessInitialState($class)
     {
-        static::assertAccessorPairs(get_class($class), true);
+        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setPropertyDefaultCheck(true));
     }
 
     /**
-     * @dataProvider failureStateDataProvider
+     * When turning off the propertyDefaultCheck, we can safely pass classes we know will fail the constraint
+     *
+     * @dataProvider failureInitialStateDataProvider
+     *
+     * @param object $class
+     */
+    public function testExcludingInitialStateCheck($class)
+    {
+        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setPropertyDefaultCheck(false));
+    }
+
+    /**
+     * @dataProvider successConstructorDataProvider
+     *
+     * @param object $class
+     */
+    public function testMatchesSuccessConstructorPair($class)
+    {
+        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setConstructorPairCheck(true));
+    }
+
+    /**
+     * When turning off the constructorPairCheck, we can safely pass classes we know will fail the constraint
+     *
+     * @dataProvider failureConstructorDataProvider
+     *
+     * @param object $class
+     */
+    public function testExcludingConstructorPair($class)
+    {
+        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setConstructorPairCheck(false));
+    }
+
+    /**
+     * @dataProvider failureDataProvider
      *
      * @param object $class
      */
@@ -101,7 +137,7 @@ class AccessorPairAsserterTest extends TestCase
     {
         $exception = null;
         try {
-            static::assertAccessorPairs(get_class($class), true);
+            static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setPropertyDefaultCheck(true));
         } catch (TypeError $exception) {
             static::assertRegExp('/Return value of .*?::.*?\(\) must be of the type .*?, .*? returned/', $exception->getMessage());
         }
@@ -122,6 +158,15 @@ class AccessorPairAsserterTest extends TestCase
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
+    public function failureDataProvider(): Generator
+    {
+        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/Regular', __NAMESPACE__ . "\data\\failure\Regular");
+    }
+
+    /**
+     * @return Generator<string, array<object>>
+     * @throws ReflectionException
+     */
     public function successInitialStateDataProvider(): Generator
     {
         yield from $this->getClassDataProvider(__DIR__ . '/data/success/InitialState', __NAMESPACE__ . "\data\success\InitialState");
@@ -131,17 +176,26 @@ class AccessorPairAsserterTest extends TestCase
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
-    public function failureStateDataProvider(): Generator
+    public function failureInitialStateDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/Regular', __NAMESPACE__ . "\data\\failure\Regular");
+        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/InitialState', __NAMESPACE__ . "\data\\failure\InitialState");
     }
 
     /**
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
-    public function failureInitialStateDataProvider(): Generator
+    public function successConstructorDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/InitialState', __NAMESPACE__ . "\data\\failure\InitialState");
+        yield from $this->getClassDataProvider(__DIR__ . '/data/success/Regular/Constructor', __NAMESPACE__ . "\data\\success\Regular\\Constructor");
+    }
+
+    /**
+     * @return Generator<string, array<object>>
+     * @throws ReflectionException
+     */
+    public function failureConstructorDataProvider(): Generator
+    {
+        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/Regular/Constructor', __NAMESPACE__ . "\data\\failure\Regular\\Constructor");
     }
 }

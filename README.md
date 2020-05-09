@@ -20,12 +20,15 @@ Optionally, the asserter can also check the initial values of all your class pro
 use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \DataClass
+ */
 class DataClassTest extends TestCase
 {
     use AccessorPairAsserter;
 
     /**
-     * @covers DataClass::<public>
+     * @covers ::<public>
      */
     public function testDataClass()
     {
