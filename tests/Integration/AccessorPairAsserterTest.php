@@ -75,7 +75,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function testMatchesSuccessInitialState($class)
     {
-        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setPropertyDefaultCheck(true));
+        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
     }
 
     /**
@@ -87,7 +87,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function testExcludingInitialStateCheck($class)
     {
-        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setPropertyDefaultCheck(false));
+        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(false));
     }
 
     /**
@@ -97,7 +97,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function testMatchesSuccessConstructorPair($class)
     {
-        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setConstructorPairCheck(true));
+        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertConstructor(true));
     }
 
     /**
@@ -109,7 +109,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function testExcludingConstructorPair($class)
     {
-        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setConstructorPairCheck(false));
+        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertConstructor(false));
     }
 
     /**
@@ -137,7 +137,7 @@ class AccessorPairAsserterTest extends TestCase
     {
         $exception = null;
         try {
-            static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setPropertyDefaultCheck(true));
+            static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
         } catch (TypeError $exception) {
             static::assertRegExp('/Return value of .*?::.*?\(\) must be of the type .*?, .*? returned/', $exception->getMessage());
         }

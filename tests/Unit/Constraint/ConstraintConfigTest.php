@@ -12,28 +12,28 @@ use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 class ConstraintConfigTest extends TestCase
 {
     /**
-     * @covers ::setAccessorPairCheck
+     * @covers ::setAssertAccessorPair
      * @covers ::hasAccessorPairCheck
-     * @covers ::setConstructorPairCheck
-     * @covers ::hasConstructorPairCheck
-     * @covers ::setPropertyDefaultCheck
+     * @covers ::setAssertConstructor
+     * @covers ::hasAssertConstructor
+     * @covers ::setAssertPropertyDefaults
      * @covers ::hasPropertyDefaultCheck
      */
     public function testConfig()
     {
         $config = new ConstraintConfig();
         static::assertTrue($config->hasAccessorPairCheck());
-        static::assertTrue($config->hasConstructorPairCheck());
+        static::assertTrue($config->hasAssertConstructor());
         static::assertFalse($config->hasPropertyDefaultCheck());
 
         $config = new ConstraintConfig();
-        static::assertFalse($config->setAccessorPairCheck(false)->hasAccessorPairCheck());
-        static::assertFalse($config->setConstructorPairCheck(false)->hasConstructorPairCheck());
-        static::assertFalse($config->setPropertyDefaultCheck(false)->hasPropertyDefaultCheck());
+        static::assertFalse($config->setAssertAccessorPair(false)->hasAccessorPairCheck());
+        static::assertFalse($config->setAssertConstructor(false)->hasAssertConstructor());
+        static::assertFalse($config->setAssertPropertyDefaults(false)->hasPropertyDefaultCheck());
 
         $config = new ConstraintConfig();
-        static::assertTrue($config->setAccessorPairCheck(true)->hasAccessorPairCheck());
-        static::assertTrue($config->setConstructorPairCheck(true)->hasConstructorPairCheck());
-        static::assertTrue($config->setPropertyDefaultCheck(true)->hasPropertyDefaultCheck());
+        static::assertTrue($config->setAssertAccessorPair(true)->hasAccessorPairCheck());
+        static::assertTrue($config->setAssertConstructor(true)->hasAssertConstructor());
+        static::assertTrue($config->setAssertPropertyDefaults(true)->hasPropertyDefaultCheck());
     }
 }

@@ -76,7 +76,7 @@ class AccessorPairConstraint extends Constraint
 
             // Test all constructorPairs
             $constructorPairs = $this->constructorPairProvider->getConstructorPairs($class);
-            if ($this->config->hasConstructorPairCheck()) {
+            if ($this->config->hasAssertConstructor()) {
                 foreach ($constructorPairs as $constructorPair) {
                     $this->testConstructorPair($constructorPair);
                 }

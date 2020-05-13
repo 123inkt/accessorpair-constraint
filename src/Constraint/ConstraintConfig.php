@@ -6,59 +6,62 @@ namespace DigitalRevolution\AccessorPairConstraint\Constraint;
 class ConstraintConfig
 {
     /** @var bool */
-    private $accessorPairCheck = true;
+    private $assertAccessorPair = true;
 
     /** @var bool */
-    private $constructorPairCheck = true;
+    private $assertConstructor = true;
 
     /** @var bool */
-    private $propertyDefaultCheck = false;
+    private $assertPropertyDefaults = false;
 
     public function hasAccessorPairCheck(): bool
     {
-        return $this->accessorPairCheck;
+        return $this->assertAccessorPair;
     }
 
     /**
+     * Enabled by default.
      * Let the constraint pair all getter and setter methods,
      * and pass test data to the setter to assert that the getter returns the exact same value.
      */
-    public function setAccessorPairCheck(bool $accessorPairCheck): self
+    public function setAssertAccessorPair(bool $assertAccessorPair): self
     {
-        $this->accessorPairCheck = $accessorPairCheck;
+        $this->assertAccessorPair = $assertAccessorPair;
 
         return $this;
     }
 
-    public function hasConstructorPairCheck(): bool
+    public function hasAssertConstructor(): bool
     {
-        return $this->constructorPairCheck;
+        return $this->assertConstructor;
     }
 
     /**
+     * Enabled by default.
      * Let the constraint pair the constructor's parameters with the class' getter methods.
      * These pairs will be tested in the same ways as the getter/setter method pairs.
      */
-    public function setConstructorPairCheck(bool $constructorPairCheck): self
+    public function setAssertConstructor(bool $assertConstructor): self
     {
-        $this->constructorPairCheck = $constructorPairCheck;
+        $this->assertConstructor = $assertConstructor;
 
         return $this;
     }
 
     public function hasPropertyDefaultCheck(): bool
     {
-        return $this->propertyDefaultCheck;
+        return $this->assertPropertyDefaults;
     }
 
     /**
-     * When true, the getter methods are called on an empty instance of the test object.
+     * Disabled by default.
+     * When enabled, the getter methods are called on an empty instance of the test object.
      * This makes sure that all the properties have the correct default type,
      * conforming the getter return typehint.
      */
-    public function setPropertyDefaultCheck(bool $propertyDefaultCheck): self
+    public function setAssertPropertyDefaults(bool $assertPropertyDefaults): self
     {
-        $this->propertyDefaultCheck = $propertyDefaultCheck;
+        $this->assertPropertyDefaults = $assertPropertyDefaults;
 
         return $this;
     }
