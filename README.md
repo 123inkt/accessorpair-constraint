@@ -40,6 +40,8 @@ In this example the data class consists of getter and setter methods and a const
 The AccessorPair constraint can match the setter methods with the getter methods and will execute tests for each pair.
 The constraint is also able to match the constructor parameters with the getter methods and will test these pairs as well.
 ```php
+<?php
+
 class DataClass
 {
     private $property;
@@ -84,6 +86,8 @@ It is still possible to test the method pair setProperty-getProperty using the c
 
 ##### The data class
 ```php
+<?php
+
 class DataClass
 {
     private $property;
