@@ -27,20 +27,20 @@ class AccessorPairConstraint extends Constraint
     /** @var ValueProviderFactory */
     protected $valueProviderFactory;
 
-    /** @var bool */
-    protected $testPropertyDefaults;
+    /** @var ConstraintConfig */
+    protected $config;
 
     /** @var string */
     protected $additionalFailureDesc = '';
 
-    public function __construct(bool $testPropertyDefaults)
+    public function __construct(ConstraintConfig $config)
     {
         parent::__construct();
 
         $this->accessorPairProvider    = new AccessorPairProvider();
         $this->constructorPairProvider = new ConstructorPairProvider();
         $this->valueProviderFactory    = new ValueProviderFactory();
-        $this->testPropertyDefaults    = $testPropertyDefaults;
+        $this->config                  = $config;
     }
 
     /**
@@ -59,23 +59,27 @@ class AccessorPairConstraint extends Constraint
 
         try {
             // Inspect the provided class, and fetch all accessorPairs
-            $class            = new ReflectionClass($other);
-            $accessorPairs    = $this->accessorPairProvider->getAccessorPairs($class);
-            $constructorPairs = $this->constructorPairProvider->getConstructorPairs($class);
+            $class         = new ReflectionClass($other);
+            $accessorPairs = $this->accessorPairProvider->getAccessorPairs($class);
 
-            // If requested, test the default values of all properties
-            if ($this->testPropertyDefaults) {
+            // Test the default values of all properties
+            if ($this->config->hasPropertyDefaultCheck()) {
                 $this->testPropertyDefaults($accessorPairs);
             }
 
             // Test all accessorPairs
-            foreach ($accessorPairs as $accessorPair) {
-                $this->testAccessorPair($accessorPair);
+            if ($this->config->hasAccessorPairCheck()) {
+                foreach ($accessorPairs as $accessorPair) {
+                    $this->testAccessorPair($accessorPair);
+                }
             }
 
             // Test all constructorPairs
-            foreach ($constructorPairs as $constructorPair) {
-                $this->testConstructorPair($constructorPair);
+            $constructorPairs = $this->constructorPairProvider->getConstructorPairs($class);
+            if ($this->config->hasAssertConstructor()) {
+                foreach ($constructorPairs as $constructorPair) {
+                    $this->testConstructorPair($constructorPair);
+                }
             }
         } catch (LogicException $e) {
             $this->fail($other, "Unable to run constraint on class. " . $e->getMessage());

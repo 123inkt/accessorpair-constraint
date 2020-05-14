@@ -20,13 +20,14 @@ Optionally, the asserter can also check the initial values of all your class pro
 use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \DataClass
+ * @covers ::<public>
+ */
 class DataClassTest extends TestCase
 {
     use AccessorPairAsserter;
 
-    /**
-     * @covers DataClass::<public>
-     */
     public function testDataClass()
     {
         static::assertAccessorPairs(DataClass::class);
@@ -34,17 +35,21 @@ class DataClassTest extends TestCase
 }
 ```
 
-#### Example: DataClass with getters and setters
-In this example the data class consists of getter and setter methods.
+#### Example: Simple DataClass
+In this example the data class consists of getter and setter methods and a constructor to set the properties.
 The AccessorPair constraint can match the setter methods with the getter methods and will execute tests for each pair.
+The constraint is also able to match the constructor parameters with the getter methods and will test these pairs as well.
 ```php
 class DataClass
 {
-    /** @var string */
     private $property;
-
-    /** @var bool */
     private $default;
+
+    public function __construct(string $property, bool $default)
+    {
+        $this->property = $property;
+        $this->default  = $default;
+    }
 
     public function getProperty(): string
     {
@@ -72,33 +77,84 @@ class DataClass
 }
 ```
 
-#### Example: DataClass with the constructor as a setter
-In this example the constructor is used to set the value of some properties.   
-The AccessorPair constraint can match the constructor's parameters with the getter methods and will execute tests for each pair.
+#### Example: Configuring the constraint
+In this example the constructor parameter $property will be matched with the method getProperty, and the method setProperty with getProperty.
+Because the constructor changes the data, it is not possible for the AccessorPair constraint to assert the correct working of your class.
+It is still possible to test the method pair setProperty-getProperty using the constraint config.
+
+##### The data class
 ```php
 class DataClass
 {
-    /** @var string */
     private $property;
 
-    /** @var string */
-    private $default;
+    public function __construct(string $property)
+    {
+        $this->property = strtoupper($property);
+    }
 
-    public function __construct(string $property, string $default)
+    public  function setProperty(string $property)
     {
         $this->property = $property;
-        $this->default  = $default;
     }
 
     public function getProperty(): string
     {
         return $this->property;
     }
+}
+```
 
-    public function getDefault(): string
+##### The unittest
+```php
+<?php
+
+use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @coversDefaultClass \DataClass
+ * @covers ::<public>
+ */
+class DataClassTest extends TestCase
+{
+    use AccessorPairAsserter;
+
+    public function testDataClass()
     {
-        return $this->default;
+        static::assertAccessorPairs(DataClass::class, (new ConstraintConfig())->setAssertConstructor(false));
     }
+}
+```
+
+##### Possible configuration options
+```php
+<?php
+
+class ConstraintConfig
+{
+    /**
+     * Enabled by default.
+     * Let the constraint pair all getter and setter methods,
+     * and pass test data to the setter to assert that the getter returns the exact same value.
+     */
+    public function setAssertAccessorPair(bool $assertAccessorPair);
+    
+    /**
+     * Enabled by default.
+     * Let the constraint pair the constructor's parameters with the class' getter methods.
+     * These pairs will be tested in the same ways as the getter/setter method pairs.
+     */
+    public function setAssertConstructor(bool $assertConstructor);
+    
+    /**
+     * Disabled by default.
+     * When enabled, the getter methods are called on an empty instance of the test object.
+     * This makes sure that all the properties have the correct default type,
+     * conforming the getter return typehint.
+     */
+    public function setAssertPropertyDefaults(bool $assertPropertyDefaults);
 }
 ```
 
