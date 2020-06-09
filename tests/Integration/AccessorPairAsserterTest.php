@@ -6,7 +6,6 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration;
 use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
-use Exception;
 use Generator;
 use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
@@ -119,13 +118,8 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function testMatchesFailureState($class)
     {
-        $exception = null;
-        try {
-            static::assertAccessorPairs(get_class($class));
-        } catch (Exception $exception) {
-        }
-
-        static::assertNotNull($exception);
+        $this->expectException(ExpectationFailedException::class);
+        static::assertAccessorPairs(get_class($class));
     }
 
     /**

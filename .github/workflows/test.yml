@@ -1,4 +1,4 @@
-name: Run tests
+name: Run checks
 
 on:
   push:
@@ -7,12 +7,13 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-    name: PHP ${{ matrix.php-versions }} Test
+  test:
+    name: PHP ${{ matrix.php-versions }} Test ${{ matrix.composer-flags }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         php-versions: ['7.0', '7.1', '7.2', '7.3']
+        composer-flags: ['', '--prefer-lowest']
     steps:
       - uses: actions/checkout@v2
 
@@ -26,7 +27,7 @@ jobs:
         run: composer validate
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress --no-suggest --prefer-stable ${{ matrix.composer-flags }}
 
       - name: Run test suite
         run: composer test
