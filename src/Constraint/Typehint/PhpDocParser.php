@@ -29,10 +29,16 @@ class PhpDocParser
      *
      * @return string|null
      */
-    public function getReturnTypehint(string $docComment)
+    public function getReturnTypehint(string $originalDocComment)
     {
+        $docComment = trim($originalDocComment);
         // empty docblock provided, no typehint found
-        if (trim($docComment) === '') {
+        if ($docComment === '') {
+            return null;
+        }
+
+        $docComment = preg_replace('/array<(.*?),\s(.*?)>/', 'array<$1,$2>', $docComment);
+        if ($docComment === null) {
             return null;
         }
 
