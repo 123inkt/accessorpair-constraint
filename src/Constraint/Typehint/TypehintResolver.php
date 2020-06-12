@@ -91,6 +91,8 @@ class TypehintResolver
             return $this->resolver->resolve($signatureType);
         }
 
+        $phpDocType = str_replace(' ', '', $phpDocType);
+
         return $this->resolver->resolve($phpDocType, $this->resolverContext);
     }
 }
