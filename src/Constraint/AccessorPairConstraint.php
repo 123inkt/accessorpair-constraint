@@ -35,8 +35,6 @@ class AccessorPairConstraint extends Constraint
 
     public function __construct(ConstraintConfig $config)
     {
-        parent::__construct();
-
         $this->accessorPairProvider    = new AccessorPairProvider();
         $this->constructorPairProvider = new ConstructorPairProvider();
         $this->valueProviderFactory    = new ValueProviderFactory();
