@@ -133,7 +133,7 @@ class AccessorPairAsserterTest extends TestCase
         try {
             static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
         } catch (TypeError $exception) {
-            static::assertRegExp('/Return value of .*?::.*?\(\) must be of the type .*?, .*? returned/', $exception->getMessage());
+            static::assertMatchesRegularExpression('/Return value of .*?::.*?\(\) must be of the type .*?, .*? returned/', $exception->getMessage());
         }
 
         static::assertNotNull($exception);
