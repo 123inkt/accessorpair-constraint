@@ -45,8 +45,8 @@ class TypehintResolver
     public function getParamTypehint(ReflectionParameter $parameter): Type
     {
         // Get parameter type from method signature
-        if ($parameter->getType()) {
-            $signatureType = (string)$parameter->getType();
+        if ($parameter->getType() !== null) {
+            $signatureType = $parameter->getType()->getName();
             if ($parameter->isOptional() && $parameter->allowsNull()) {
                 $signatureType .= '|null';
             }
@@ -69,8 +69,8 @@ class TypehintResolver
     public function getReturnTypehint(): Type
     {
         // Get return type from method signature
-        if ($this->method->hasReturnType()) {
-            $signatureType = (string)$this->method->getReturnType();
+        if ($this->method->hasReturnType() && $this->method->getReturnType() !==null) {
+            $signatureType = $this->method->getReturnType()->getName();
         } else {
             $signatureType = 'mixed';
         }
