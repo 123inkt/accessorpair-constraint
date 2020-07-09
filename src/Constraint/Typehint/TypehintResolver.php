@@ -69,7 +69,7 @@ class TypehintResolver
     public function getReturnTypehint(): Type
     {
         // Get return type from method signature
-        if ($this->method->hasReturnType() && $this->method->getReturnType() !==null) {
+        if ($this->method->hasReturnType() && $this->method->getReturnType() !== null) {
             $signatureType = $this->method->getReturnType()->getName();
         } else {
             $signatureType = 'mixed';
