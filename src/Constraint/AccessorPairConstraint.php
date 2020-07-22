@@ -43,15 +43,11 @@ class AccessorPairConstraint extends Constraint
 
     /**
      * @inheritDoc
-     *
-     * @param string $other
-     *
-     * @phpstan-param class-string $other
      * @throws Exception
      */
     public function matches($other): bool
     {
-        if (class_exists($other) === false) {
+        if (is_string($other) === false || class_exists($other) === false) {
             $this->fail($other, "Unable to load class");
         }
 
@@ -110,7 +106,7 @@ class AccessorPairConstraint extends Constraint
      *
      * @throws Exception
      */
-    protected function testPropertyDefaults(array $accessorPairs)
+    protected function testPropertyDefaults(array $accessorPairs): void
     {
         $this->additionalFailureDesc = 'Testing initial state of class.';
 
@@ -125,7 +121,7 @@ class AccessorPairConstraint extends Constraint
      *
      * @throws Exception
      */
-    protected function testAccessorPair(AccessorPair $accessorPair)
+    protected function testAccessorPair(AccessorPair $accessorPair): void
     {
         $this->additionalFailureDesc = 'Testing method ' . $accessorPair->getGetMethod()->getName() .
             ' and ' . $accessorPair->getSetMethod()->getName();
@@ -148,7 +144,7 @@ class AccessorPairConstraint extends Constraint
      *
      * @throws Exception
      */
-    protected function testOptionalParameter(AccessorPair $accessorPair, ReflectionParameter $parameter)
+    protected function testOptionalParameter(AccessorPair $accessorPair, ReflectionParameter $parameter): void
     {
         $expectedReturn = $parameter->getDefaultValue();
 
@@ -176,7 +172,7 @@ class AccessorPairConstraint extends Constraint
      *
      * @throws Exception
      */
-    protected function testParameter(ReflectionParameter $parameter, AccessorPair $accessorPair, array $testValues)
+    protected function testParameter(ReflectionParameter $parameter, AccessorPair $accessorPair, array $testValues): void
     {
         $addedValues = [];
         $instance    = $accessorPair->getClass()->newInstanceArgs($this->getInstanceArgs($accessorPair->getClass()));
@@ -214,14 +210,18 @@ class AccessorPairConstraint extends Constraint
     /**
      * @throws Exception
      */
-    protected function testConstructorPair(ConstructorPair $constructorPair)
+    protected function testConstructorPair(ConstructorPair $constructorPair): void
     {
         $this->additionalFailureDesc = 'Testing method ' . $constructorPair->getGetMethod()->getName() .
             ' and constructor param ' . $constructorPair->getParameter()->getName();
 
         $class       = $constructorPair->getClass();
         $constructor = $class->getConstructor();
-        $arguments   = $this->getInstanceArgs($class);
+        if ($constructor === null) {
+            return;
+        }
+
+        $arguments = $this->getInstanceArgs($class);
 
         // Get all test values for the constructorPair parameter
         $testValues = $this->getTestValues($constructor, $constructorPair->getParameter());

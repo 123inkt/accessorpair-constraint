@@ -11,7 +11,7 @@ use ReflectionMethod;
 
 class ConstructorPairProvider
 {
-    const GET_PREFIXES = ['get', 'is', 'has'];
+    private const GET_PREFIXES = ['get', 'is', 'has'];
 
     /**
      * @return ConstructorPair[]

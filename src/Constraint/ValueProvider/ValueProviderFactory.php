@@ -72,10 +72,7 @@ class ValueProviderFactory
         throw new LogicException("No value provider found for typehint: " . $typehint);
     }
 
-    /**
-     * @return ValueProvider|null
-     */
-    protected function getNativeTypeProvider(Type $typehint)
+    protected function getNativeTypeProvider(Type $typehint): ?ValueProvider
     {
         switch (get_class($typehint)) {
             // Compound valueProviders
