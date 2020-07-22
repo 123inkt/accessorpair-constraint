@@ -14,7 +14,7 @@ class FalseProviderTest extends AbstractValueProviderTest
     /**
      * @covers ::getValues
      */
-    public function testGetValues()
+    public function testGetValues(): void
     {
         $valueProvider = new FalseProvider();
 

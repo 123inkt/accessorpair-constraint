@@ -19,7 +19,7 @@ class InstanceProviderTest extends AbstractValueProviderTest
      * @covers ::getValues
      * @throws Exception
      */
-    public function testGetValues()
+    public function testGetValues(): void
     {
         $valueProvider = new InstanceProvider(Iterator::class);
         $values        = $valueProvider->getValues();
@@ -39,7 +39,7 @@ class InstanceProviderTest extends AbstractValueProviderTest
      *
      * @throws Exception
      */
-    public function testGetValuesConstructorRequirements()
+    public function testGetValuesConstructorRequirements(): void
     {
         $valueProvider = new InstanceProvider(InstanceProvider::class);
         $values        = $valueProvider->getValues();
@@ -54,7 +54,7 @@ class InstanceProviderTest extends AbstractValueProviderTest
      * @covers ::__construct
      * @throws Exception
      */
-    public function testGetValuesError()
+    public function testGetValuesError(): void
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage("Unknown class/interface typehint found: unknown");

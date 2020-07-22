@@ -14,7 +14,7 @@ class TrueTypeTest extends TestCase
     /**
      * @covers ::__toString
      */
-    public function testToString()
+    public function testToString(): void
     {
         static::assertSame('true', (string)new TrueType());
     }

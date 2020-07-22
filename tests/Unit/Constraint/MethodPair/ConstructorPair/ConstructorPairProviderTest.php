@@ -25,7 +25,7 @@ class ConstructorPairProviderTest extends TestCase
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair
      * @throws ReflectionException
      */
-    public function testGetConstructorPairs(DataInterface $class)
+    public function testGetConstructorPairs(DataInterface $class): void
     {
         $provider    = new ConstructorPairProvider();
         $actualPairs = $provider->getConstructorPairs(new ReflectionClass($class));

@@ -22,7 +22,7 @@ class ValueProviderListTest extends AbstractValueProviderTest
      * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
      * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
      */
-    public function testGetValues()
+    public function testGetValues(): void
     {
         $valueProvider = new ValueProviderList(new StringProvider(), new IntProvider());
         $values        = $valueProvider->getValues();
@@ -33,7 +33,7 @@ class ValueProviderListTest extends AbstractValueProviderTest
     /**
      * @covers ::__construct
      */
-    public function testGetValuesNoProviders()
+    public function testGetValuesNoProviders(): void
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage("Missing valueProviders");
@@ -46,7 +46,7 @@ class ValueProviderListTest extends AbstractValueProviderTest
      * @covers ::getValues
      * @throws Exception
      */
-    public function testGetValuesEmptyProviderValues()
+    public function testGetValuesEmptyProviderValues(): void
     {
         $valueProvider = new ValueProviderList(
             new class implements ValueProvider {

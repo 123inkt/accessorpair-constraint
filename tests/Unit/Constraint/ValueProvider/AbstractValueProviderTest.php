@@ -7,13 +7,13 @@ use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 
 abstract class AbstractValueProviderTest extends TestCase
 {
-    abstract public function testGetValues();
+    abstract public function testGetValues(): void;
 
     /**
      * @param mixed[]  $testValues
      * @param string[] $expectedTypes
      */
-    public static function assertValueTypes(array $testValues, array $expectedTypes)
+    public static function assertValueTypes(array $testValues, array $expectedTypes): void
     {
         static::assertNotEmpty($testValues);
         static::assertGreaterThanOrEqual(count($expectedTypes), count($testValues));

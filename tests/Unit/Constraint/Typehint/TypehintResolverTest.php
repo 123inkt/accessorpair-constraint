@@ -22,7 +22,7 @@ class TypehintResolverTest extends TestCase
      * @covers ::resolveTypes
      * @throws ReflectionException
      */
-    public function testGetParamTypehint(DataInterface $testClass)
+    public function testGetParamTypehint(DataInterface $testClass): void
     {
         $reflection = new ReflectionClass($testClass);
         $method     = $reflection->getMethod('testMethod');
@@ -39,7 +39,7 @@ class TypehintResolverTest extends TestCase
      * @covers ::resolveTypes
      * @throws ReflectionException
      */
-    public function testGetReturnTypehint(DataInterface $testClass)
+    public function testGetReturnTypehint(DataInterface $testClass): void
     {
         $reflection = new ReflectionClass($testClass);
         $method     = $reflection->getMethod('testMethod');

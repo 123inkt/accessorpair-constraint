@@ -25,7 +25,7 @@ class AccessorPairProviderTest extends TestCase
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
      * @throws ReflectionException
      */
-    public function testGetAccessorPairs(DataInterface $class)
+    public function testGetAccessorPairs(DataInterface $class): void
     {
         $provider    = new AccessorPairProvider();
         $actualPairs = $provider->getAccessorPairs(new ReflectionClass($class));

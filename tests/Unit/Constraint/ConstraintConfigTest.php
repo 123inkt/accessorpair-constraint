@@ -19,7 +19,7 @@ class ConstraintConfigTest extends TestCase
      * @covers ::setAssertPropertyDefaults
      * @covers ::hasPropertyDefaultCheck
      */
-    public function testConfig()
+    public function testConfig(): void
     {
         $config = new ConstraintConfig();
         static::assertTrue($config->hasAccessorPairCheck());
