@@ -35,8 +35,6 @@ class AccessorPairConstraint extends Constraint
 
     public function __construct(ConstraintConfig $config)
     {
-        parent::__construct();
-
         $this->accessorPairProvider    = new AccessorPairProvider();
         $this->constructorPairProvider = new ConstructorPairProvider();
         $this->valueProviderFactory    = new ValueProviderFactory();
@@ -167,8 +165,8 @@ class AccessorPairConstraint extends Constraint
         if ($storedValue !== $expectedReturn) {
             $this->fail(
                 $accessorPair->getClass()->getNamespaceName(),
-                "Stored value (" . $this->exporter->export($storedValue) . ") does not match " .
-                "default value (" . $this->exporter->export($expectedReturn) . ")"
+                "Stored value (" . $this->exporter()->export($storedValue) . ") does not match " .
+                "default value (" . $this->exporter()->export($expectedReturn) . ")"
             );
         }
     }
@@ -204,8 +202,8 @@ class AccessorPairConstraint extends Constraint
             if ($storedValue !== $expectedReturn) {
                 $this->fail(
                     $accessorPair->getClass()->getNamespaceName(),
-                    "Stored value (" . $this->exporter->export($storedValue) . ") does not match " .
-                    "given value (" . $this->exporter->export($expectedReturn) . ")"
+                    "Stored value (" . $this->exporter()->export($storedValue) . ") does not match " .
+                    "given value (" . $this->exporter()->export($expectedReturn) . ")"
                 );
 
                 return;
@@ -247,8 +245,8 @@ class AccessorPairConstraint extends Constraint
             if ($storedValue !== $expectedReturn) {
                 $this->fail(
                     $constructorPair->getClass()->getNamespaceName(),
-                    "Stored value (" . $this->exporter->export($storedValue) . ") does not match " .
-                    "given value (" . $this->exporter->export($expectedReturn) . ")"
+                    "Stored value (" . $this->exporter()->export($storedValue) . ") does not match " .
+                    "given value (" . $this->exporter()->export($expectedReturn) . ")"
                 );
 
                 return;

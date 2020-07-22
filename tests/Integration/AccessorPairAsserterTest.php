@@ -8,6 +8,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Runner\Version;
 use ReflectionException;
 use TypeError;
 
@@ -133,7 +134,13 @@ class AccessorPairAsserterTest extends TestCase
         try {
             static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
         } catch (TypeError $exception) {
-            static::assertRegExp('/Return value of .*?::.*?\(\) must be of the type .*?, .*? returned/', $exception->getMessage());
+            // Compatibility for both PHPUnit 8 and 9
+            $pattern = '/Return value of .*?::.*?\(\) must be of the type .*?, .*? returned/';
+            if (version_compare(Version::id(), '9.0.0', '>=')) {
+                static::assertMatchesRegularExpression($pattern, $exception->getMessage());
+            } else {
+                static::assertRegExp($pattern, $exception->getMessage());
+            }
         }
 
         static::assertNotNull($exception);
