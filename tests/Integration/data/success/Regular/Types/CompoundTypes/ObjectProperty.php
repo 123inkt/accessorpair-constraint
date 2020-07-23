@@ -8,18 +8,12 @@ class ObjectProperty
     /** @var object */
     private $property;
 
-    /**
-     * @return object
-     */
-    public function getProperty()
+    public function getProperty(): object
     {
         return $this->property;
     }
 
-    /**
-     * @param object $property
-     */
-    public function setProperty($property): self
+    public function setProperty(object $property): self
     {
         $this->property = $property;
 

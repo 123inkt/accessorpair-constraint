@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\Typehint;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\FalseType;
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\TrueType;
 use LogicException;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\TypeResolver;
@@ -36,8 +34,6 @@ class TypehintResolver
         // Setup the internal type resolver
         $this->resolverContext = (new ContextFactory())->createFromReflector($method);
         $this->resolver        = new TypeResolver();
-        $this->resolver->addKeyword('true', TrueType::class);
-        $this->resolver->addKeyword('false', FalseType::class);
     }
 
     /**
