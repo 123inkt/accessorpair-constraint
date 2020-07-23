@@ -28,7 +28,7 @@
         }
     },
     "scripts": {
-        "check": "composer run check:phpstan && composer run check:phpcs",
+        "check": ["@check:phpstan", "@check:phpcs"],
         "check:phpstan": "phpstan analyse",
         "check:phpcs": "phpcs src tests",
         "fix": "@fix:phpcbf",
