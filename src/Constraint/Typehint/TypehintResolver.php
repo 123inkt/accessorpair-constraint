@@ -11,6 +11,7 @@ use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\ContextFactory;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionParameter;
 
 class TypehintResolver
@@ -45,8 +46,9 @@ class TypehintResolver
     public function getParamTypehint(ReflectionParameter $parameter): Type
     {
         // Get parameter type from method signature
-        if ($parameter->getType() !== null) {
-            $signatureType = $parameter->getType()->getName();
+        $parameterType = $parameter->getType();
+        if ($parameterType instanceof ReflectionNamedType) {
+            $signatureType = $parameterType->getName();
             if ($parameter->isOptional() && $parameter->allowsNull()) {
                 $signatureType .= '|null';
             }
@@ -55,7 +57,8 @@ class TypehintResolver
         }
 
         // Get parameter type from phpDoc
-        $phpDocType = $this->phpDocParser->getParamTypehint($parameter->getName(), $this->method->getDocComment() ?: '');
+        $docComment = $this->method->getDocComment();
+        $phpDocType = $this->phpDocParser->getParamTypehint($parameter->getName(), $docComment !== false ? $docComment : '');
         if ($phpDocType === null) {
             $phpDocType = 'mixed';
         }
@@ -69,14 +72,16 @@ class TypehintResolver
     public function getReturnTypehint(): Type
     {
         // Get return type from method signature
-        if ($this->method->hasReturnType() && $this->method->getReturnType() !== null) {
-            $signatureType = $this->method->getReturnType()->getName();
+        $returnType = $this->method->getReturnType();
+        if ($returnType instanceof ReflectionNamedType) {
+            $signatureType = $returnType->getName();
         } else {
             $signatureType = 'mixed';
         }
 
         // Get return type from phpDoc
-        $phpDocType = $this->phpDocParser->getReturnTypehint($this->method->getDocComment() ?: '');
+        $docComment = $this->method->getDocComment();
+        $phpDocType = $this->phpDocParser->getReturnTypehint($docComment !== false ? $docComment : '');
         if ($phpDocType === null) {
             $phpDocType = 'mixed';
         }

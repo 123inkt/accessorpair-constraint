@@ -15,14 +15,14 @@ class IterableProviderTest extends AbstractValueProviderTest
     /**
      * @covers ::getValues
      */
-    public function testGetValues()
+    public function testGetValues(): void
     {
         $valueProvider = new IterableProvider();
         $values        = $valueProvider->getValues();
 
         static::assertNotEmpty($values);
         foreach ($values as $value) {
-            static::assertTrue(is_array($value) || $value instanceof Traversable);
+            static::assertIsIterable($value);
         }
     }
 }

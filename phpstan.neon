@@ -1,0 +1,14 @@
+parameters:
+  level: max
+  treatPhpDocTypesAsCertain: false
+  checkGenericClassInNonGenericObjectType: false
+  checkMissingIterableValueType: false
+  paths:
+    - src
+    - tests
+  excludes_analyse:
+    - tests/*/data/*
+  ignoreErrors:
+    -
+      message: '#Call to static method .*?assertIsIterable\(\) with iterable will always evaluate to true#'
+      path: tests/Unit/Constraint/ValueProvider/Compound/IterableProviderTest.php

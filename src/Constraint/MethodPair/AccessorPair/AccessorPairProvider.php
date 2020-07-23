@@ -12,8 +12,8 @@ use ReflectionMethod;
 
 class AccessorPairProvider
 {
-    const GET_PREFIXES = ['get', 'is', 'has'];
-    const SET_PREFIXES = ['set', 'add'];
+    private const GET_PREFIXES = ['get', 'is', 'has'];
+    private const SET_PREFIXES = ['set', 'add'];
 
     /**
      * Inspect the given class, using reflection, and pair all get/set methods together

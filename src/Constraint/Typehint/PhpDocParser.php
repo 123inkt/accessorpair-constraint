@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\Typehint;
 
@@ -9,7 +10,7 @@ class PhpDocParser
      *
      * @return string|null PHP typehint as string, or null in case of missing phpdoc typehint
      */
-    public function getParamTypehint(string $parameterName, string $docComment)
+    public function getParamTypehint(string $parameterName, string $docComment): ?string
     {
         // empty docblock provided, no typehint found
         if (trim($docComment) === '') {
@@ -26,10 +27,8 @@ class PhpDocParser
 
     /**
      * Get the return typehint from the PHPDoc comment
-     *
-     * @return string|null
      */
-    public function getReturnTypehint(string $originalDocComment)
+    public function getReturnTypehint(string $originalDocComment): ?string
     {
         $docComment = trim($originalDocComment);
         // empty docblock provided, no typehint found

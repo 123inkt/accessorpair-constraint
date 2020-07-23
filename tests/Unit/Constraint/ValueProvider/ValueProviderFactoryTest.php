@@ -67,7 +67,7 @@ class ValueProviderFactoryTest extends TestCase
      * @covers ::getMixedProvider
      * @covers ::getProviders
      */
-    public function testGetGetProvider(Type $type, ValueProvider $expectedProvider)
+    public function testGetGetProvider(Type $type, ValueProvider $expectedProvider): void
     {
         $providerFactory = new ValueProviderFactory();
         static::assertEquals($expectedProvider, $providerFactory->getProvider($type));
@@ -77,7 +77,7 @@ class ValueProviderFactoryTest extends TestCase
      * @covers ::getProvider
      * @covers ::getNativeTypeProvider
      */
-    public function testGetProviderUnknown()
+    public function testGetProviderUnknown(): void
     {
         $providerFactory = new ValueProviderFactory();
 

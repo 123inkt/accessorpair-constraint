@@ -45,7 +45,7 @@ class AccessorPairAsserterTest extends TestCase
 {
     use AccessorPairAsserter;
 
-    public function testMatchesIncorrectInput()
+    public function testMatchesIncorrectInput(): void
     {
         $exception = null;
 
@@ -63,7 +63,7 @@ class AccessorPairAsserterTest extends TestCase
      *
      * @param object $class
      */
-    public function testMatchesSuccess($class)
+    public function testMatchesSuccess($class): void
     {
         static::assertAccessorPairs(get_class($class));
     }
@@ -73,7 +73,7 @@ class AccessorPairAsserterTest extends TestCase
      *
      * @param object $class
      */
-    public function testMatchesSuccessInitialState($class)
+    public function testMatchesSuccessInitialState($class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
     }
@@ -85,7 +85,7 @@ class AccessorPairAsserterTest extends TestCase
      *
      * @param object $class
      */
-    public function testExcludingInitialStateCheck($class)
+    public function testExcludingInitialStateCheck($class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(false));
     }
@@ -95,7 +95,7 @@ class AccessorPairAsserterTest extends TestCase
      *
      * @param object $class
      */
-    public function testMatchesSuccessConstructorPair($class)
+    public function testMatchesSuccessConstructorPair($class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertConstructor(true));
     }
@@ -107,7 +107,7 @@ class AccessorPairAsserterTest extends TestCase
      *
      * @param object $class
      */
-    public function testExcludingConstructorPair($class)
+    public function testExcludingConstructorPair($class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertConstructor(false));
     }
@@ -117,7 +117,7 @@ class AccessorPairAsserterTest extends TestCase
      *
      * @param object $class
      */
-    public function testMatchesFailureState($class)
+    public function testMatchesFailureState($class): void
     {
         $this->expectException(ExpectationFailedException::class);
         static::assertAccessorPairs(get_class($class));
@@ -128,7 +128,7 @@ class AccessorPairAsserterTest extends TestCase
      *
      * @param object $class
      */
-    public function testMatchesFailureInitialState($class)
+    public function testMatchesFailureInitialState($class): void
     {
         $exception = null;
         try {

@@ -16,7 +16,7 @@ class NullProviderTest extends AbstractValueProviderTest
      * @covers ::getValues
      * @throws Exception
      */
-    public function testGetValues()
+    public function testGetValues(): void
     {
         $valueProvider = new NullProvider();
 

@@ -18,7 +18,7 @@ class ArrayProviderTest extends AbstractValueProviderTest
      * @covers ::getValues
      * @throws Exception
      */
-    public function testGetValues()
+    public function testGetValues(): void
     {
         $valueProvider = new ArrayProvider();
         $values        = $valueProvider->getValues();
@@ -33,7 +33,7 @@ class ArrayProviderTest extends AbstractValueProviderTest
      * @throws Exception
      * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
      */
-    public function testGetValuesTyped()
+    public function testGetValuesTyped(): void
     {
         $valueProvider = new ArrayProvider(new IntProvider());
         $values        = $valueProvider->getValues();

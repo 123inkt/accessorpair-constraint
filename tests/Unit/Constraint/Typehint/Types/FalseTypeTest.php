@@ -14,7 +14,7 @@ class FalseTypeTest extends TestCase
     /**
      * @covers ::__toString
      */
-    public function testToString()
+    public function testToString(): void
     {
         static::assertSame('false', (string)new FalseType());
     }
