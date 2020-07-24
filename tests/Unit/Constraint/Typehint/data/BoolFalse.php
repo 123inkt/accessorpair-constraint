@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\FalseType;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\Types\False_;
 
 class BoolFalse implements DataInterface
 {
@@ -21,6 +21,6 @@ class BoolFalse implements DataInterface
 
     public function getExpectedType(): Type
     {
-        return new FalseType();
+        return new False_();
     }
 }

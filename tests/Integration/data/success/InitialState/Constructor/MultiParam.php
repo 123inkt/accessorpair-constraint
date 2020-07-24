@@ -17,17 +17,11 @@ class MultiParam
         $this->second = $second;
     }
 
-    /**
-     * @return string
-     */
     public function getFirst(): string
     {
         return $this->first;
     }
 
-    /**
-     * @return bool
-     */
     public function isSecond(): bool
     {
         return $this->second;

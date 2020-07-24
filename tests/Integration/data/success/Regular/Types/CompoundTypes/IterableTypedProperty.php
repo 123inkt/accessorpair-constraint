@@ -3,16 +3,22 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\success\Regular\Types\CompoundTypes;
 
-class IterableProperty
+class IterableTypedProperty
 {
-    /** @var iterable */
+    /** @var iterable<stdClass> */
     private $property = false;
 
+    /**
+     * @return iterable<stdClass>
+     */
     public function getProperty(): iterable
     {
         return $this->property;
     }
 
+    /**
+     * @param iterable<stdClass> $property
+     */
     public function setProperty(iterable $property): self
     {
         $this->property = $property;

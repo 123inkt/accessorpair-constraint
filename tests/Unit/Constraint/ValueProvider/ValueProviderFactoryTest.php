@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\FalseType;
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\TrueType;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
@@ -30,6 +28,7 @@ use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Boolean;
 use phpDocumentor\Reflection\Types\Callable_;
 use phpDocumentor\Reflection\Types\Compound;
+use phpDocumentor\Reflection\Types\False_;
 use phpDocumentor\Reflection\Types\Float_;
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Iterable_;
@@ -39,6 +38,7 @@ use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\Resource_;
 use phpDocumentor\Reflection\Types\String_;
+use phpDocumentor\Reflection\Types\True_;
 
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory
@@ -102,8 +102,8 @@ class ValueProviderFactoryTest extends TestCase
         yield "NativeType Callable" => [new Callable_(), new CallableProvider()];
         yield "NativeType Iterable" => [new Iterable_(), new IterableProvider()];
         yield "NativeType Object" => [new Object_(), new ObjectProvider()];
-        yield "NativeType True" => [new TrueType(), new TrueProvider()];
-        yield "NativeType False" => [new FalseType(), new FalseProvider()];
+        yield "NativeType True" => [new True_(), new TrueProvider()];
+        yield "NativeType False" => [new False_(), new FalseProvider()];
         yield "NativeType Boolean" => [new Boolean(), new BoolProvider()];
         yield "NativeType Float" => [new Float_(), new FloatProvider(new IntProvider())];
         yield "NativeType Integer" => [new Integer(), new IntProvider()];

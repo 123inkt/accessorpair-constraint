@@ -6,7 +6,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\succes
 class OptionalMultiProperty
 {
     /** @var int[] */
-    private $property;
+    private $property = [];
 
     /**
      * @return int[]

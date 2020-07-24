@@ -18,7 +18,7 @@ class SingleParamSetter
         return $this->param;
     }
 
-    public function setParam(string $param)
+    public function setParam(string $param): void
     {
         $this->param = $param;
     }

@@ -23,8 +23,6 @@ use TypeError;
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPairProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\FalseType
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\TrueType
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider

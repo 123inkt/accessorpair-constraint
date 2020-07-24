@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\FalseType;
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Types\TrueType;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
@@ -24,6 +22,7 @@ use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Boolean;
 use phpDocumentor\Reflection\Types\Callable_;
 use phpDocumentor\Reflection\Types\Compound;
+use phpDocumentor\Reflection\Types\False_;
 use phpDocumentor\Reflection\Types\Float_;
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Iterable_;
@@ -33,6 +32,7 @@ use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\Resource_;
 use phpDocumentor\Reflection\Types\String_;
+use phpDocumentor\Reflection\Types\True_;
 
 class ValueProviderFactory
 {
@@ -85,9 +85,9 @@ class ValueProviderFactory
             case Object_::class:
                 return new ObjectProvider();
             // Keyword valueProviders
-            case TrueType::class:
+            case True_::class:
                 return new TrueProvider();
-            case FalseType::class:
+            case False_::class:
                 return new FalseProvider();
             // Scalar valueProviders
             case Boolean::class:

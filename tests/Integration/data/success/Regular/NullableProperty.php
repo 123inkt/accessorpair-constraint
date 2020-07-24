@@ -5,18 +5,15 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\succes
 
 class NullableProperty
 {
-    /** @var ?int */
+    /** @var int|null */
     private $property;
 
-    /**
-     * @return ?int
-     */
-    public function getProperty()
+    public function getProperty(): ?int
     {
         return $this->property;
     }
 
-    public function setProperty(int $property = null): self
+    public function setProperty(?int $property): self
     {
         $this->property = $property;
 
