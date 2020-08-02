@@ -18,7 +18,7 @@ class PhpDocParserTest extends TestCase
      * @dataProvider paramTypehintProvider
      * @covers ::getParamTypehint
      */
-    public function testGetParamTypehint(string $docComment, $expectedTypehint): void
+    public function testGetParamTypehint(string $docComment, ?string $expectedTypehint): void
     {
         $parser = new PhpDocParser();
         static::assertSame($expectedTypehint, $parser->getParamTypehint('param', $docComment));
@@ -30,7 +30,7 @@ class PhpDocParserTest extends TestCase
      * @dataProvider returnTypehintProvider
      * @covers ::getReturnTypehint
      */
-    public function testGetReturnTypehint(string $docComment, $expectedTypehint): void
+    public function testGetReturnTypehint(string $docComment, ?string $expectedTypehint): void
     {
         $parser = new PhpDocParser();
         static::assertSame($expectedTypehint, $parser->getReturnTypehint($docComment));

@@ -58,20 +58,16 @@ class AccessorPairAsserterTest extends TestCase
 
     /**
      * @dataProvider successDataProvider
-     *
-     * @param object $class
      */
-    public function testMatchesSuccess($class): void
+    public function testMatchesSuccess(object $class): void
     {
         static::assertAccessorPairs(get_class($class));
     }
 
     /**
      * @dataProvider successInitialStateDataProvider
-     *
-     * @param object $class
      */
-    public function testMatchesSuccessInitialState($class): void
+    public function testMatchesSuccessInitialState(object $class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
     }
@@ -80,20 +76,16 @@ class AccessorPairAsserterTest extends TestCase
      * When turning off the propertyDefaultCheck, we can safely pass classes we know will fail the constraint
      *
      * @dataProvider failureInitialStateDataProvider
-     *
-     * @param object $class
      */
-    public function testExcludingInitialStateCheck($class): void
+    public function testExcludingInitialStateCheck(object $class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(false));
     }
 
     /**
      * @dataProvider successConstructorDataProvider
-     *
-     * @param object $class
      */
-    public function testMatchesSuccessConstructorPair($class): void
+    public function testMatchesSuccessConstructorPair(object $class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertConstructor(true));
     }
@@ -102,20 +94,16 @@ class AccessorPairAsserterTest extends TestCase
      * When turning off the constructorPairCheck, we can safely pass classes we know will fail the constraint
      *
      * @dataProvider failureConstructorDataProvider
-     *
-     * @param object $class
      */
-    public function testExcludingConstructorPair($class): void
+    public function testExcludingConstructorPair(object $class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertConstructor(false));
     }
 
     /**
      * @dataProvider failureDataProvider
-     *
-     * @param object $class
      */
-    public function testMatchesFailureState($class): void
+    public function testMatchesFailureState(object $class): void
     {
         $this->expectException(ExpectationFailedException::class);
         static::assertAccessorPairs(get_class($class));
@@ -123,25 +111,12 @@ class AccessorPairAsserterTest extends TestCase
 
     /**
      * @dataProvider failureInitialStateDataProvider
-     *
-     * @param object $class
      */
-    public function testMatchesFailureInitialState($class): void
+    public function testMatchesFailureInitialState(object $class): void
     {
-        $exception = null;
-        try {
-            static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
-        } catch (TypeError $exception) {
-            // Compatibility for both PHPUnit 8 and 9
-            $pattern = '/Return value of .*?::.*?\(\) must be of the type .*?, .*? returned/';
-            if (version_compare(Version::id(), '9.0.0', '>=')) {
-                static::assertMatchesRegularExpression($pattern, $exception->getMessage());
-            } else {
-                static::assertRegExp($pattern, $exception->getMessage());
-            }
-        }
-
-        static::assertNotNull($exception);
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessageMatches('/Return value of .*?::.*?\(\) must be of the type .*?, .*? returned/');
+        static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
     }
 
     /**

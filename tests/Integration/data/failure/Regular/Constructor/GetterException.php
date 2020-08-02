@@ -17,6 +17,6 @@ class GetterException
 
     public function getProperty(): string
     {
-        throw new LogicException("Exception thrown");
+        throw new LogicException("Exception thrown: " . $this->property);
     }
 }
