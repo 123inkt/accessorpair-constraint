@@ -43,6 +43,10 @@ class AccessorPairProvider
                     }
 
                     $setterMethod = $class->getMethod($setterName);
+                    if ($setterMethod->isPublic() === false) {
+                        continue;
+                    }
+
                     $accessorPair = new AccessorPair($class, $method, $setterMethod);
                     if ($this->validateAccessorPair($accessorPair)) {
                         $pairs[] = $accessorPair;
