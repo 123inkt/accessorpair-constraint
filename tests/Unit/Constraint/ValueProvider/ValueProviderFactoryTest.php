@@ -23,12 +23,13 @@ use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use LogicException;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\PseudoTypes\False_;
+use phpDocumentor\Reflection\PseudoTypes\True_;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Boolean;
 use phpDocumentor\Reflection\Types\Callable_;
 use phpDocumentor\Reflection\Types\Compound;
-use phpDocumentor\Reflection\Types\False_;
 use phpDocumentor\Reflection\Types\Float_;
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Iterable_;
@@ -38,7 +39,6 @@ use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\Resource_;
 use phpDocumentor\Reflection\Types\String_;
-use phpDocumentor\Reflection\Types\True_;
 
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory
@@ -56,6 +56,7 @@ use phpDocumentor\Reflection\Types\True_;
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\ResourceProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ValueProviderFactoryTest extends TestCase
 {

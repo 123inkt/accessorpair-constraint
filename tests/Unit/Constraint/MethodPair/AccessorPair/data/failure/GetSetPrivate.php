@@ -7,6 +7,7 @@ use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\Da
 
 /**
  * The setter method is private, so it's not possible to select the accessormethod pair
+ * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
  */
 class GetSetPrivate implements DataInterface
 {
