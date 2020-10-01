@@ -5,7 +5,7 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "require": {
-        "php": "7.2.* || 7.3.* || 7.4.*",
+        "php": "7.2.* || 7.3.* || 7.4.* || 8.0",
         "phpunit/phpunit": "8.5.* || 9.3.*",
         "phpdocumentor/type-resolver": "1.4.*"
     },
