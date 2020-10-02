@@ -3,7 +3,7 @@
     "description": "Digital Revolution PHPUnit Constraint for accessorpairs",
     "type": "library",
     "license": "MIT",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=7.2",
         "phpunit/phpunit": "8.5.* || 9.3.*",
