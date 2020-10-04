@@ -36,6 +36,9 @@ abstract class AbstractValueProviderTest extends TestCase
         if (is_callable($variable)) {
             return "callable";
         }
+        if (is_iterable($variable)) {
+            return "iterable";
+        }
         if ($variable === true) {
             return "true";
         }

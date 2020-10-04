@@ -115,7 +115,7 @@ class AccessorPairAsserterTest extends TestCase
     public function testMatchesFailureInitialState(object $class): void
     {
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessageMatches('/Return value of .*?::.*?\(\) must be of the type .*?, .*? returned/');
+        $this->expectExceptionMessageMatches('/Return value (of .*?::.*?\(\) )?must be of (the )?type .*?, .*? returned/');
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
     }
 

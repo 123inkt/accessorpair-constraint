@@ -17,12 +17,13 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\Str
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\ResourceProvider;
 use LogicException;
+use phpDocumentor\Reflection\PseudoTypes\False_;
+use phpDocumentor\Reflection\PseudoTypes\True_;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Boolean;
 use phpDocumentor\Reflection\Types\Callable_;
 use phpDocumentor\Reflection\Types\Compound;
-use phpDocumentor\Reflection\Types\False_;
 use phpDocumentor\Reflection\Types\Float_;
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Iterable_;
@@ -32,8 +33,10 @@ use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\Resource_;
 use phpDocumentor\Reflection\Types\String_;
-use phpDocumentor\Reflection\Types\True_;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ValueProviderFactory
 {
     /**
@@ -72,6 +75,9 @@ class ValueProviderFactory
         throw new LogicException("No value provider found for typehint: " . $typehint);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     protected function getNativeTypeProvider(Type $typehint): ?ValueProvider
     {
         switch (get_class($typehint)) {

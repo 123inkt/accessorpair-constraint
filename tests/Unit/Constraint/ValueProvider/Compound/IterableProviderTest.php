@@ -19,9 +19,6 @@ class IterableProviderTest extends AbstractValueProviderTest
         $valueProvider = new IterableProvider();
         $values        = $valueProvider->getValues();
 
-        static::assertNotEmpty($values);
-        foreach ($values as $value) {
-            static::assertIsIterable($value);
-        }
+        static::assertValueTypes($values, ['iterable']);
     }
 }
