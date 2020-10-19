@@ -30,5 +30,4 @@ class GetAddPlurals implements DataInterface
     {
         return [['getValues', 'addValue', true]];
     }
-
 }

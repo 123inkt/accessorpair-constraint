@@ -60,14 +60,23 @@ class AccessorPairProvider
         return $pairs;
     }
 
+    /**
+     * @return array<int, string>
+     */
     protected function getMethodBaseNames(string $methodName, string $getterPrefix): array
     {
         $baseMethodName = substr($methodName, strlen($getterPrefix));
         $baseMethodNames = [$baseMethodName];
         if (preg_match('/ies$/', $methodName) !== 0) {
-            $baseMethodNames[] = preg_replace('/ies$/', 'y', $baseMethodName);
+            $alternateName = preg_replace('/ies$/', 'y', $baseMethodName);
+            if (is_string($alternateName)) {
+                $baseMethodNames[] = $alternateName;
+            }
         } elseif (preg_match('/s$/', $methodName) !== 0) {
-            $baseMethodNames[] = preg_replace('/s$/', '', $baseMethodName);
+            $alternateName = preg_replace('/s$/', '', $baseMethodName);
+            if (is_string($alternateName)) {
+                $baseMethodNames[] = $alternateName;
+            }
         }
 
         return $baseMethodNames;

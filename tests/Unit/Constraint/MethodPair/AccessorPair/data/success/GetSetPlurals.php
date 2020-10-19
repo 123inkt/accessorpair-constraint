@@ -33,5 +33,4 @@ class GetSetPlurals implements DataInterface
     {
         return [['getValues', 'setValues', false]];
     }
-
 }

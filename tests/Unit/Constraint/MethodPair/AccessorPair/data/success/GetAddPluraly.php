@@ -33,5 +33,4 @@ class GetAddPluraly implements DataInterface
     {
         return [['getProperties', 'addProperty', true]];
     }
-
 }
