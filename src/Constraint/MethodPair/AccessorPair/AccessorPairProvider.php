@@ -35,27 +35,42 @@ class AccessorPairProvider
                 }
 
                 // Try and find the corresponding set/add method
-                $baseMethodName = substr($methodName, strlen($getterPrefix));
-                foreach (static::SET_PREFIXES as $setterPrefix) {
-                    $setterName = $setterPrefix . $baseMethodName;
-                    if ($class->hasMethod($setterName) === false) {
-                        continue;
-                    }
+                $baseMethodNames = $this->getMethodBaseNames($methodName, $getterPrefix);
+                foreach ($baseMethodNames as $baseMethodName) {
+                    foreach (static::SET_PREFIXES as $setterPrefix) {
+                        $setterName = $setterPrefix . $baseMethodName;
+                        if ($class->hasMethod($setterName) === false) {
+                            continue;
+                        }
 
-                    $setterMethod = $class->getMethod($setterName);
-                    if ($setterMethod->isPublic() === false) {
-                        continue;
-                    }
+                        $setterMethod = $class->getMethod($setterName);
+                        if ($setterMethod->isPublic() === false) {
+                            continue;
+                        }
 
-                    $accessorPair = new AccessorPair($class, $method, $setterMethod);
-                    if ($this->validateAccessorPair($accessorPair)) {
-                        $pairs[] = $accessorPair;
+                        $accessorPair = new AccessorPair($class, $method, $setterMethod);
+                        if ($this->validateAccessorPair($accessorPair)) {
+                            $pairs[] = $accessorPair;
+                        }
                     }
                 }
             }
         }
 
         return $pairs;
+    }
+
+    protected function getMethodBaseNames(string $methodName, string $getterPrefix): array
+    {
+        $baseMethodName = substr($methodName, strlen($getterPrefix));
+        $baseMethodNames = [$baseMethodName];
+        if (preg_match('/ies$/', $methodName) !== 0) {
+            $baseMethodNames[] = preg_replace('/ies$/', 'y', $baseMethodName);
+        } elseif (preg_match('/s$/', $methodName) !== 0) {
+            $baseMethodNames[] = preg_replace('/s$/', '', $baseMethodName);
+        }
+
+        return $baseMethodNames;
     }
 
     /**
