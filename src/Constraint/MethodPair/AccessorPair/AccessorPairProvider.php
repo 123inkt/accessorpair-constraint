@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use LogicException;
 use phpDocumentor\Reflection\Types\Array_;
 use ReflectionClass;
@@ -14,6 +16,14 @@ class AccessorPairProvider
 {
     private const GET_PREFIXES = ['get', 'is', 'has'];
     private const SET_PREFIXES = ['set', 'add'];
+
+    /** @var Inflector */
+    private $inflector;
+
+    public function __construct()
+    {
+        $this->inflector = InflectorFactory::create()->build();
+    }
 
     /**
      * Inspect the given class, using reflection, and pair all get/set methods together
@@ -61,22 +71,15 @@ class AccessorPairProvider
     }
 
     /**
-     * @return array<int, string>
+     * @return string[]
      */
     protected function getMethodBaseNames(string $methodName, string $getterPrefix): array
     {
-        $baseMethodName = substr($methodName, strlen($getterPrefix));
+        $baseMethodName  = substr($methodName, strlen($getterPrefix));
         $baseMethodNames = [$baseMethodName];
-        if (preg_match('/ies$/', $methodName) !== 0) {
-            $alternateName = preg_replace('/ies$/', 'y', $baseMethodName);
-            if (is_string($alternateName)) {
-                $baseMethodNames[] = $alternateName;
-            }
-        } elseif (preg_match('/s$/', $methodName) !== 0) {
-            $alternateName = preg_replace('/s$/', '', $baseMethodName);
-            if (is_string($alternateName)) {
-                $baseMethodNames[] = $alternateName;
-            }
+        $singular        = $this->inflector->singularize($baseMethodName);
+        if ($singular !== $baseMethodName) {
+            $baseMethodNames[] = $singular;
         }
 
         return $baseMethodNames;
