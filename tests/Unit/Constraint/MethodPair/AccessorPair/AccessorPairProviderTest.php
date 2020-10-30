@@ -31,13 +31,13 @@ class AccessorPairProviderTest extends TestCase
         $actualPairs = $provider->getAccessorPairs(new ReflectionClass($class));
 
         $expectedPairs = $class->getExpectedPairs();
-        static::assertCount(count($expectedPairs), $actualPairs, get_class($class));
+        static::assertCount(count($expectedPairs), $actualPairs, 'Number of pairs');
         foreach ($actualPairs as $key => $actualPair) {
             $expectedPair = $expectedPairs[$key];
-            static::assertSame(get_class($class), $actualPair->getClass()->getName(), get_class($class));
-            static::assertSame($expectedPair[0], $actualPair->getGetMethod()->getName(), get_class($class));
-            static::assertSame($expectedPair[1], $actualPair->getSetMethod()->getName(), get_class($class));
-            static::assertSame($expectedPair[2], $actualPair->hasMultiGetter(), get_class($class));
+            static::assertSame(get_class($class), $actualPair->getClass()->getName(), 'Data class name');
+            static::assertSame($expectedPair[0], $actualPair->getGetMethod()->getName(), 'Getter method');
+            static::assertSame($expectedPair[1], $actualPair->getSetMethod()->getName(), 'Setter method');
+            static::assertSame($expectedPair[2], $actualPair->hasMultiGetter(), 'Multi Getter');
         }
     }
 
