@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use LogicException;
 use phpDocumentor\Reflection\Types\Array_;
 use ReflectionClass;
@@ -14,6 +16,14 @@ class AccessorPairProvider
 {
     private const GET_PREFIXES = ['get', 'is', 'has'];
     private const SET_PREFIXES = ['set', 'add'];
+
+    /** @var Inflector */
+    private $inflector;
+
+    public function __construct()
+    {
+        $this->inflector = InflectorFactory::create()->build();
+    }
 
     /**
      * Inspect the given class, using reflection, and pair all get/set methods together
@@ -35,27 +45,44 @@ class AccessorPairProvider
                 }
 
                 // Try and find the corresponding set/add method
-                $baseMethodName = substr($methodName, strlen($getterPrefix));
-                foreach (static::SET_PREFIXES as $setterPrefix) {
-                    $setterName = $setterPrefix . $baseMethodName;
-                    if ($class->hasMethod($setterName) === false) {
-                        continue;
-                    }
+                $baseMethodNames = $this->getMethodBaseNames($methodName, $getterPrefix);
+                foreach ($baseMethodNames as $baseMethodName) {
+                    foreach (static::SET_PREFIXES as $setterPrefix) {
+                        $setterName = $setterPrefix . $baseMethodName;
+                        if ($class->hasMethod($setterName) === false) {
+                            continue;
+                        }
 
-                    $setterMethod = $class->getMethod($setterName);
-                    if ($setterMethod->isPublic() === false) {
-                        continue;
-                    }
+                        $setterMethod = $class->getMethod($setterName);
+                        if ($setterMethod->isPublic() === false) {
+                            continue;
+                        }
 
-                    $accessorPair = new AccessorPair($class, $method, $setterMethod);
-                    if ($this->validateAccessorPair($accessorPair)) {
-                        $pairs[] = $accessorPair;
+                        $accessorPair = new AccessorPair($class, $method, $setterMethod);
+                        if ($this->validateAccessorPair($accessorPair)) {
+                            $pairs[] = $accessorPair;
+                        }
                     }
                 }
             }
         }
 
         return $pairs;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getMethodBaseNames(string $methodName, string $getterPrefix): array
+    {
+        $baseMethodName  = substr($methodName, strlen($getterPrefix));
+        $baseMethodNames = [$baseMethodName];
+        $singular        = $this->inflector->singularize($baseMethodName);
+        if ($singular !== $baseMethodName) {
+            $baseMethodNames[] = $singular;
+        }
+
+        return $baseMethodNames;
     }
 
     /**
