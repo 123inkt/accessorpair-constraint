@@ -201,8 +201,6 @@ class AccessorPairConstraint extends Constraint
                     "Stored value (" . $this->exporter()->export($storedValue) . ") does not match " .
                     "given value (" . $this->exporter()->export($expectedReturn) . ")"
                 );
-
-                return;
             }
         }
     }
@@ -248,8 +246,6 @@ class AccessorPairConstraint extends Constraint
                     "Stored value (" . $this->exporter()->export($storedValue) . ") does not match " .
                     "given value (" . $this->exporter()->export($expectedReturn) . ")"
                 );
-
-                return;
             }
         }
     }
