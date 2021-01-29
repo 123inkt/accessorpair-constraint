@@ -186,8 +186,11 @@ class AccessorPairConstraint extends Constraint
         $instanceArgs = $this->getInstanceArgs($accessorPair->getClass());
         $instance     = $accessorPair->getClass()->newInstanceArgs(array_values($instanceArgs));
 
-        // If the constructor requires a list of this setter's param, use that as starting value
-        $addedValues  = $instanceArgs[$this->inflector->pluralize($parameter->getName())] ?? [];
+        // Try and match setItems/addItem to a constructor parameter called $items.
+        // If the match exists, use the constructor param value as starting set for getItems.
+        $setterBaseName = $accessorPair->getSetMethod()->getName();
+        $setterBaseName = substr($setterBaseName, 3);
+        $addedValues    = $instanceArgs[$this->inflector->pluralize(strtolower($setterBaseName))] ?? [];
         foreach ($testValues as $testValue) {
             // Pass test value to the instance
             $accessorPair->getSetMethod()->invoke($instance, $testValue);
