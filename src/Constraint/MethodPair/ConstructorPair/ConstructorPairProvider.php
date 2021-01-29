@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use LogicException;
 use phpDocumentor\Reflection\Types\Array_;
 use ReflectionClass;
@@ -12,6 +14,14 @@ use ReflectionMethod;
 class ConstructorPairProvider
 {
     private const GET_PREFIXES = ['get', 'is', 'has'];
+
+    /** @var Inflector */
+    private $inflector;
+
+    public function __construct()
+    {
+        $this->inflector = InflectorFactory::create()->build();
+    }
 
     /**
      * @return ConstructorPair[]
@@ -33,25 +43,43 @@ class ConstructorPairProvider
         foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             // Check multiple "getter" prefixes, add each getter method with corresponding setter to the inspectionMethod list
             $methodName = $method->getName();
+
             foreach (static::GET_PREFIXES as $getterPrefix) {
                 if (strpos($methodName, $getterPrefix) !== 0) {
                     continue;
                 }
 
-                // Try and find the corresponding set/add method
-                $baseMethodName = substr($methodName, strlen($getterPrefix));
-                if (isset($parameters[strtolower($baseMethodName)]) === false) {
-                    continue;
-                }
+                $baseMethodNames = $this->getMethodBaseNames($methodName, $getterPrefix);
+                foreach ($baseMethodNames as $baseMethodName) {
+                    // Try and find the corresponding set/add method
+                    if (isset($parameters[strtolower($baseMethodName)]) === false) {
+                        continue;
+                    }
 
-                $constructorPair = new ConstructorPair($class, $method, $parameters[strtolower($baseMethodName)]);
-                if ($this->validateConstructorPair($constructorPair)) {
-                    $pairs[] = $constructorPair;
+                    $constructorPair = new ConstructorPair($class, $method, $parameters[strtolower($baseMethodName)]);
+                    if ($this->validateConstructorPair($constructorPair)) {
+                        $pairs[] = $constructorPair;
+                    }
                 }
             }
         }
 
         return $pairs;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getMethodBaseNames(string $methodName, string $getterPrefix): array
+    {
+        $baseMethodName  = substr($methodName, strlen($getterPrefix));
+        $baseMethodNames = [$baseMethodName];
+        $singular        = $this->inflector->singularize($baseMethodName);
+        if ($singular !== $baseMethodName) {
+            $baseMethodNames[] = $singular;
+        }
+
+        return $baseMethodNames;
     }
 
     /**
