@@ -9,6 +9,8 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPa
 use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPairProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use Exception;
 use LogicException;
 use PHPUnit\Framework\Constraint\Constraint;
@@ -33,12 +35,17 @@ class AccessorPairConstraint extends Constraint
     /** @var string */
     protected $additionalFailureDesc = '';
 
+    /** @var Inflector */
+    private $inflector;
+
     public function __construct(ConstraintConfig $config)
     {
         $this->accessorPairProvider    = new AccessorPairProvider();
         $this->constructorPairProvider = new ConstructorPairProvider();
         $this->valueProviderFactory    = new ValueProviderFactory();
         $this->config                  = $config;
+
+        $this->inflector = InflectorFactory::create()->build();
     }
 
     /**
@@ -111,7 +118,8 @@ class AccessorPairConstraint extends Constraint
         $this->additionalFailureDesc = 'Testing initial state of class.';
 
         foreach ($accessorPairs as $accessorPair) {
-            $instance = $accessorPair->getClass()->newInstanceArgs($this->getInstanceArgs($accessorPair->getClass()));
+            $instanceArgs = array_values($this->getInstanceArgs($accessorPair->getClass()));
+            $instance     = $accessorPair->getClass()->newInstanceArgs($instanceArgs);
             $accessorPair->getGetMethod()->invoke($instance);
         }
     }
@@ -154,7 +162,8 @@ class AccessorPairConstraint extends Constraint
         }
 
         // Create new instance, call the setter without providing a parameter. Call the getter, and we expect the default value
-        $instance = $accessorPair->getClass()->newInstanceArgs($this->getInstanceArgs($accessorPair->getClass()));
+        $instanceArgs = array_values($this->getInstanceArgs($accessorPair->getClass()));
+        $instance     = $accessorPair->getClass()->newInstanceArgs($instanceArgs);
         $accessorPair->getSetMethod()->invoke($instance);
         $storedValue = $accessorPair->getGetMethod()->invoke($instance);
 
@@ -174,8 +183,14 @@ class AccessorPairConstraint extends Constraint
      */
     protected function testParameter(ReflectionParameter $parameter, AccessorPair $accessorPair, array $testValues): void
     {
-        $addedValues = [];
-        $instance    = $accessorPair->getClass()->newInstanceArgs($this->getInstanceArgs($accessorPair->getClass()));
+        $instanceArgs = $this->getInstanceArgs($accessorPair->getClass());
+        $instance     = $accessorPair->getClass()->newInstanceArgs(array_values($instanceArgs));
+
+        // Try and match setItems/addItem to a constructor parameter called $items.
+        // If the match exists, use the constructor param value as starting set for getItems.
+        $setterBaseName = $accessorPair->getSetMethod()->getName();
+        $setterBaseName = substr($setterBaseName, 3);
+        $addedValues    = $instanceArgs[$this->inflector->pluralize(strtolower($setterBaseName))] ?? [];
         foreach ($testValues as $testValue) {
             // Pass test value to the instance
             $accessorPair->getSetMethod()->invoke($instance, $testValue);
@@ -219,7 +234,7 @@ class AccessorPairConstraint extends Constraint
             return;
         }
 
-        $arguments = $this->getInstanceArgs($class);
+        $arguments = array_values($this->getInstanceArgs($class));
 
         // Get all test values for the constructorPair parameter
         $testValues = $this->getTestValues($constructor, $constructorPair->getParameter());
@@ -277,8 +292,8 @@ class AccessorPairConstraint extends Constraint
 
         $arguments = [];
         foreach ($constructor->getParameters() as $parameter) {
-            $testValues  = $this->getTestValues($constructor, $parameter);
-            $arguments[] = $testValues[0];
+            $testValues                       = $this->getTestValues($constructor, $parameter);
+            $arguments[$parameter->getName()] = $testValues[0];
         }
 
         return $arguments;
