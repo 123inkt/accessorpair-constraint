@@ -10,6 +10,7 @@ use LogicException;
 use phpDocumentor\Reflection\Types\Array_;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionParameter;
 
 class ConstructorPairProvider
 {
@@ -29,14 +30,9 @@ class ConstructorPairProvider
      */
     public function getConstructorPairs(ReflectionClass $class): array
     {
-        $constructor = $class->getConstructor();
-        if ($constructor === null || $constructor->getNumberOfParameters() === 0) {
+        $parameters = $this->getParameters($class);
+        if (count($parameters) === 0) {
             return [];
-        }
-
-        $parameters = [];
-        foreach ($constructor->getParameters() as $parameter) {
-            $parameters[strtolower($parameter->getName())] = $parameter;
         }
 
         $pairs = [];
@@ -51,12 +47,14 @@ class ConstructorPairProvider
 
                 $baseMethodNames = $this->getMethodBaseNames($methodName, $getterPrefix);
                 foreach ($baseMethodNames as $baseMethodName) {
+                    $baseMethodName = strtolower($baseMethodName);
+
                     // Try and find the corresponding set/add method
-                    if (isset($parameters[strtolower($baseMethodName)]) === false) {
+                    if (isset($parameters[$baseMethodName]) === false) {
                         continue;
                     }
 
-                    $constructorPair = new ConstructorPair($class, $method, $parameters[strtolower($baseMethodName)]);
+                    $constructorPair = new ConstructorPair($class, $method, $parameters[$baseMethodName]);
                     if ($this->validateConstructorPair($constructorPair)) {
                         $pairs[] = $constructorPair;
                     }
@@ -65,6 +63,24 @@ class ConstructorPairProvider
         }
 
         return $pairs;
+    }
+
+    /**
+     * @return array<string, ReflectionParameter>
+     */
+    protected function getParameters(ReflectionClass $class): array
+    {
+        $constructor = $class->getConstructor();
+        if ($constructor === null || $constructor->getNumberOfParameters() === 0) {
+            return [];
+        }
+
+        $parameters = [];
+        foreach ($constructor->getParameters() as $parameter) {
+            $parameters[strtolower($parameter->getName())] = $parameter;
+        }
+
+        return $parameters;
     }
 
     /**
