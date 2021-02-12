@@ -66,6 +66,9 @@ class PhpDocParserTest extends TestCase
 
         // compound typehint with null, ?typehint returned
         yield ['/** @param int|null $param */', '?int'];
+        yield ['/** @param null|int $param */', '?int'];
+        yield ['/** @param int|null|string $param */', 'int|null|string'];
+        yield ['/** @param int|nullo $param */', 'int|nullo'];
     }
 
     /**
@@ -93,5 +96,8 @@ class PhpDocParserTest extends TestCase
 
         // compound typehint with null, ?typehint returned
         yield ['/** @return int|null */', '?int'];
+        yield ['/** @return null|int */', '?int'];
+        yield ['/** @return int|null|string */', 'int|null|string'];
+        yield ['/** @return int|nullo */', 'int|nullo'];
     }
 }

@@ -55,8 +55,11 @@ class PhpDocParser
      */
     private function normalizeDocblock(string $typehint): string
     {
-        if (strpos($typehint, "|null") !== false) {
-            $typehint = "?" . str_replace("|null", "", $typehint);
+        if (substr_count($typehint, "|") === 1 && strpos($typehint, "null") !== false) {
+            $typehint = preg_replace('/(^null\||\|null$)/', '', $typehint, -1, $count);
+            if ($count > 0) {
+                $typehint = "?" . $typehint;
+            }
         }
 
         return $typehint;
