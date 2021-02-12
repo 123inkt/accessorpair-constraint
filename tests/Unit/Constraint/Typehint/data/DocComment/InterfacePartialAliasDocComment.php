@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\DocComment;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
@@ -9,9 +9,14 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Object_;
 
-class InterfacePartialAlias implements DataInterface
+class InterfacePartialAliasDocComment implements DataInterface
 {
-    public function testMethod(ValueProvider\ValueProvider $param): ValueProvider\ValueProvider
+    /**
+     * @param ValueProvider\ValueProvider $param
+     *
+     * @return ValueProvider\ValueProvider
+     */
+    public function testMethod($param)
     {
         return $param;
     }

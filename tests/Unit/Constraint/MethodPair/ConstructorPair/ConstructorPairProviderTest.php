@@ -12,6 +12,7 @@ use ReflectionException;
 
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPairProvider
+ * @covers ::__construct
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver
  */
@@ -21,9 +22,10 @@ class ConstructorPairProviderTest extends TestCase
      * @dataProvider dataProvider
      * @covers ::getConstructorPairs
      * @covers ::validateConstructorPair
+     * @covers ::getParameters
+     * @covers ::getMethodBaseNames
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair
-     * @throws ReflectionException
      */
     public function testGetConstructorPairs(DataInterface $class): void
     {

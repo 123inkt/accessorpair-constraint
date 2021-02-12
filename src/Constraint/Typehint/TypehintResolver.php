@@ -45,8 +45,8 @@ class TypehintResolver
         $parameterType = $parameter->getType();
         if ($parameterType instanceof ReflectionNamedType) {
             $signatureType = $parameterType->getName();
-            if ($parameter->isOptional() && $parameter->allowsNull()) {
-                $signatureType .= '|null';
+            if ($parameter->allowsNull()) {
+                $signatureType = '?' . $signatureType;
             }
         } else {
             $signatureType = 'mixed';
@@ -71,6 +71,9 @@ class TypehintResolver
         $returnType = $this->method->getReturnType();
         if ($returnType instanceof ReflectionNamedType) {
             $signatureType = $returnType->getName();
+            if ($returnType->allowsNull()) {
+                $signatureType = '?' . $signatureType;
+            }
         } else {
             $signatureType = 'mixed';
         }

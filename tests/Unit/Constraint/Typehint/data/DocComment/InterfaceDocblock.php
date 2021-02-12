@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\DocComment;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;

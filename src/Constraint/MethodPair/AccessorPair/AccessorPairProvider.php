@@ -113,13 +113,13 @@ class AccessorPairProvider
             }
 
             // Allow getter to return typed array or null
-            return (string)$returnType === $paramType . '[]|null';
+            return (string)$returnType === "?" . $paramType . '[]';
         }
 
         $paramType  = (string)(new TypehintResolver($setterMethod))->getParamTypehint($parameter);
         $returnType = (string)(new TypehintResolver($getterMethod))->getReturnTypehint();
 
         // Getter should return the same value, or nullable value
-        return $paramType === $returnType || $paramType . '|null' === $returnType;
+        return $paramType === $returnType || "?" . $paramType === $returnType;
     }
 }
