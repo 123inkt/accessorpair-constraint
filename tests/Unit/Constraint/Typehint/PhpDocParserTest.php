@@ -17,6 +17,7 @@ class PhpDocParserTest extends TestCase
      *
      * @dataProvider paramTypehintProvider
      * @covers ::getParamTypehint
+     * @covers ::normalizeDocblock
      */
     public function testGetParamTypehint(string $docComment, ?string $expectedTypehint): void
     {
@@ -29,6 +30,7 @@ class PhpDocParserTest extends TestCase
      *
      * @dataProvider returnTypehintProvider
      * @covers ::getReturnTypehint
+     * @covers ::normalizeDocblock
      */
     public function testGetReturnTypehint(string $docComment, ?string $expectedTypehint): void
     {
@@ -61,6 +63,12 @@ class PhpDocParserTest extends TestCase
 
         // Typed array typehint, int[] returned
         yield ['/** @param int[] $param */', 'int[]'];
+
+        // compound typehint with null, ?typehint returned
+        yield ['/** @param int|null $param */', '?int'];
+        yield ['/** @param null|int $param */', '?int'];
+        yield ['/** @param int|null|string $param */', 'int|null|string'];
+        yield ['/** @param int|nullo $param */', 'int|nullo'];
     }
 
     /**
@@ -85,5 +93,11 @@ class PhpDocParserTest extends TestCase
 
         // Typed array typehint, int[] returned
         yield ['/** @return int[] */', 'int[]'];
+
+        // compound typehint with null, ?typehint returned
+        yield ['/** @return int|null */', '?int'];
+        yield ['/** @return null|int */', '?int'];
+        yield ['/** @return int|null|string */', 'int|null|string'];
+        yield ['/** @return int|nullo */', 'int|nullo'];
     }
 }

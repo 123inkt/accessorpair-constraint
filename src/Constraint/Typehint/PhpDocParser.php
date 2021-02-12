@@ -22,7 +22,7 @@ class PhpDocParser
             return null;
         }
 
-        return (string)$matches[1];
+        return $this->normalizeDocblock((string)$matches[1]);
     }
 
     /**
@@ -46,6 +46,28 @@ class PhpDocParser
             return null;
         }
 
-        return (string)$matches[1];
+        return $this->normalizeDocblock((string)$matches[1]);
+    }
+
+    /**
+     * Normalize docblock typehints to match PHPs typehints
+     * For example: turns string|null into ?string
+     */
+    private function normalizeDocblock(string $typehint): string
+    {
+        if (substr_count($typehint, "|") !== 1 || strpos($typehint, "null") === false) {
+            return $typehint;
+        }
+
+        $newTypehint = preg_replace('/(^null\||\|null$)/', '', $typehint, -1, $count);
+        if ($newTypehint === null) {
+            return $typehint;
+        }
+
+        if ($count === 0) {
+            return $typehint;
+        }
+
+        return "?" . $newTypehint;
     }
 }

@@ -12,6 +12,7 @@ use ReflectionException;
 
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider
+ * @covers ::__construct
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver
  */
@@ -21,6 +22,7 @@ class AccessorPairProviderTest extends TestCase
      * @dataProvider dataProvider
      * @covers ::getAccessorPairs
      * @covers ::validateAccessorPair
+     * @covers ::getMethodBaseNames
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
      * @throws ReflectionException

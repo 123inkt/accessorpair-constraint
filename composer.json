@@ -13,7 +13,7 @@
     "require-dev": {
         "phpmd/phpmd": "@stable",
         "phpstan/extension-installer": "1.0.*",
-        "phpstan/phpstan": "0.12.70",
+        "phpstan/phpstan": "0.12.75",
         "phpstan/phpstan-phpunit": "0.12.*",
         "phpstan/phpstan-strict-rules": "0.12.*",
         "roave/security-advisories": "dev-master",
