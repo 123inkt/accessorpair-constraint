@@ -285,6 +285,10 @@ class AccessorPairConstraint extends Constraint
      */
     protected function getInstanceArgs(ReflectionClass $class): array
     {
+        if ($this->config->getConstructorCallback() !== null) {
+            return $this->config->getConstructorCallback()();
+        }
+
         $constructor = $class->getConstructor();
         if ($constructor === null) {
             return [];
