@@ -14,6 +14,9 @@ class ConstraintConfig
     /** @var bool */
     private $assertPropertyDefaults = false;
 
+    /** @var null|callable(): mixed[] */
+    private $constructorCallback = null;
+
     public function hasAccessorPairCheck(): bool
     {
         return $this->assertAccessorPair;
@@ -62,6 +65,26 @@ class ConstraintConfig
     public function setAssertPropertyDefaults(bool $assertPropertyDefaults): self
     {
         $this->assertPropertyDefaults = $assertPropertyDefaults;
+
+        return $this;
+    }
+
+    public function getConstructorCallback(): ?callable
+    {
+        return $this->constructorCallback;
+    }
+
+    /**
+     * Callback function to create the constructor arguments for the class under test.
+     *
+     * Test data or mocks will be used by default.
+     *
+     * @param callable(): mixed[] $callback
+     * @return $this
+     */
+    public function setConstructorCallback(callable $callback): self
+    {
+        $this->constructorCallback = $callback;
 
         return $this;
     }

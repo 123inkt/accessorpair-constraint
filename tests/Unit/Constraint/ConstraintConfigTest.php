@@ -18,6 +18,8 @@ class ConstraintConfigTest extends TestCase
      * @covers ::hasAssertConstructor
      * @covers ::setAssertPropertyDefaults
      * @covers ::hasPropertyDefaultCheck
+     * @covers ::getConstructorCallback
+     * @covers ::setConstructorCallback
      */
     public function testConfig(): void
     {
@@ -35,5 +37,12 @@ class ConstraintConfigTest extends TestCase
         static::assertTrue($config->setAssertAccessorPair(true)->hasAccessorPairCheck());
         static::assertTrue($config->setAssertConstructor(true)->hasAssertConstructor());
         static::assertTrue($config->setAssertPropertyDefaults(true)->hasPropertyDefaultCheck());
+
+        $config = new ConstraintConfig();
+        $callback = static function (): array {
+            return [];
+        };
+        static::assertNull($config->getConstructorCallback());
+        static::assertSame($callback, $config->setConstructorCallback($callback)->getConstructorCallback());
     }
 }

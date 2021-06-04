@@ -161,6 +161,16 @@ class ConstraintConfig
      * conforming the getter return typehint.
      */
     public function setAssertPropertyDefaults(bool $assertPropertyDefaults);
+
+    /**
+     * Callback function to create the constructor arguments for the class under test.
+     *
+     * Test data or mocks will be used by default.
+     *
+     * @param callable(): mixed[] $callback
+     * @return $this
+     */
+    public function setConstructorCallback(callable $callback): self;
 }
 ```
 

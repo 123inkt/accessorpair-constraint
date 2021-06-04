@@ -5,10 +5,11 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration;
 
 use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\CustomConstructorParameters;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\SetterTransformer;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use PHPUnit\Framework\ExpectationFailedException;
-use PHPUnit\Runner\Version;
 use ReflectionException;
 use TypeError;
 
@@ -117,6 +118,28 @@ class AccessorPairAsserterTest extends TestCase
         $this->expectException(TypeError::class);
         $this->expectExceptionMessageMatches('/Return value (of .*?::.*?\(\) )?must be of (the )?type .*?, .*? returned/');
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
+    }
+
+    public function testCustomConstructorTestFailure(): void
+    {
+        // The test should fail because the SetterTransformer mock returns a different
+        // mock object in the setter.
+        $this->expectException(ExpectationFailedException::class);
+        static::assertAccessorPairs(CustomConstructorParameters::class);
+    }
+
+    public function testCustomConstructorTest(): void
+    {
+        $config = new ConstraintConfig();
+        $config->setConstructorCallback(static function (): array {
+            // Prevent the SetterTransformer from being mocked by explicitly controlling
+            // it's creation.
+            return [
+                new SetterTransformer(),
+            ];
+        });
+
+        static::assertAccessorPairs(CustomConstructorParameters::class, $config);
     }
 
     /**
