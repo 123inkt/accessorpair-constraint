@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 
 abstract class AbstractParentClass extends AbstractDataClass
 {
@@ -12,7 +11,12 @@ abstract class AbstractParentClass extends AbstractDataClass
     private $item;
 
     /** @var bool */
-    protected $assertParentMethod = false;
+    protected $assertParentMethod = true;
+
+    public function __construct(string $item = "")
+    {
+        $this->item = $item;
+    }
 
     public function setItem(string $item): void
     {
