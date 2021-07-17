@@ -5,7 +5,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodP
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 use Generator;
 use ReflectionClass;
 use ReflectionException;
@@ -45,7 +45,7 @@ class AccessorPairProviderTest extends TestCase
     }
 
     /**
-     * @return Generator<string, array<DataInterface>>
+     * @return Generator<string, array<AbstractDataClass>>
      * @throws ReflectionException
      */
     public function dataProvider(): Generator

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\failure;
 
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\AbstractDataClass;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 
 /**
  * The add method receives a string, so we expect "string[]" back from getProperty.

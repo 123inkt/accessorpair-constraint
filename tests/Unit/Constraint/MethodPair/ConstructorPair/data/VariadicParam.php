@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data;
 
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 
-class VariadicParam implements DataInterface
+class VariadicParam extends AbstractDataClass
 {
     /** @var string[] */
     private $property;
