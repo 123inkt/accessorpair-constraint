@@ -7,25 +7,25 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 
 abstract class AbstractParentClass extends AbstractDataClass
 {
-    /** @var string|null */
-    private $item;
-
     /** @var bool */
     protected $assertParentMethod = true;
 
-    public function __construct(string $item = "")
+    public function setValueA(string $valueA): void
     {
-        $this->item = $item;
+    }
+
+    public function getValueB(): string
+    {
+        return "";
     }
 
     public function setItem(string $item): void
     {
-        $this->item = $item;
     }
 
     public function getItem(): string
     {
-        return $this->item . "foobar";
+        return "";
     }
 
     public function getConfig(): ConstraintConfig

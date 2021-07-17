@@ -92,9 +92,18 @@ class AccessorPairProvider
             }
 
             $setterMethod = $class->getMethod($setterName);
-            if ($setterMethod->isPublic() === false || in_array($setterMethod->getName(), $this->config->getExcludedMethods(), true)) {
+            if ($setterMethod->isPublic() === false) {
                 continue;
             }
+
+            if (in_array($setterMethod->getName(), $this->config->getExcludedMethods(), true)) {
+                continue;
+            }
+
+            if ($this->config->isAssertParentMethods() === false && $class->getName() !== $setterMethod->getDeclaringClass()->getName()) {
+                continue;
+            }
+
             $setters[] = $setterMethod;
         }
 
