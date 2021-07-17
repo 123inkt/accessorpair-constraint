@@ -17,6 +17,9 @@ class ConstraintConfig
     /** @var bool */
     private $assertParentMethods = true;
 
+    /** @var string[] */
+    private $excludedMethods = [];
+
     /** @var null|callable(): mixed[] */
     private $constructorCallback = null;
 
@@ -85,6 +88,24 @@ class ConstraintConfig
     public function setAssertParentMethods(bool $assertParentMethods): self
     {
         $this->assertParentMethods = $assertParentMethods;
+
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getExcludedMethods(): array
+    {
+        return $this->excludedMethods;
+    }
+
+    /**
+     * @param string[] $excludedMethods A list of exact method names that should be excluded from the assertions.
+     */
+    public function setExcludedMethods(array $excludedMethods): self
+    {
+        $this->excludedMethods = $excludedMethods;
 
         return $this;
     }

@@ -20,6 +20,8 @@ class ConstraintConfigTest extends TestCase
      * @covers ::hasPropertyDefaultCheck
      * @covers ::setAssertParentMethods
      * @covers ::isAssertParentMethods
+     * @covers ::setExcludedMethods
+     * @covers ::getExcludedMethods
      * @covers ::getConstructorCallback
      * @covers ::setConstructorCallback
      */
@@ -30,12 +32,14 @@ class ConstraintConfigTest extends TestCase
         static::assertTrue($config->hasAssertConstructor());
         static::assertFalse($config->hasPropertyDefaultCheck());
         static::assertTrue($config->isAssertParentMethods());
+        static::assertSame([], $config->getExcludedMethods());
 
         $config = new ConstraintConfig();
         static::assertFalse($config->setAssertAccessorPair(false)->hasAccessorPairCheck());
         static::assertFalse($config->setAssertConstructor(false)->hasAssertConstructor());
         static::assertFalse($config->setAssertPropertyDefaults(false)->hasPropertyDefaultCheck());
         static::assertFalse($config->setAssertParentMethods(false)->isAssertParentMethods());
+        static::assertSame(['foobar'], $config->setExcludedMethods(['foobar'])->getExcludedMethods());
 
         $config = new ConstraintConfig();
         static::assertTrue($config->setAssertAccessorPair(true)->hasAccessorPairCheck());
