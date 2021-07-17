@@ -74,6 +74,14 @@ class AccessorPairAsserterTest extends TestCase
     }
 
     /**
+     * @dataProvider successInitialStateDataProvider
+     */
+    public function testMatchesSuccessInitialStateWithDefaultMethod(object $class): void
+    {
+        static::assertAccessorPropertyDefaults(get_class($class));
+    }
+
+    /**
      * When turning off the propertyDefaultCheck, we can safely pass classes we know will fail the constraint
      *
      * @dataProvider failureInitialStateDataProvider
