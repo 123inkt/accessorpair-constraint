@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use LogicException;
 use phpDocumentor\Reflection\Types\Array_;
 use ReflectionClass;
-use ReflectionMethod;
 
 class AccessorPairProvider
 {
@@ -39,7 +39,7 @@ class AccessorPairProvider
     public function getAccessorPairs(ReflectionClass $class): array
     {
         $pairs = [];
-        foreach ($this->getClassMethods($class) as $method) {
+        foreach ((new ClassMethodProvider($this->config))->getMethods($class) as $method) {
             // Check multiple "getter" prefixes, add each getter method with corresponding setter to the inspectionMethod list
             $methodName = $method->getName();
             foreach (static::GET_PREFIXES as $getterPrefix) {
@@ -71,32 +71,6 @@ class AccessorPairProvider
         }
 
         return $pairs;
-    }
-
-    /**
-     * @return ReflectionMethod[]
-     */
-    protected function getClassMethods(ReflectionClass $class): array
-    {
-        $excludeParentMethods = $this->config->isAssertParentMethods() === false;
-        $excludedMethods      = $this->config->getExcludedMethods();
-
-        $methods = [];
-        foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            // exclude all methods that are not from the class' parent class.
-            if ($excludeParentMethods && $class->getName() !== $method->getDeclaringClass()->getName()) {
-                continue;
-            }
-
-            // method is specifically excluded
-            if (in_array($method->getName(), $excludedMethods, true)) {
-                continue;
-            }
-
-            $methods[] = $method;
-        }
-
-        return $methods;
     }
 
     /**

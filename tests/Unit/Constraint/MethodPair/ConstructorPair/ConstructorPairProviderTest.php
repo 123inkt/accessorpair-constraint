@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPairProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
@@ -26,10 +27,12 @@ class ConstructorPairProviderTest extends TestCase
      * @covers ::getMethodBaseNames
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair
+     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
+     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider
      */
     public function testGetConstructorPairs(DataInterface $class): void
     {
-        $provider    = new ConstructorPairProvider();
+        $provider    = new ConstructorPairProvider(new ConstraintConfig());
         $actualPairs = $provider->getConstructorPairs(new ReflectionClass($class));
 
         $expectedPairs = $class->getExpectedPairs();

@@ -21,12 +21,12 @@ class AccessorPairProviderTest extends TestCase
     /**
      * @dataProvider dataProvider
      * @covers ::getAccessorPairs
-     * @covers ::getClassMethods
      * @covers ::validateAccessorPair
      * @covers ::getMethodBaseNames
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
-     * @throws ReflectionException
+     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
+     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider
      */
     public function testGetAccessorPairs(AbstractDataClass $class): void
     {
