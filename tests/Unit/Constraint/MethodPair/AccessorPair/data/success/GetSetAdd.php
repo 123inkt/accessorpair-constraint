@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\success;
 
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\AbstractDataClass;
 
-class GetSetAdd implements DataInterface
+class GetSetAdd extends AbstractDataClass
 {
     /** @var string[] */
     private $property = [];

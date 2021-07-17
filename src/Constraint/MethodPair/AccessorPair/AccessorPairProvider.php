@@ -9,7 +9,6 @@ use Doctrine\Inflector\InflectorFactory;
 use LogicException;
 use phpDocumentor\Reflection\Types\Array_;
 use ReflectionClass;
-use ReflectionException;
 use ReflectionMethod;
 
 class AccessorPairProvider
@@ -20,9 +19,13 @@ class AccessorPairProvider
     /** @var Inflector */
     private $inflector;
 
-    public function __construct()
+    /** @var bool */
+    private $excludeParentMethods;
+
+    public function __construct(bool $excludeParentMethods)
     {
-        $this->inflector = InflectorFactory::create()->build();
+        $this->inflector            = InflectorFactory::create()->build();
+        $this->excludeParentMethods = $excludeParentMethods;
     }
 
     /**
@@ -30,13 +33,12 @@ class AccessorPairProvider
      * Loops over the public methods, and for each "getter" it tries to find the corresponding "set" and/or "add" method
      *
      * @return AccessorPair[]
-     * @throws ReflectionException
      * @throws LogicException
      */
     public function getAccessorPairs(ReflectionClass $class): array
     {
         $pairs = [];
-        foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+        foreach ($this->getClassMethods($class) as $method) {
             // Check multiple "getter" prefixes, add each getter method with corresponding setter to the inspectionMethod list
             $methodName = $method->getName();
             foreach (static::GET_PREFIXES as $getterPrefix) {
@@ -68,6 +70,24 @@ class AccessorPairProvider
         }
 
         return $pairs;
+    }
+
+    /**
+     * @return ReflectionMethod[]
+     */
+    protected function getClassMethods(ReflectionClass $class): array
+    {
+        $methods = [];
+        foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            // exclude all methods that are not from the class' parent class.
+            if ($this->excludeParentMethods && $class->getName() !== $method->getDeclaringClass()->getName()) {
+                continue;
+            }
+
+            $methods[] = $method;
+        }
+
+        return $methods;
     }
 
     /**

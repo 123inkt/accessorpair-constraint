@@ -21,15 +21,17 @@ class AccessorPairProviderTest extends TestCase
     /**
      * @dataProvider dataProvider
      * @covers ::getAccessorPairs
+     * @covers ::getClassMethods
      * @covers ::validateAccessorPair
      * @covers ::getMethodBaseNames
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
      * @throws ReflectionException
      */
-    public function testGetAccessorPairs(DataInterface $class): void
+    public function testGetAccessorPairs(AbstractDataClass $class): void
     {
-        $provider    = new AccessorPairProvider();
+        $config      = $class->getConfig();
+        $provider    = new AccessorPairProvider($config !== null && $config->isAssertParentMethods() === false);
         $actualPairs = $provider->getAccessorPairs(new ReflectionClass($class));
 
         $expectedPairs = $class->getExpectedPairs();

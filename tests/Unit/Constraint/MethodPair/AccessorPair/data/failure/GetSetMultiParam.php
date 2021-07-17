@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\failure;
 
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\AbstractDataClass;
 
 /**
  * The setter has multiple parameters
  * The constraint can't test that the received input will be correctly returned by the getter here
  */
-class GetSetMultiParam implements DataInterface
+class GetSetMultiParam extends AbstractDataClass
 {
     /** @var string */
     private $property;
