@@ -11,7 +11,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 abstract class AbstractDataClass
 {
     /**
-     * Optionally return the config used for the AccessorPairProvider test
+     * Return the config used for the AccessorPairProvider test
      */
     public function getConfig(): ConstraintConfig
     {
