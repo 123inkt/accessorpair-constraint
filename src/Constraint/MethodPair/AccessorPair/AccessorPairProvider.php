@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
@@ -19,13 +20,13 @@ class AccessorPairProvider
     /** @var Inflector */
     private $inflector;
 
-    /** @var bool */
-    private $excludeParentMethods;
+    /** @var ConstraintConfig */
+    private $config;
 
-    public function __construct(bool $excludeParentMethods)
+    public function __construct(ConstraintConfig $config)
     {
-        $this->inflector            = InflectorFactory::create()->build();
-        $this->excludeParentMethods = $excludeParentMethods;
+        $this->config    = $config;
+        $this->inflector = InflectorFactory::create()->build();
     }
 
     /**
@@ -56,7 +57,7 @@ class AccessorPairProvider
                         }
 
                         $setterMethod = $class->getMethod($setterName);
-                        if ($setterMethod->isPublic() === false) {
+                        if ($setterMethod->isPublic() === false || in_array($setterMethod->getName(), $this->config->getExcludedMethods(), true)) {
                             continue;
                         }
 
@@ -77,10 +78,18 @@ class AccessorPairProvider
      */
     protected function getClassMethods(ReflectionClass $class): array
     {
+        $excludeParentMethods = $this->config->isAssertParentMethods() === false;
+        $excludedMethods      = $this->config->getExcludedMethods();
+
         $methods = [];
         foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             // exclude all methods that are not from the class' parent class.
-            if ($this->excludeParentMethods && $class->getName() !== $method->getDeclaringClass()->getName()) {
+            if ($excludeParentMethods && $class->getName() !== $method->getDeclaringClass()->getName()) {
+                continue;
+            }
+
+            // method is specifically excluded
+            if (in_array($method->getName(), $excludedMethods, true)) {
                 continue;
             }
 

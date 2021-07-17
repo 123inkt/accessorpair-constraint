@@ -30,8 +30,7 @@ class AccessorPairProviderTest extends TestCase
      */
     public function testGetAccessorPairs(AbstractDataClass $class): void
     {
-        $config      = $class->getConfig();
-        $provider    = new AccessorPairProvider($config !== null && $config->isAssertParentMethods() === false);
+        $provider    = new AccessorPairProvider($class->getConfig());
         $actualPairs = $provider->getAccessorPairs(new ReflectionClass($class));
 
         $expectedPairs = $class->getExpectedPairs();

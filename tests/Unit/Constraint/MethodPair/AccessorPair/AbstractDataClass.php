@@ -14,8 +14,8 @@ abstract class AbstractDataClass implements DataInterface
     /**
      * Optionally return the config used for the AccessorPairProvider test
      */
-    public function getConfig(): ?ConstraintConfig
+    public function getConfig(): ConstraintConfig
     {
-        return null;
+        return new ConstraintConfig();
     }
 }

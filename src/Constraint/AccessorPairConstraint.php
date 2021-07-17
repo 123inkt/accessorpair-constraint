@@ -40,7 +40,7 @@ class AccessorPairConstraint extends Constraint
 
     public function __construct(ConstraintConfig $config)
     {
-        $this->accessorPairProvider    = new AccessorPairProvider($config->isAssertParentMethods() === false);
+        $this->accessorPairProvider    = new AccessorPairProvider($config);
         $this->constructorPairProvider = new ConstructorPairProvider();
         $this->valueProviderFactory    = new ValueProviderFactory();
         $this->config                  = $config;
