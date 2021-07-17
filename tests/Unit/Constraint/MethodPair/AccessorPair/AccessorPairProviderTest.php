@@ -23,6 +23,7 @@ class AccessorPairProviderTest extends TestCase
      * @covers ::getAccessorPairs
      * @covers ::validateAccessorPair
      * @covers ::getMethodBaseNames
+     * @covers ::getSetters
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
      * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig

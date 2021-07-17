@@ -11,6 +11,7 @@ use Doctrine\Inflector\InflectorFactory;
 use LogicException;
 use phpDocumentor\Reflection\Types\Array_;
 use ReflectionClass;
+use ReflectionMethod;
 
 class AccessorPairProvider
 {
@@ -50,17 +51,7 @@ class AccessorPairProvider
                 // Try and find the corresponding set/add method
                 $baseMethodNames = $this->getMethodBaseNames($methodName, $getterPrefix);
                 foreach ($baseMethodNames as $baseMethodName) {
-                    foreach (static::SET_PREFIXES as $setterPrefix) {
-                        $setterName = $setterPrefix . $baseMethodName;
-                        if ($class->hasMethod($setterName) === false) {
-                            continue;
-                        }
-
-                        $setterMethod = $class->getMethod($setterName);
-                        if ($setterMethod->isPublic() === false || in_array($setterMethod->getName(), $this->config->getExcludedMethods(), true)) {
-                            continue;
-                        }
-
+                    foreach ($this->getSetters($class, $baseMethodName) as $setterMethod) {
                         $accessorPair = new AccessorPair($class, $method, $setterMethod);
                         if ($this->validateAccessorPair($accessorPair)) {
                             $pairs[] = $accessorPair;
@@ -86,6 +77,28 @@ class AccessorPairProvider
         }
 
         return $baseMethodNames;
+    }
+
+    /**
+     * @return ReflectionMethod[]
+     */
+    protected function getSetters(ReflectionClass $class, string $baseMethodName): array
+    {
+        $setters = [];
+        foreach (static::SET_PREFIXES as $setterPrefix) {
+            $setterName = $setterPrefix . $baseMethodName;
+            if ($class->hasMethod($setterName) === false) {
+                continue;
+            }
+
+            $setterMethod = $class->getMethod($setterName);
+            if ($setterMethod->isPublic() === false || in_array($setterMethod->getName(), $this->config->getExcludedMethods(), true)) {
+                continue;
+            }
+            $setters[] = $setterMethod;
+        }
+
+        return $setters;
     }
 
     /**
