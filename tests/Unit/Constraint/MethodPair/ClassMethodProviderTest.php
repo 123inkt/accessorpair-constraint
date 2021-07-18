@@ -5,8 +5,8 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodP
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\data\SimpleClassWithOneMethod;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\data\SimpleClassWithParent;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\fixtures\SimpleClassWithOneMethod;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\fixtures\SimpleClassWithParent;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 

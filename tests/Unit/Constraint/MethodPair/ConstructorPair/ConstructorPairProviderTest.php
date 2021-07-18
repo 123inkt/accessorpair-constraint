@@ -50,6 +50,6 @@ class ConstructorPairProviderTest extends TestCase
      */
     public function dataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/data', __NAMESPACE__ . '\\data');
+        yield from $this->getClassDataProvider(__DIR__ . '/fixtures', __NAMESPACE__ . '\\fixtures');
     }
 }

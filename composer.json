@@ -35,7 +35,7 @@
     "scripts": {
         "check": ["@check:phpstan", "@check:phpmd", "@check:phpcs"],
         "check:phpstan": "phpstan analyse",
-        "check:phpmd": "phpmd src,tests text phpmd.xml.dist --suffixes=php --exclude /tests/*/data/*",
+        "check:phpmd": "phpmd src,tests text phpmd.xml.dist --suffixes=php --exclude /tests/*/fixtures/*",
         "check:phpcs": "phpcs src tests",
         "fix": "@fix:phpcbf",
         "fix:phpcbf": "phpcbf src tests",
