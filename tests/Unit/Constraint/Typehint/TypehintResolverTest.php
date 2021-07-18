@@ -56,6 +56,6 @@ class TypehintResolverTest extends TestCase
      */
     public function dataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/fixtures', __NAMESPACE__ . '\\fixtures');
+        yield from $this->getClassDataProvider(__DIR__ . '/data', __NAMESPACE__ . '\data');
     }
 }

@@ -5,8 +5,8 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration;
 
 use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
-use DigitalRevolution\AccessorPairConstraint\Tests\Integration\fixtures\manual\CustomConstructorParameters;
-use DigitalRevolution\AccessorPairConstraint\Tests\Integration\fixtures\manual\SetterTransformer;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\CustomConstructorParameters;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\SetterTransformer;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -156,7 +156,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function successDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/fixtures/success/Regular', __NAMESPACE__ . "\\fixtures\success\Regular");
+        yield from $this->getClassDataProvider(__DIR__ . '/data/success/Regular', __NAMESPACE__ . "\data\success\Regular");
     }
 
     /**
@@ -165,7 +165,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function failureDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/fixtures/failure/Regular', __NAMESPACE__ . "\\fixtures\\failure\Regular");
+        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/Regular', __NAMESPACE__ . "\data\\failure\Regular");
     }
 
     /**
@@ -174,7 +174,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function successInitialStateDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/fixtures/success/InitialState', __NAMESPACE__ . "\\fixtures\success\InitialState");
+        yield from $this->getClassDataProvider(__DIR__ . '/data/success/InitialState', __NAMESPACE__ . "\data\success\InitialState");
     }
 
     /**
@@ -183,7 +183,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function failureInitialStateDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/fixtures/failure/InitialState', __NAMESPACE__ . "\\fixtures\\failure\InitialState");
+        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/InitialState', __NAMESPACE__ . "\data\\failure\InitialState");
     }
 
     /**
@@ -192,10 +192,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function successConstructorDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(
-            __DIR__ . '/fixtures/success/Regular/Constructor',
-            __NAMESPACE__ . "\\fixtures\\success\Regular\\Constructor"
-        );
+        yield from $this->getClassDataProvider(__DIR__ . '/data/success/Regular/Constructor', __NAMESPACE__ . "\data\\success\Regular\\Constructor");
     }
 
     /**
@@ -204,9 +201,6 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function failureConstructorDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(
-            __DIR__ . '/fixtures/failure/Regular/Constructor',
-            __NAMESPACE__ . "\\fixtures\\failure\Regular\\Constructor"
-        );
+        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/Regular/Constructor', __NAMESPACE__ . "\data\\failure\Regular\\Constructor");
     }
 }
