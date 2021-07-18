@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data\parentchild;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractParentClass;
 
@@ -15,7 +15,6 @@ class ExcludeParentMethod extends AbstractParentClass
 
     public function __construct(string $property, string $item)
     {
-        parent::__construct($item);
         $this->property = $property;
     }
 
