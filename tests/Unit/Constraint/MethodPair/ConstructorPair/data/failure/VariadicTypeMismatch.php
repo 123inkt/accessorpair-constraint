@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data\failure;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 
-class VariadicParam extends AbstractDataClass
+class VariadicTypeMismatch extends AbstractDataClass
 {
-    /** @var string[] */
+    /** @var bool[] */
     private $property;
 
     public function __construct(string ...$property)
@@ -16,7 +16,7 @@ class VariadicParam extends AbstractDataClass
     }
 
     /**
-     * @return string[]
+     * @return bool[]
      */
     public function getProperty(): array
     {
@@ -25,6 +25,6 @@ class VariadicParam extends AbstractDataClass
 
     public function getExpectedPairs(): array
     {
-        return [['getProperty', 'property']];
+        return [];
     }
 }

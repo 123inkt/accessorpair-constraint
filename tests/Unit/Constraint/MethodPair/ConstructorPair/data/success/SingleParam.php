@@ -1,21 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data\success;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 
-class NullableParam extends AbstractDataClass
+class SingleParam extends AbstractDataClass
 {
-    /** @var string|null */
+    /** @var string */
     private $property;
 
-    public function __construct(?string $property = null)
+    public function __construct(string $property)
     {
         $this->property = $property;
     }
 
-    public function getProperty(): ?string
+    public function getProperty(): string
     {
         return $this->property;
     }

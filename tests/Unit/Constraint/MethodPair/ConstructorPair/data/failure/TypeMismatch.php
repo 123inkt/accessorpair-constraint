@@ -1,24 +1,20 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data\failure;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 
-class VariadicTypeMismatch extends AbstractDataClass
+class TypeMismatch extends AbstractDataClass
 {
-    /** @var bool[] */
     private $property;
 
-    public function __construct(string ...$property)
+    public function __construct(float $property)
     {
         $this->property = $property;
     }
 
-    /**
-     * @return bool[]
-     */
-    public function getProperty(): array
+    public function getProperty(): bool
     {
         return $this->property;
     }

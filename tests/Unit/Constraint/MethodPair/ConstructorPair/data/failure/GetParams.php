@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair\data\failure;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 
-class SingleParam extends AbstractDataClass
+class GetParams extends AbstractDataClass
 {
     /** @var string */
     private $property;
@@ -15,13 +15,13 @@ class SingleParam extends AbstractDataClass
         $this->property = $property;
     }
 
-    public function getProperty(): string
+    public function getProperty(string $default): string
     {
-        return $this->property;
+        return $this->property ?? $default;
     }
 
     public function getExpectedPairs(): array
     {
-        return [['getProperty', 'property']];
+        return [];
     }
 }
