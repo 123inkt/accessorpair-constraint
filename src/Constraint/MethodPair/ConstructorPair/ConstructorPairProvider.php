@@ -80,6 +80,12 @@ class ConstructorPairProvider
             return [];
         }
 
+        // skip parent constructor
+        $excludeParentMethods = $this->config->isAssertParentMethods() === false;
+        if ($excludeParentMethods && $constructor->getDeclaringClass()->getName() !== $class->getName()) {
+            return [];
+        }
+
         $parameters = [];
         foreach ($constructor->getParameters() as $parameter) {
             $parameters[strtolower($parameter->getName())] = $parameter;
