@@ -163,6 +163,18 @@ class ConstraintConfig
     public function setAssertPropertyDefaults(bool $assertPropertyDefaults);
 
     /**
+     * Enabled by default.
+     * When disabled, only the direct class methods will be asserted and none of the parent's
+     * class methods.
+     */
+    public function setAssertParentMethods(bool $assertParentMethods);
+
+    /**
+     * A list of exact method names that should be excluded from the assertions.
+     */
+    public function setExcludedMethods(array $excludedMethods);
+
+    /**
      * Callback function to create the constructor arguments for the class under test.
      *
      * Test data or mocks will be used by default.
