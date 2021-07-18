@@ -3,25 +3,29 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\success;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 use stdClass;
 
-class ArrayAddSetGet extends AbstractDataClass
+class ExcludeMethods extends AbstractDataClass
 {
+    /** @var string|null */
+    private $item;
+
     /** @var stdClass[] */
     private $items;
 
-    /**
-     * @param stdClass[] $items
-     */
-    public function __construct(array $items)
+    /** @var bool */
+    protected $assertParentMethod = false;
+
+    public function setItem(string $item): void
     {
-        $this->items = $items;
+        $this->item = $item;
     }
 
-    public function addItem(stdClass $item): void
+    public function getItem(): string
     {
-        $this->items[] = $item;
+        return $this->item . "foobar";
     }
 
     /**
@@ -40,8 +44,13 @@ class ArrayAddSetGet extends AbstractDataClass
         return $this->items;
     }
 
+    public function getConfig(): ConstraintConfig
+    {
+        return (new ConstraintConfig())->setExcludedMethods(['setItem']);
+    }
+
     public function getExpectedPairs(): array
     {
-        return [['getItems', 'setItems', false], ['getItems', 'addItem', true]];
+        return [['getItems', 'setItems', false]];
     }
 }

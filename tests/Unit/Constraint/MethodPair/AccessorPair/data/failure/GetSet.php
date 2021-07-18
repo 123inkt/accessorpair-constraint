@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\failure;
 
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 
 /**
  * The getter returns a different type than the setter receives
  */
-class GetSet implements DataInterface
+class GetSet extends AbstractDataClass
 {
     private $property;
 

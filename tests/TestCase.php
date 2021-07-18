@@ -27,6 +27,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
                 continue;
             }
 
+            if (strpos($file->getFilename(), 'Abstract') === 0) {
+                continue;
+            }
+
             require_once $file->getPathname();
 
             $key       = str_replace([$path, '/'], ['', '\\'], $file->getPath()) . '\\' . $file->getBasename('.php');

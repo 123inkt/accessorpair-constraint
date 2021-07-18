@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use LogicException;
 use phpDocumentor\Reflection\Types\Array_;
 use ReflectionClass;
-use ReflectionException;
 use ReflectionMethod;
 
 class AccessorPairProvider
@@ -20,8 +21,12 @@ class AccessorPairProvider
     /** @var Inflector */
     private $inflector;
 
-    public function __construct()
+    /** @var ConstraintConfig */
+    private $config;
+
+    public function __construct(ConstraintConfig $config)
     {
+        $this->config    = $config;
         $this->inflector = InflectorFactory::create()->build();
     }
 
@@ -30,13 +35,12 @@ class AccessorPairProvider
      * Loops over the public methods, and for each "getter" it tries to find the corresponding "set" and/or "add" method
      *
      * @return AccessorPair[]
-     * @throws ReflectionException
      * @throws LogicException
      */
     public function getAccessorPairs(ReflectionClass $class): array
     {
         $pairs = [];
-        foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+        foreach ((new ClassMethodProvider($this->config))->getMethods($class) as $method) {
             // Check multiple "getter" prefixes, add each getter method with corresponding setter to the inspectionMethod list
             $methodName = $method->getName();
             foreach (static::GET_PREFIXES as $getterPrefix) {
@@ -47,17 +51,7 @@ class AccessorPairProvider
                 // Try and find the corresponding set/add method
                 $baseMethodNames = $this->getMethodBaseNames($methodName, $getterPrefix);
                 foreach ($baseMethodNames as $baseMethodName) {
-                    foreach (static::SET_PREFIXES as $setterPrefix) {
-                        $setterName = $setterPrefix . $baseMethodName;
-                        if ($class->hasMethod($setterName) === false) {
-                            continue;
-                        }
-
-                        $setterMethod = $class->getMethod($setterName);
-                        if ($setterMethod->isPublic() === false) {
-                            continue;
-                        }
-
+                    foreach ($this->getSetters($class, $baseMethodName) as $setterMethod) {
                         $accessorPair = new AccessorPair($class, $method, $setterMethod);
                         if ($this->validateAccessorPair($accessorPair)) {
                             $pairs[] = $accessorPair;
@@ -83,6 +77,37 @@ class AccessorPairProvider
         }
 
         return $baseMethodNames;
+    }
+
+    /**
+     * @return ReflectionMethod[]
+     */
+    protected function getSetters(ReflectionClass $class, string $baseMethodName): array
+    {
+        $setters = [];
+        foreach (static::SET_PREFIXES as $setterPrefix) {
+            $setterName = $setterPrefix . $baseMethodName;
+            if ($class->hasMethod($setterName) === false) {
+                continue;
+            }
+
+            $setterMethod = $class->getMethod($setterName);
+            if ($setterMethod->isPublic() === false) {
+                continue;
+            }
+
+            if (in_array($setterMethod->getName(), $this->config->getExcludedMethods(), true)) {
+                continue;
+            }
+
+            if ($this->config->isAssertParentMethods() === false && $class->getName() !== $setterMethod->getDeclaringClass()->getName()) {
+                continue;
+            }
+
+            $setters[] = $setterMethod;
+        }
+
+        return $setters;
     }
 
     /**

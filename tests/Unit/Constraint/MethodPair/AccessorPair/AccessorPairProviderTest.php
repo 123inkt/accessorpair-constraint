@@ -5,7 +5,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodP
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 use Generator;
 use ReflectionClass;
 use ReflectionException;
@@ -23,13 +23,15 @@ class AccessorPairProviderTest extends TestCase
      * @covers ::getAccessorPairs
      * @covers ::validateAccessorPair
      * @covers ::getMethodBaseNames
+     * @covers ::getSetters
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
      * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
-     * @throws ReflectionException
+     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
+     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider
      */
-    public function testGetAccessorPairs(DataInterface $class): void
+    public function testGetAccessorPairs(AbstractDataClass $class): void
     {
-        $provider    = new AccessorPairProvider();
+        $provider    = new AccessorPairProvider($class->getConfig());
         $actualPairs = $provider->getAccessorPairs(new ReflectionClass($class));
 
         $expectedPairs = $class->getExpectedPairs();
@@ -44,7 +46,7 @@ class AccessorPairProviderTest extends TestCase
     }
 
     /**
-     * @return Generator<string, array<DataInterface>>
+     * @return Generator<string, array<AbstractDataClass>>
      * @throws ReflectionException
      */
     public function dataProvider(): Generator

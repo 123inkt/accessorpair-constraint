@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\success;
 
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 
 /**
  * Get/add pair for fields ending in y (plural: - ies).
  */
-class GetAddPluraly implements DataInterface
+class GetAddPluraly extends AbstractDataClass
 {
     /** @var string[] */
     private $properties = [];

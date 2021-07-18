@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use LogicException;
 use phpDocumentor\Reflection\Types\Array_;
 use ReflectionClass;
-use ReflectionMethod;
 use ReflectionParameter;
 
 class ConstructorPairProvider
@@ -19,8 +20,12 @@ class ConstructorPairProvider
     /** @var Inflector */
     private $inflector;
 
-    public function __construct()
+    /** @var ConstraintConfig */
+    private $config;
+
+    public function __construct(ConstraintConfig $config)
     {
+        $this->config    = $config;
         $this->inflector = InflectorFactory::create()->build();
     }
 
@@ -36,7 +41,7 @@ class ConstructorPairProvider
         }
 
         $pairs = [];
-        foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+        foreach ((new ClassMethodProvider($this->config))->getMethods($class) as $method) {
             // Check multiple "getter" prefixes, add each getter method with corresponding setter to the inspectionMethod list
             $methodName = $method->getName();
 
@@ -72,6 +77,12 @@ class ConstructorPairProvider
     {
         $constructor = $class->getConstructor();
         if ($constructor === null || $constructor->getNumberOfParameters() === 0) {
+            return [];
+        }
+
+        // skip parent constructor
+        $excludeParentMethods = $this->config->isAssertParentMethods() === false;
+        if ($excludeParentMethods && $constructor->getDeclaringClass()->getName() !== $class->getName()) {
             return [];
         }
 

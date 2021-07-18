@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AccessorPair\data\failure;
 
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\DataInterface;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 
 /**
  * The setter method is private, so it's not possible to select the accessormethod pair
  */
-class GetSetPrivate implements DataInterface
+class GetSetPrivate extends AbstractDataClass
 {
     /** @var string */
     private $property = '';
