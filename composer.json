@@ -8,7 +8,7 @@
         "php": ">=7.2",
         "doctrine/inflector": "^2.0",
         "phpdocumentor/type-resolver": "1.4.*",
-        "phpunit/phpunit": "^8.4 || ^9.0"
+        "phpunit/phpunit": "^8.4 || ^9.1"
     },
     "require-dev": {
         "phpmd/phpmd": "@stable",
