@@ -46,7 +46,7 @@ class AccessorPairProviderTest extends TestCase
     }
 
     /**
-     * @return Generator<string, array<AbstractDataClass>>
+     * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
     public function dataProvider(): Generator

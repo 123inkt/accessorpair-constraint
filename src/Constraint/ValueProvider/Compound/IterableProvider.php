@@ -10,7 +10,7 @@ use Generator;
 class IterableProvider implements ValueProvider
 {
     /**
-     * @return iterable[]
+     * @return array<iterable<mixed>>
      */
     public function getValues(): array
     {

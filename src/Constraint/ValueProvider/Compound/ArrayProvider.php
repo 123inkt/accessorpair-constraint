@@ -16,6 +16,7 @@ class ArrayProvider implements ValueProvider
     }
 
     /**
+     * @return array<int, mixed[]>
      * @inheritDoc
      */
     public function getValues(): array

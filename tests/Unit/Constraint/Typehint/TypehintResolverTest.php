@@ -51,7 +51,7 @@ class TypehintResolverTest extends TestCase
     }
 
     /**
-     * @return Generator<string, array>
+     * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
     public function dataProvider(): Generator

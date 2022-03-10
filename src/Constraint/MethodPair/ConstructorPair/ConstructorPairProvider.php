@@ -45,7 +45,7 @@ class ConstructorPairProvider
             // Check multiple "getter" prefixes, add each getter method with corresponding setter to the inspectionMethod list
             $methodName = $method->getName();
 
-            foreach (static::GET_PREFIXES as $getterPrefix) {
+            foreach (self::GET_PREFIXES as $getterPrefix) {
                 if (strpos($methodName, $getterPrefix) !== 0) {
                     continue;
                 }

@@ -95,7 +95,7 @@ class ValueProviderFactoryTest extends TestCase
     }
 
     /**
-     * @return Generator<string, array>
+     * @return Generator<string, array{0: Type, 1: ValueProvider}>
      */
     public function nativeTypeProvider(): Generator
     {
@@ -127,7 +127,7 @@ class ValueProviderFactoryTest extends TestCase
     }
 
     /**
-     * @return Generator<string, array>
+     * @return Generator<string, array{0: Type, 1: ValueProvider}>
      */
     public function dataProvider(): Generator
     {
