@@ -14,7 +14,7 @@ use SplFileInfo;
 class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @return Generator<string, array>
+     * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
     public function getClassDataProvider(string $path, string $namespacePrefix): Generator

@@ -190,7 +190,9 @@ class AccessorPairConstraint extends Constraint
         // If the match exists, use the constructor param value as starting set for getItems.
         $setterBaseName = $accessorPair->getSetMethod()->getName();
         $setterBaseName = substr($setterBaseName, 3);
-        $addedValues    = $instanceArgs[$this->inflector->pluralize(strtolower($setterBaseName))] ?? [];
+
+        /** @var mixed[] $addedValues */
+        $addedValues = $instanceArgs[$this->inflector->pluralize(strtolower($setterBaseName))] ?? [];
         foreach ($testValues as $testValue) {
             // Pass test value to the instance
             $accessorPair->getSetMethod()->invoke($instance, $testValue);

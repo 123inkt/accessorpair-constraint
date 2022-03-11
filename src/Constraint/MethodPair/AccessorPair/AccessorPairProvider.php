@@ -43,7 +43,7 @@ class AccessorPairProvider
         foreach ((new ClassMethodProvider($this->config))->getMethods($class) as $method) {
             // Check multiple "getter" prefixes, add each getter method with corresponding setter to the inspectionMethod list
             $methodName = $method->getName();
-            foreach (static::GET_PREFIXES as $getterPrefix) {
+            foreach (self::GET_PREFIXES as $getterPrefix) {
                 if (strpos($methodName, $getterPrefix) !== 0) {
                     continue;
                 }
@@ -85,7 +85,7 @@ class AccessorPairProvider
     protected function getSetters(ReflectionClass $class, string $baseMethodName): array
     {
         $setters = [];
-        foreach (static::SET_PREFIXES as $setterPrefix) {
+        foreach (self::SET_PREFIXES as $setterPrefix) {
             $setterName = $setterPrefix . $baseMethodName;
             if ($class->hasMethod($setterName) === false) {
                 continue;
