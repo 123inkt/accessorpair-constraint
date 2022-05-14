@@ -16,13 +16,13 @@ use phpDocumentor\Reflection\Types\Object_;
  */
 class ValueProviderFactory
 {
-    private NativeValueProviderFactory $nativeValueProviderFactory;
-    private PseudoValueProviderFactory $pseudoValueProviderFactory;
+    private NativeValueProviderFactory $nativeProviderFactory;
+    private PseudoValueProviderFactory $pseudoProviderFactory;
 
     public function __construct()
     {
-        $this->nativeValueProviderFactory = new NativeValueProviderFactory($this);
-        $this->pseudoValueProviderFactory = new PseudoValueProviderFactory($this);
+        $this->nativeProviderFactory = new NativeValueProviderFactory($this);
+        $this->pseudoProviderFactory = new PseudoValueProviderFactory($this);
     }
 
     /**
@@ -48,13 +48,13 @@ class ValueProviderFactory
         }
 
         // Check if the provider typehint is a PHP scalar type
-        $nativeProvider = $this->nativeValueProviderFactory->getProvider($typehint);
+        $nativeProvider = $this->nativeProviderFactory->getProvider($typehint);
         if ($nativeProvider !== null) {
             return $nativeProvider;
         }
 
         // Check if the provider typehint is a PHP pseudoType
-        $pseudoProvider = $this->pseudoValueProviderFactory->getProvider($typehint);
+        $pseudoProvider = $this->pseudoProviderFactory->getProvider($typehint);
         if ($pseudoProvider !== null) {
             return $pseudoProvider;
         }

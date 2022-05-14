@@ -31,6 +31,9 @@ use phpDocumentor\Reflection\Types\String_;
 use phpDocumentor\Reflection\PseudoTypes\False_;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class NativeValueProviderFactory
 {
     private ValueProviderFactory $valueProviderFactory;
@@ -68,7 +71,7 @@ class NativeValueProviderFactory
         return null;
     }
 
-    protected function getCompoundProvider(Type $typehint)
+    protected function getCompoundProvider(Type $typehint): ?ValueProvider
     {
         switch (get_class($typehint)) {
             case Array_::class:
@@ -87,7 +90,7 @@ class NativeValueProviderFactory
         }
     }
 
-    protected function getKeywordProvider(Type $typehint)
+    protected function getKeywordProvider(Type $typehint): ?ValueProvider
     {
         switch (get_class($typehint)) {
             case True_::class:
@@ -99,7 +102,7 @@ class NativeValueProviderFactory
         }
     }
 
-    protected function getScalarProvider(Type $typehint)
+    protected function getScalarProvider(Type $typehint): ?ValueProvider
     {
         switch (get_class($typehint)) {
             case Boolean::class:
@@ -115,7 +118,7 @@ class NativeValueProviderFactory
         }
     }
 
-    protected function getSpecialProvider(Type $typehint)
+    protected function getSpecialProvider(Type $typehint): ?ValueProvider
     {
         switch (get_class($typehint)) {
             case Null_::class:

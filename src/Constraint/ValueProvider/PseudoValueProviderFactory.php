@@ -33,6 +33,9 @@ use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\ArrayKey;
 use phpDocumentor\Reflection\Types\ClassString;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class PseudoValueProviderFactory
 {
     private ValueProviderFactory $valueProviderFactory;
@@ -65,6 +68,9 @@ class PseudoValueProviderFactory
         return $this->getPseudoStringProvider($typehint);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     protected function getPseudoStringProvider(Type $typehint): ?ValueProvider
     {
         switch (get_class($typehint)) {
