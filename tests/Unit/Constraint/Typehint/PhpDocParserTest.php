@@ -69,6 +69,10 @@ class PhpDocParserTest extends TestCase
         yield ['/** @param null|int $param */', '?int'];
         yield ['/** @param int|null|string $param */', 'int|null|string'];
         yield ['/** @param int|nullo $param */', 'int|nullo'];
+
+        // phpstan/psalm typehints should have a higher priority
+        yield ['/** @phpstan-param numeric-string $param @param string $param */', 'numeric-string'];
+        yield ['/** @psalm-param numeric-string $param @param string $param */', 'numeric-string'];
     }
 
     /**
@@ -99,5 +103,9 @@ class PhpDocParserTest extends TestCase
         yield ['/** @return null|int */', '?int'];
         yield ['/** @return int|null|string */', 'int|null|string'];
         yield ['/** @return int|nullo */', 'int|nullo'];
+
+        // phpstan/psalm typehints should have a higher priority
+        yield ['/** @phpstan-return numeric-string @return string */', 'numeric-string'];
+        yield ['/** @psalm-return numeric-string @return string */', 'numeric-string'];
     }
 }

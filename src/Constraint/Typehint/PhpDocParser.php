@@ -17,12 +17,17 @@ class PhpDocParser
             return null;
         }
 
-        preg_match('/\*\s+@param\s+(.*?)\s+(?:\.\.\.)?' . preg_quote('$' . $parameterName, '/') . '/i', $docComment, $matches);
-        if (isset($matches[1]) === false) {
-            return null;
+        preg_match('/\*\s+@(?:phpstan|psalm)-param\s+(.*?)\s+(?:\.\.\.)?' . preg_quote('$' . $parameterName, '/') . '/i', $docComment, $matches);
+        if (isset($matches[1])) {
+            return $this->normalizeDocblock((string)$matches[1]);
         }
 
-        return $this->normalizeDocblock((string)$matches[1]);
+        preg_match('/\*\s+@param\s+(.*?)\s+(?:\.\.\.)?' . preg_quote('$' . $parameterName, '/') . '/i', $docComment, $matches);
+        if (isset($matches[1])) {
+            return $this->normalizeDocblock((string)$matches[1]);
+        }
+
+        return null;
     }
 
     /**
@@ -38,15 +43,20 @@ class PhpDocParser
 
         $docComment = preg_replace('/array<(.*?),\s(.*?)>/', 'array<$1,$2>', $docComment);
         if ($docComment === null) {
-            return null;
+            return null; // @codeCoverageIgnore
+        }
+
+        preg_match('/\*\s+@(?:phpstan|psalm)-return\s+(.*?)\s+(?:\.\.\.)?/', $docComment, $matches);
+        if (isset($matches[1])) {
+            return $this->normalizeDocblock((string)$matches[1]);
         }
 
         preg_match('/\*\s+@return\s+(.*?)\s+(?:\.\.\.)?/', $docComment, $matches);
-        if (isset($matches[1]) === false) {
-            return null;
+        if (isset($matches[1])) {
+            return $this->normalizeDocblock((string)$matches[1]);
         }
 
-        return $this->normalizeDocblock((string)$matches[1]);
+        return null;
     }
 
     /**
@@ -60,11 +70,7 @@ class PhpDocParser
         }
 
         $newTypehint = preg_replace('/(^null\||\|null$)/', '', $typehint, -1, $count);
-        if ($newTypehint === null) {
-            return $typehint;
-        }
-
-        if ($count === 0) {
+        if ($newTypehint === null || $count === 0) {
             return $typehint;
         }
 
