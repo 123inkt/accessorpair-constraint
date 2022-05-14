@@ -282,6 +282,8 @@ class AccessorPairConstraint extends Constraint
     /**
      * Create arguments array for constructor, with a single test value for all parameters
      *
+     * @param ReflectionClass<object> $class
+     *
      * @return mixed[]
      * @throws Exception
      */

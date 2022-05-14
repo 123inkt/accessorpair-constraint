@@ -12,6 +12,9 @@ class AccessorPair extends AbstractMethodPair
     /** @var ReflectionMethod */
     protected $setter;
 
+    /**
+     * @param ReflectionClass<object> $class
+     */
     public function __construct(ReflectionClass $class, ReflectionMethod $getter, ReflectionMethod $setter)
     {
         parent::__construct($class, $getter);

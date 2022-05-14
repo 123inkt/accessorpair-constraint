@@ -18,6 +18,8 @@ class ClassMethodProvider
     }
 
     /**
+     * @param ReflectionClass<object> $class
+     *
      * @return ReflectionMethod[]
      */
     public function getMethods(ReflectionClass $class): array

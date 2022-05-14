@@ -4,6 +4,12 @@
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
     "require": {
         "php": ">=7.4",
         "doctrine/inflector": "^2.0",
@@ -29,9 +35,6 @@
             "DigitalRevolution\\AccessorPairConstraint\\Tests\\": "tests/"
         }
     },
-    "config": {
-        "sort-packages": true
-    },
     "scripts": {
         "check": ["@check:phpstan", "@check:phpmd", "@check:phpcs"],
         "check:phpstan": "phpstan analyse",
@@ -40,7 +43,7 @@
         "fix": "@fix:phpcbf",
         "fix:phpcbf": "phpcbf src tests",
         "test": "phpunit",
-        "test:unit": "phpunit --testsuite unit",
-        "test:integration": "phpunit --testsuite integration"
+        "test:integration": "phpunit --testsuite integration",
+        "test:unit": "phpunit --testsuite unit"
     }
 }
