@@ -5,12 +5,11 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\FalseProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\TrueProvider;
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
@@ -23,18 +22,23 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvi
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use LogicException;
-use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\PseudoTypes\LiteralString;
+use phpDocumentor\Reflection\PseudoTypes\False_;
+use phpDocumentor\Reflection\PseudoTypes\True_;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Array_;
-use phpDocumentor\Reflection\Types\Compound;
+use phpDocumentor\Reflection\Types\Boolean;
+use phpDocumentor\Reflection\Types\Callable_;
+use phpDocumentor\Reflection\Types\Float_;
 use phpDocumentor\Reflection\Types\Integer;
-use phpDocumentor\Reflection\Types\Nullable;
+use phpDocumentor\Reflection\Types\Iterable_;
+use phpDocumentor\Reflection\Types\Mixed_;
+use phpDocumentor\Reflection\Types\Null_;
 use phpDocumentor\Reflection\Types\Object_;
+use phpDocumentor\Reflection\Types\Resource_;
 use phpDocumentor\Reflection\Types\String_;
 
 /**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory
+ * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory
  * @covers ::__construct
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider
@@ -60,55 +64,84 @@ use phpDocumentor\Reflection\Types\String_;
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\ResourceProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\PseudoValueProviderFactory
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory
+ * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ValueProviderFactoryTest extends TestCase
+class NativeValueProviderFactoryTest extends TestCase
 {
     /**
-     * @dataProvider dataProvider
+     * @dataProvider nativeTypeProvider
      * @covers ::getProvider
-     * @covers ::getProviders
+     * @covers ::getCompoundProvider
+     * @covers ::getKeywordProvider
+     * @covers ::getScalarProvider
+     * @covers ::getSpecialProvider
+     * @covers ::getMixedProvider
      */
     public function testGetProvider(Type $type, ValueProvider $expectedProvider): void
     {
-        $providerFactory = new ValueProviderFactory();
+        $providerFactory = new NativeValueProviderFactory(new ValueProviderFactory());
         static::assertEquals($expectedProvider, $providerFactory->getProvider($type));
     }
 
     /**
      * @covers ::getProvider
+     * @covers ::getCompoundProvider
+     * @covers ::getKeywordProvider
+     * @covers ::getScalarProvider
+     * @covers ::getSpecialProvider
+     * @covers ::getMixedProvider
      */
     public function testGetProviderUnknown(): void
     {
-        $providerFactory = new ValueProviderFactory();
+        $providerFactory = new NativeValueProviderFactory($this->createMock(ValueProviderFactory::class));
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage("No value provider found for typehint: unknown");
-        $providerFactory->getProvider(
-            new class implements Type {
-                public function __toString(): string
-                {
-                    return 'unknown';
+        static::assertNull(
+            $providerFactory->getProvider(
+                new class implements Type {
+                    public function __toString(): string
+                    {
+                        return 'unknown';
+                    }
                 }
-            }
+            )
         );
     }
 
     /**
      * @return Generator<string, array{0: Type, 1: ValueProvider}>
      */
-    public function dataProvider(): Generator
+    public function nativeTypeProvider(): Generator
     {
-        yield 'Union type' => [
-            new Compound([new Integer(), new LiteralString()]),
-            new ValueProviderList(new IntProvider(), new LiteralStringProvider())
+        yield "NativeType Array" => [
+            new Array_(),
+            new ArrayProvider($this->getMixedProvider(), new ValueProviderList(new StringProvider(), new IntProvider()))
         ];
-        yield 'Nullable type' => [new Nullable(new Integer()), new ValueProviderList(new NullProvider(), new IntProvider())];
-        yield 'Typed array' => [
-            new Array_(new Integer()),
-            new ArrayProvider(new IntProvider(), new ValueProviderList(new StringProvider(), new IntProvider()))
-        ];
-        yield 'Interface typehint' => [new Object_(new Fqsen('\\' . ValueProvider::class)), new InstanceProvider(ValueProvider::class)];
+        yield "NativeType Callable" => [new Callable_(), new CallableProvider()];
+        yield "NativeType Iterable" => [new Iterable_(), new IterableProvider()];
+        yield "NativeType Object" => [new Object_(), new ObjectProvider()];
+        yield "NativeType True" => [new True_(), new TrueProvider()];
+        yield "NativeType False" => [new False_(), new FalseProvider()];
+        yield "NativeType Boolean" => [new Boolean(), new BoolProvider()];
+        yield "NativeType Float" => [new Float_(), new FloatProvider(new IntProvider())];
+        yield "NativeType Integer" => [new Integer(), new IntProvider()];
+        yield "NativeType String" => [new String_(), new StringProvider()];
+        yield "NativeType Null" => [new Null_(), new NullProvider()];
+        yield "NativeType Resource" => [new Resource_(), new ResourceProvider()];
+        yield "NativeType Mixed" => [new Mixed_(), $this->getMixedProvider()];
+    }
+
+    private function getMixedProvider(): ValueProviderList
+    {
+        return new ValueProviderList(
+            new StringProvider(),
+            new BoolProvider(),
+            new IntProvider(),
+            new FloatProvider(new IntProvider()),
+            new ArrayProvider(),
+            new ObjectProvider(),
+            new CallableProvider(),
+            new NullProvider()
+        );
     }
 }

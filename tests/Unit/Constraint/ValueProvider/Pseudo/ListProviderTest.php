@@ -31,7 +31,6 @@ class ListProviderTest extends AbstractValueProviderTest
     /**
      * @covers ::__construct
      * @covers ::getValues
-     * @covers ::getArrayValues
      * @throws Exception
      * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
      */

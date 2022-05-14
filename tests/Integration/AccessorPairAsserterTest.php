@@ -47,6 +47,8 @@ use TypeError;
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\ResourceProvider
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\PseudoValueProviderFactory
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory
  */
