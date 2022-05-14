@@ -25,7 +25,7 @@ class ArrayProvider implements ValueProvider
     {
         $keys = [];
         if ($this->keyProvider !== null) {
-            $keys = $this->keyProvider->getValues();
+            $keys = array_filter($this->keyProvider->getValues());
         }
 
         $testArray = [];
