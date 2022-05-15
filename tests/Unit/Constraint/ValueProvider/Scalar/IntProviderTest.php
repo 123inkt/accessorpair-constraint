@@ -9,6 +9,7 @@ use Exception;
 
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
+ * @covers ::__construct
  */
 class IntProviderTest extends AbstractValueProviderTest
 {
@@ -21,5 +22,21 @@ class IntProviderTest extends AbstractValueProviderTest
         $valueProvider = new IntProvider();
 
         static::assertValueTypes($valueProvider->getValues(), ['integer']);
+    }
+
+    /**
+     * @covers ::getValues
+     * @throws Exception
+     */
+    public function testGetValuesRange(): void
+    {
+        $valueProvider = new IntProvider(0, 5);
+        $values        = $valueProvider->getValues();
+
+        static::assertValueTypes($values, ['integer']);
+        foreach ($values as $value) {
+            static::assertGreaterThanOrEqual(0, $value);
+            static::assertLessThanOrEqual(5, $value);
+        }
     }
 }
