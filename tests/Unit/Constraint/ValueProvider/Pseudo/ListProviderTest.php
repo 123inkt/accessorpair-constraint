@@ -1,50 +1,46 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\Compound;
+namespace Constraint\ValueProvider\Pseudo;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTest;
 use Exception;
 
 /**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider
+ * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider
+ * @covers ::__construct
  */
-class ArrayProviderTest extends AbstractValueProviderTest
+class ListProviderTest extends AbstractValueProviderTest
 {
     /**
-     * @covers ::__construct
      * @covers ::getValues
-     * @covers ::getArrayValues
      * @throws Exception
      */
     public function testGetValues(): void
     {
-        $valueProvider = new ArrayProvider();
+        $valueProvider = new ListProvider();
         $values        = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['iterable']);
         static::assertValueTypes(array_merge(...$values), ['integer', 'double', 'string', 'NULL']);
-        static::assertValueTypes(array_keys(...$values), ['integer']);
+        static::assertValueTypes(array_keys($values), ['integer']);
     }
 
     /**
      * @covers ::__construct
      * @covers ::getValues
-     * @covers ::getArrayValues
      * @throws Exception
      * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
-     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
      */
     public function testGetValuesTyped(): void
     {
-        $valueProvider = new ArrayProvider(new IntProvider(), new StringProvider());
+        $valueProvider = new ListProvider(new IntProvider());
         $values        = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['iterable']);
         static::assertValueTypes(array_merge(...$values), ['integer']);
-        static::assertValueTypes(array_keys(...$values), ['string']);
+        static::assertValueTypes(array_keys($values), ['integer']);
     }
 }

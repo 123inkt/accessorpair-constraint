@@ -8,3 +8,9 @@ parameters:
 
   excludePaths:
     - tests/*/data/*
+
+  # PseudoTypes supported by phpdocumentor/type-resolver but not by PHPStan
+  typeAliases:
+    html-escaped-string: 'string'
+    lowercase-string: 'string'
+    non-empty-string: 'string'
