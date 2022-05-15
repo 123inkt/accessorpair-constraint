@@ -14,6 +14,13 @@ class StringProvider implements ValueProvider
      */
     public function getValues(): array
     {
-        return [bin2hex(random_bytes(8)), bin2hex(random_bytes(16)), '✓'];
+        return [
+            bin2hex(random_bytes(8)),
+            bin2hex(random_bytes(16)),
+            strtoupper(bin2hex(random_bytes(8))),
+            strtoupper(bin2hex(random_bytes(16))),
+            '✓',
+            ''
+        ];
     }
 }
