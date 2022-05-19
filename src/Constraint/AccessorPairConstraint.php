@@ -233,7 +233,7 @@ class AccessorPairConstraint extends Constraint
         $class       = $constructorPair->getClass();
         $constructor = $class->getConstructor();
         if ($constructor === null) {
-            return;
+            return; // @codeCoverageIgnore
         }
 
         $arguments = array_values($this->getInstanceArgs($class));
