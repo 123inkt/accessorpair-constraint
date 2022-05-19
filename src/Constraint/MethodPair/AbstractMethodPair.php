@@ -8,18 +8,24 @@ use ReflectionMethod;
 
 abstract class AbstractMethodPair
 {
-    /** @var ReflectionClass */
+    /** @var ReflectionClass<object> */
     protected $class;
 
     /** @var ReflectionMethod */
     protected $getter;
 
+    /**
+     * @param ReflectionClass<object> $class
+     */
     public function __construct(ReflectionClass $class, ReflectionMethod $getter)
     {
         $this->class  = $class;
         $this->getter = $getter;
     }
 
+    /**
+     * @return ReflectionClass<object>
+     */
     public function getClass(): ReflectionClass
     {
         return $this->class;

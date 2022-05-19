@@ -30,6 +30,8 @@ class ConstructorPairProvider
     }
 
     /**
+     * @param ReflectionClass<object> $class
+     *
      * @return ConstructorPair[]
      * @throws LogicException
      */
@@ -71,6 +73,8 @@ class ConstructorPairProvider
     }
 
     /**
+     * @param ReflectionClass<object> $class
+     *
      * @return array<string, ReflectionParameter>
      */
     protected function getParameters(ReflectionClass $class): array
