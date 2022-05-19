@@ -64,6 +64,9 @@ class PhpDocParserTest extends TestCase
         // Typed array typehint, int[] returned
         yield ['/** @param int[] $param */', 'int[]'];
 
+        // Typed variable typehint, int returned
+        yield ['/** @param int ...$param */', 'int'];
+
         // compound typehint with null, ?typehint returned
         yield ['/** @param int|null $param */', '?int'];
         yield ['/** @param null|int $param */', '?int'];
@@ -73,6 +76,11 @@ class PhpDocParserTest extends TestCase
         // phpstan/psalm typehints should have a higher priority
         yield ['/** @phpstan-param numeric-string $param @param string $param */', 'numeric-string'];
         yield ['/** @psalm-param numeric-string $param @param string $param */', 'numeric-string'];
+
+        // Lenient with spaces
+        yield ['/** @param array$param */', 'array'];
+        yield ['/**@param array$param*/', 'array'];
+        yield ["/**\n     *@param array\$param\n     */", 'array'];
     }
 
     /**
@@ -107,5 +115,10 @@ class PhpDocParserTest extends TestCase
         // phpstan/psalm typehints should have a higher priority
         yield ['/** @phpstan-return numeric-string @return string */', 'numeric-string'];
         yield ['/** @psalm-return numeric-string @return string */', 'numeric-string'];
+
+        // Missing spaces
+        yield ['/** @return array */', 'array'];
+        yield ['/**@return array*/', 'array'];
+        yield ["/**\n     *@return array\n     */", 'array'];
     }
 }

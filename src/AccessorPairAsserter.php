@@ -38,7 +38,7 @@ trait AccessorPairAsserter
     }
 
     /**
-     * Only assert accessor pairs from the class itself and none of it's parents. Will use default configuration
+     * Only assert accessor pairs from the class itself and none of its parents. Will use default configuration
      * with ConstraintConfig::setAssertParentMethods(false)
      *
      * @param string $object  The fully qualified name of the class that should be tested

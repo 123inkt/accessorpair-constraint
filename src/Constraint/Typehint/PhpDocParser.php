@@ -17,12 +17,12 @@ class PhpDocParser
             return null;
         }
 
-        preg_match('/\*\s+@(?:phpstan|psalm)-param\s+(.*?)\s+(?:\.\.\.)?' . preg_quote('$' . $parameterName, '/') . '/i', $docComment, $matches);
+        preg_match('/\*\s*@(?:phpstan|psalm)-param\s+(.*?)\s*(?:\.\.\.)?' . preg_quote('$' . $parameterName, '/') . '/i', $docComment, $matches);
         if (isset($matches[1])) {
             return $this->normalizeDocblock((string)$matches[1]);
         }
 
-        preg_match('/\*\s+@param\s+(.*?)\s+(?:\.\.\.)?' . preg_quote('$' . $parameterName, '/') . '/i', $docComment, $matches);
+        preg_match('/\*\s*@param\s+(.*?)\s*(?:\.\.\.)?' . preg_quote('$' . $parameterName, '/') . '/i', $docComment, $matches);
         if (isset($matches[1])) {
             return $this->normalizeDocblock((string)$matches[1]);
         }
@@ -46,12 +46,12 @@ class PhpDocParser
             return null; // @codeCoverageIgnore
         }
 
-        preg_match('/\*\s+@(?:phpstan|psalm)-return\s+(.*?)\s+(?:\.\.\.)?/', $docComment, $matches);
+        preg_match('/\*\s*@(?:phpstan|psalm)-return\s+(.*?)(?:\s+|\*)/', $docComment, $matches);
         if (isset($matches[1])) {
             return $this->normalizeDocblock((string)$matches[1]);
         }
 
-        preg_match('/\*\s+@return\s+(.*?)\s+(?:\.\.\.)?/', $docComment, $matches);
+        preg_match('/\*\s*@return\s+(.*?)(?:\s+|\*)/', $docComment, $matches);
         if (isset($matches[1])) {
             return $this->normalizeDocblock((string)$matches[1]);
         }
