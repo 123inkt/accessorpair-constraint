@@ -36,8 +36,6 @@
     <rule ref="rulesets/naming.xml/LongVariable">
         <properties>
             <property name="maximum" value="25"/>
-            <property name="subtract-suffixes"
-                      value="Provider"/>
         </properties>
     </rule>
 </ruleset>

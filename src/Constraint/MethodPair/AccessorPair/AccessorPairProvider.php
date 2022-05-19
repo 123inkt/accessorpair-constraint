@@ -34,6 +34,8 @@ class AccessorPairProvider
      * Inspect the given class, using reflection, and pair all get/set methods together
      * Loops over the public methods, and for each "getter" it tries to find the corresponding "set" and/or "add" method
      *
+     * @param ReflectionClass<object> $class
+     *
      * @return AccessorPair[]
      * @throws LogicException
      */
@@ -80,6 +82,8 @@ class AccessorPairProvider
     }
 
     /**
+     * @param ReflectionClass<object> $class
+     *
      * @return ReflectionMethod[]
      */
     protected function getSetters(ReflectionClass $class, string $baseMethodName): array

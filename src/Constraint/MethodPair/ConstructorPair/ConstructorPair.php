@@ -13,6 +13,9 @@ class ConstructorPair extends AbstractMethodPair
     /** @var ReflectionParameter */
     protected $parameter;
 
+    /**
+     * @param ReflectionClass<object> $class
+     */
     public function __construct(ReflectionClass $class, ReflectionMethod $getter, ReflectionParameter $parameter)
     {
         parent::__construct($class, $getter);
