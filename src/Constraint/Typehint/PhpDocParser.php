@@ -73,11 +73,16 @@ class PhpDocParser
         }
 
         preg_match_all('/\*\s*@template\s+(.*?)\sof\s(.*?)(?:\s+|\*)/', $docComment, $matches);
-        if (isset($matches[1], $matches[2])) {
-            return array_combine($matches[1], $matches[2]);
+        if (isset($matches[1], $matches[2]) === false) {
+            return []; // @codeCoverageIgnore
         }
 
-        return []; // @codeCoverageIgnore
+        $templates = array_combine($matches[1], $matches[2]);
+        if ($templates === false) {
+            return []; // @codeCoverageIgnore
+        }
+
+        return $templates;
     }
 
     /**
