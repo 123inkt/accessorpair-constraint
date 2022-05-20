@@ -61,6 +61,8 @@ class PhpDocParser
 
     /**
      * Get the type templates from the PHPDoc comment
+     *
+     * @return array<string, string>
      */
     public function getTemplateTypehints(string $originalDocComment): array
     {

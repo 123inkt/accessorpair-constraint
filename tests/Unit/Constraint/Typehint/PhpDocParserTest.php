@@ -39,6 +39,8 @@ class PhpDocParserTest extends TestCase
     }
 
     /**
+     * @param array<string, string> $expectedTypehint
+     *
      * @dataProvider templateTypehintProvider
      * @covers ::getTemplateTypehints
      */
@@ -133,7 +135,7 @@ class PhpDocParserTest extends TestCase
     }
 
     /**
-     * @return Generator<int, array<array<string, string>>>
+     * @return Generator<int, array{0: string, 1: array<string, string>}>
      */
     public function templateTypehintProvider(): Generator
     {
