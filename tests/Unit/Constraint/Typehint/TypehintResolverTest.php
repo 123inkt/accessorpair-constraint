@@ -20,6 +20,7 @@ class TypehintResolverTest extends TestCase
      * @dataProvider dataProvider
      * @covers ::getParamTypehint
      * @covers ::resolveTypes
+     * @covers ::resolveTemplateTypes
      * @throws ReflectionException
      */
     public function testGetParamTypehint(DataInterface $testClass): void
@@ -37,6 +38,7 @@ class TypehintResolverTest extends TestCase
      * @dataProvider dataProvider
      * @covers ::getReturnTypehint
      * @covers ::resolveTypes
+     * @covers ::resolveTemplateTypes
      * @throws ReflectionException
      */
     public function testGetReturnTypehint(DataInterface $testClass): void
