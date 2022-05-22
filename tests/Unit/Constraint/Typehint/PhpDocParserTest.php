@@ -39,6 +39,18 @@ class PhpDocParserTest extends TestCase
     }
 
     /**
+     * @param array<string, string> $expectedTypehint
+     *
+     * @dataProvider templateTypehintProvider
+     * @covers ::getTemplateTypehints
+     */
+    public function testGetTemplateTypehints(string $docComment, array $expectedTypehint): void
+    {
+        $parser = new PhpDocParser();
+        static::assertSame($expectedTypehint, $parser->getTemplateTypehints($docComment));
+    }
+
+    /**
      * @return Generator<int, array<string|null>>
      */
     public function paramTypehintProvider(): Generator
@@ -120,5 +132,26 @@ class PhpDocParserTest extends TestCase
         yield ['/** @return array */', 'array'];
         yield ['/**@return array*/', 'array'];
         yield ["/**\n     *@return array\n     */", 'array'];
+    }
+
+    /**
+     * @return Generator<int, array{0: string, 1: array<string, string>}>
+     */
+    public function templateTypehintProvider(): Generator
+    {
+        // Empty docblock, no return type
+        yield ['', []];
+
+        // Missing return typehint
+        yield ['/** DocComment */ */ */', []];
+
+        // Simple string typehint, string returned
+        yield ['/** @template T of string */', ['T' => 'string']];
+
+        // Typed array typehint, int[] returned
+        yield ['/** @template T of int[] */', ['T' => 'int[]']];
+
+        // Multiple templates
+        yield ['/** @template T of int[] * @template K of string */', ['T' => 'int[]', 'K' => 'string']];
     }
 }

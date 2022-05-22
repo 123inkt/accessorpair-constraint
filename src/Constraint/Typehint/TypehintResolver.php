@@ -90,6 +90,8 @@ class TypehintResolver
 
     protected function resolveTypes(string $signatureType, string $phpDocType): Type
     {
+        $phpDocType = $this->resolveTemplateTypes($phpDocType) ?? $phpDocType;
+
         // If one is mixed, return the other
         if ($phpDocType === 'mixed' && $signatureType !== 'mixed') {
             return $this->resolver->resolve($signatureType);
@@ -98,5 +100,29 @@ class TypehintResolver
         $phpDocType = str_replace(' ', '', $phpDocType);
 
         return $this->resolver->resolve($phpDocType, $this->resolverContext);
+    }
+
+    /**
+     * Replace the phpdoc type with a template type if configured
+     */
+    protected function resolveTemplateTypes(string $phpDocType): ?string
+    {
+        $docComment = $this->method->getDeclaringClass()->getDocComment();
+        $templates  = $this->phpDocParser->getTemplateTypehints($docComment !== false ? $docComment : '');
+        if (count($templates) === 0) {
+            return $phpDocType;
+        }
+
+        $patterns = [];
+        foreach (array_keys($templates) as $templateKey) {
+            $patterns[] = '/(^|\W)(' . preg_quote($templateKey, '/') . ')(\W|$)/';
+        }
+
+        $replacements = [];
+        foreach ($templates as $templateValue) {
+            $replacements[] = '$1' . $templateValue . '$3';
+        }
+
+        return preg_replace($patterns, $replacements, $phpDocType);
     }
 }

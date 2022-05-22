@@ -60,6 +60,32 @@ class PhpDocParser
     }
 
     /**
+     * Get the type templates from the PHPDoc comment
+     *
+     * @return array<string, string>
+     */
+    public function getTemplateTypehints(string $originalDocComment): array
+    {
+        $docComment = trim($originalDocComment);
+        // empty docblock provided, no typehint found
+        if ($docComment === '') {
+            return [];
+        }
+
+        preg_match_all('/\*\s*@template\s+(.*?)\sof\s(.*?)(?:\s+|\*)/', $docComment, $matches);
+        if (isset($matches[1], $matches[2]) === false) {
+            return []; // @codeCoverageIgnore
+        }
+
+        $templates = array_combine($matches[1], $matches[2]);
+        if ($templates === false) {
+            return []; // @codeCoverageIgnore
+        }
+
+        return $templates;
+    }
+
+    /**
      * Normalize docblock typehints to match PHPs typehints
      * For example: turns string|null into ?string
      */
