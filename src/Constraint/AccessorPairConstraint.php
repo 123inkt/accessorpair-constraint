@@ -300,8 +300,12 @@ class AccessorPairConstraint extends Constraint
 
         $arguments = [];
         foreach ($constructor->getParameters() as $parameter) {
-            $testValues                       = $this->getTestValues($constructor, $parameter);
-            $arguments[$parameter->getName()] = $testValues[0];
+            if ($parameter->isDefaultValueAvailable()) {
+                $arguments[$parameter->getName()] = $parameter->getDefaultValue();
+            } else {
+                $testValues                       = $this->getTestValues($constructor, $parameter);
+                $arguments[$parameter->getName()] = $testValues[0];
+            }
         }
 
         return $arguments;
