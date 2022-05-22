@@ -5,19 +5,17 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehin
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Type;
-use phpDocumentor\Reflection\Types\Compound;
-use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\String_;
 
 /**
  * @template T of string
- * @template K of int
  */
-class TemplateUnion implements DataInterface
+class TemplateStringPhpstan implements DataInterface
 {
     /**
-     * @param T|K $param
-     * @return T|K
+     * @phpstan-param T $param
+     *
+     * @phpstan-return T
      */
     public function testMethod($param)
     {
@@ -26,6 +24,6 @@ class TemplateUnion implements DataInterface
 
     public function getExpectedType(): Type
     {
-        return new Compound([new String_(), new Integer()]);
+        return new String_();
     }
 }

@@ -14,9 +14,9 @@ use phpDocumentor\Reflection\Types\Nullable as NullableType;
 class TemplateNullable implements DataInterface
 {
     /**
-     * @phpstan-param T|null $param
+     * @param T|null $param
      *
-     * @phpstan-return T|null
+     * @return T|null
      */
     public function testMethod($param)
     {

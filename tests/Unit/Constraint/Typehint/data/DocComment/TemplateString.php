@@ -13,9 +13,9 @@ use phpDocumentor\Reflection\Types\String_;
 class TemplateString implements DataInterface
 {
     /**
-     * @phpstan-param T $param
+     * @param T $param
      *
-     * @phpstan-return T
+     * @return T
      */
     public function testMethod($param)
     {
