@@ -5,7 +5,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\succes
 
 class OptionalConstructorProperty
 {
-    private ?int $property;
+    private ?int $property = null;
 
     public function __construct(array $data = [])
     {
