@@ -9,7 +9,7 @@ class OptionalConstructorProperty
 
     public function __construct(array $data = [])
     {
-        if (count($data)) {
+        if (count($data) > 0) {
             $this->property = (int)$data['property'];
         }
     }
