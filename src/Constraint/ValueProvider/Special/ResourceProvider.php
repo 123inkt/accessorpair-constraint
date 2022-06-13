@@ -5,7 +5,6 @@ namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Spec
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvider;
 use Exception;
-use RuntimeException;
 
 class ResourceProvider implements ValueProvider
 {
@@ -15,11 +14,6 @@ class ResourceProvider implements ValueProvider
      */
     public function getValues(): array
     {
-        $resource = STDOUT;
-        if ($resource === false) {
-            throw new RuntimeException("Unable to start STDOUT fopen resource"); // @codeCoverageIgnore
-        }
-
-        return [$resource];
+        return [STDOUT];
     }
 }
