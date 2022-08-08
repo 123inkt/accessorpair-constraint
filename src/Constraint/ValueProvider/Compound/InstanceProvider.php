@@ -6,6 +6,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Comp
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvider;
 use LogicException;
 use PHPUnit\Framework\MockObject\Generator;
+use UnitEnum;
 
 class InstanceProvider implements ValueProvider
 {
@@ -26,6 +27,13 @@ class InstanceProvider implements ValueProvider
      */
     public function getValues(): array
     {
+        if (PHP_VERSION_ID >= 80100 && enum_exists($this->typehint)) {
+            /** @var UnitEnum $enum */
+            $enum = $this->typehint;
+
+            return $enum::cases();
+        }
+
         $mockGenerator = new Generator();
         $instance      = $mockGenerator->getMock($this->typehint, [], [], '', false);
 
