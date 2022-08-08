@@ -1,0 +1,16 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to static method cases\\(\\) on an unknown class UnitEnum\\.$#"
+			count: 1
+			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$enum contains unknown class UnitEnum\\.$#"
+			count: 1
+			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
+
+		-
+			message: "#^Class DigitalRevolution\\\\AccessorPairConstraint\\\\Tests\\\\Integration\\\\data\\\\TestEnum not found\\.$#"
+			count: 2
+			path: tests/Unit/Constraint/ValueProvider/Compound/InstanceProviderTest.php
