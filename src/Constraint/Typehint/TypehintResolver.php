@@ -12,6 +12,7 @@ use ReflectionIntersectionType;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
+use ReflectionType;
 use ReflectionUnionType;
 
 class TypehintResolver
@@ -67,11 +68,12 @@ class TypehintResolver
         return $this->resolveTypes($signatureType, $phpDocType);
     }
 
-    protected function getReflectionType($type): string
+    protected function getReflectionType(?ReflectionType $type): string
     {
         if ($type instanceof ReflectionIntersectionType) {
             $signatureType = [];
             foreach ($type->getTypes() as $subType) {
+                /** @var ReflectionNamedType $subType */
                 $signatureType[] = $subType->getName();
             }
 
@@ -81,6 +83,7 @@ class TypehintResolver
         if ($type instanceof ReflectionUnionType) {
             $signatureType = [];
             foreach ($type->getTypes() as $subType) {
+                /** @var ReflectionNamedType $subType */
                 $signatureType[] = $subType->getName();
             }
 

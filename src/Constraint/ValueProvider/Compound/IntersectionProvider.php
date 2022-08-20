@@ -12,7 +12,8 @@ class IntersectionProvider implements ValueProvider
     /** @var Type[] */
     private array $typehints;
 
-    private static $createdClasses = [];
+    /** @var array<string, true> */
+    private static array $createdClasses = [];
 
     /**
      * @param Type[] $typehints
@@ -39,10 +40,11 @@ class IntersectionProvider implements ValueProvider
         if ($extends !== null) {
             $class .= " extends " . $extends;
         }
-        if (count($interfaces)) {
+        if (count($interfaces) > 0) {
             $class .= " implements " . implode(',', $interfaces) . "{}";
         }
 
+        /** @var class-string $className */
         $className = "AccesorPairConstraintIntersectionClass" . md5($class);
         if (isset(self::$createdClasses[$className]) === false) {
             $class = "abstract class " . $className . " " . $class;
