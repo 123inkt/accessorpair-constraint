@@ -26,6 +26,10 @@ class IntersectionProvider implements ValueProvider
         $this->typehints = $typehints;
     }
 
+    /**
+     * Dynamically create a new PHP abstract class with the desired parent class and/or interfaces.
+     * Using PHPUnit Mock Generator to create an instance of the new class and returning it as test value.
+     */
     public function getValues(): array
     {
         $interfaces = [];

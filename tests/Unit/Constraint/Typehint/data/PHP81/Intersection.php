@@ -19,6 +19,11 @@ class Intersection implements DataInterface
 
     public function getExpectedType(): IntersectionType
     {
-        return new IntersectionType([new Object_(new Fqsen('\\' . Iterator::class)), new Object_(new Fqsen('\\' . Countable::class))]);
+        return new IntersectionType(
+            [
+                new Object_(new Fqsen('\\' . Iterator::class)),
+                new Object_(new Fqsen('\\' . Countable::class))
+            ]
+        );
     }
 }

@@ -170,6 +170,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function testUnionProperty(): void
     {
+        // Test a method with a union typehint: A|B
         static::assertAccessorPairs(UnionProperty::class);
     }
 
@@ -178,6 +179,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function testIntersectionInterfaceProperty(): void
     {
+        // Test a method with an intersection typehint: A&B
         static::assertAccessorPairs(IntersectionInterfaceProperty::class);
     }
 
@@ -186,6 +188,7 @@ class AccessorPairAsserterTest extends TestCase
      */
     public function testIntersectionClassProperty(): void
     {
+        // Test a method with an intersection typehint: A&B
         static::assertAccessorPairs(IntersectionClassProperty::class);
     }
 

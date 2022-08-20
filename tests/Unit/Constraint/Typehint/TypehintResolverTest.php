@@ -39,10 +39,9 @@ class TypehintResolverTest extends TestCase
      * @covers ::resolveTemplateTypes
      * @throws ReflectionException
      */
-    public function testGetParamTypehintPHP80(): void
+    public function testGetParamTypehintUnionType(): void
     {
-        $testClass = new Union();
-        static::assertParamTypehint($testClass);
+        static::assertParamTypehint(new Union());
     }
 
     /**
@@ -53,10 +52,9 @@ class TypehintResolverTest extends TestCase
      * @covers ::resolveTemplateTypes
      * @throws ReflectionException
      */
-    public function testGetParamTypehintPHP81(): void
+    public function testGetParamTypehintIntersectionType(): void
     {
-        $testClass = new Intersection();
-        static::assertParamTypehint($testClass);
+        static::assertParamTypehint(new Intersection());
     }
 
     /**
@@ -80,10 +78,9 @@ class TypehintResolverTest extends TestCase
      * @covers ::resolveTemplateTypes
      * @throws ReflectionException
      */
-    public function testGetReturnTypehintPHP80(): void
+    public function testGetReturnTypehintUnionType(): void
     {
-        $testClass = new Union();
-        static::assertReturnTypehint($testClass);
+        static::assertReturnTypehint(new Union());
     }
 
     /**
@@ -94,10 +91,9 @@ class TypehintResolverTest extends TestCase
      * @covers ::resolveTemplateTypes
      * @throws ReflectionException
      */
-    public function testGetReturnTypehintPHP81(): void
+    public function testGetReturnTypehintIntersectionType(): void
     {
-        $testClass = new Intersection();
-        static::assertReturnTypehint($testClass);
+        static::assertReturnTypehint(new Intersection());
     }
 
     /**

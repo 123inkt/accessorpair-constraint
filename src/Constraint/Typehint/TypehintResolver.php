@@ -15,6 +15,9 @@ use ReflectionParameter;
 use ReflectionType;
 use ReflectionUnionType;
 
+/**
+ * Resolve the PHP signature's typehint + parse the PHPDoc's typehint and turn into a Type object
+ */
 class TypehintResolver
 {
     protected PhpDocParser     $phpDocParser;
@@ -68,6 +71,10 @@ class TypehintResolver
         return $this->resolveTypes($signatureType, $phpDocType);
     }
 
+    /**
+     * Turn PHP's reflection type object into typehint string
+     * Resolved union/intersection/nullable types
+     */
     protected function getReflectionType(?ReflectionType $type): string
     {
         if ($type instanceof ReflectionIntersectionType) {
@@ -100,6 +107,9 @@ class TypehintResolver
         return 'mixed';
     }
 
+    /**
+     * Turns typehint string into PHPDocumentor Type object
+     */
     protected function resolveTypes(string $signatureType, string $phpDocType): Type
     {
         $phpDocType = $this->resolveTemplateTypes($phpDocType) ?? $phpDocType;
