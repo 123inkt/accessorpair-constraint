@@ -73,8 +73,7 @@ class TypehintResolver
         if ($type instanceof ReflectionIntersectionType) {
             $signatureType = [];
             foreach ($type->getTypes() as $subType) {
-                /** @var ReflectionNamedType $subType */
-                $signatureType[] = $subType->getName();
+                $signatureType[] = $this->getReflectionType($subType);
             }
 
             return implode('&', $signatureType);
@@ -83,8 +82,7 @@ class TypehintResolver
         if ($type instanceof ReflectionUnionType) {
             $signatureType = [];
             foreach ($type->getTypes() as $subType) {
-                /** @var ReflectionNamedType $subType */
-                $signatureType[] = $subType->getName();
+                $signatureType[] = $this->getReflectionType($subType);
             }
 
             return implode('|', $signatureType);
