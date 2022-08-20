@@ -11,7 +11,7 @@
         }
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "doctrine/inflector": "^2.0",
         "phpdocumentor/type-resolver": "^1.6",
         "phpunit/phpunit": "^9.0"

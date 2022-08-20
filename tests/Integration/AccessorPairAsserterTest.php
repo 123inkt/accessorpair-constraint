@@ -6,7 +6,10 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration;
 use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\CustomConstructorParameters;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\IntersectionClassProperty;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\IntersectionInterfaceProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\SetterTransformer;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\UnionProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -160,6 +163,30 @@ class AccessorPairAsserterTest extends TestCase
         });
 
         static::assertAccessorPairs(CustomConstructorParameters::class, $config);
+    }
+
+    /**
+     * @requires PHP >= 8.0
+     */
+    public function testUnionProperty(): void
+    {
+        static::assertAccessorPairs(UnionProperty::class);
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testIntersectionInterfaceProperty(): void
+    {
+        static::assertAccessorPairs(IntersectionInterfaceProperty::class);
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testIntersectionClassProperty(): void
+    {
+        static::assertAccessorPairs(IntersectionClassProperty::class);
     }
 
     /**

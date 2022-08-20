@@ -1,19 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\All\Signature;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\String_;
 
-class StringBoth implements DataInterface
+class StringSignature implements DataInterface
 {
-    /**
-     * @param string $param
-     *
-     * @return string
-     */
     public function testMethod(string $param): string
     {
         return $param;
