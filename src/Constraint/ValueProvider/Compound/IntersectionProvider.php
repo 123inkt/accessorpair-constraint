@@ -7,6 +7,9 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvi
 use phpDocumentor\Reflection\Type;
 use PHPUnit\Framework\MockObject\Generator;
 
+/**
+ * @SuppressWarnings(PHPMD.EvalExpression)
+ */
 class IntersectionProvider implements ValueProvider
 {
     /** @var Type[] */
