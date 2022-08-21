@@ -51,7 +51,7 @@ class IntersectionProvider implements ValueProvider
 
         /** @var class-string $className */
         $className = "AccesorPairConstraintIntersectionClass" . md5($classDefinition);
-        if (class_exists($classDefinition) === false) {
+        if (class_exists($className) === false) {
             $classDefinition = "abstract class " . $className . " " . $classDefinition;
             eval($classDefinition);
         }
