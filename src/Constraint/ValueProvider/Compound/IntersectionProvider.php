@@ -15,9 +15,6 @@ class IntersectionProvider implements ValueProvider
     /** @var Type[] */
     private array $typehints;
 
-    /** @var array<string, true> */
-    private static array $createdClasses = [];
-
     /**
      * @param Type[] $typehints
      */
@@ -43,21 +40,19 @@ class IntersectionProvider implements ValueProvider
             }
         }
 
-        $class = '';
+        $classDefinition = '';
         if ($extends !== null) {
-            $class .= " extends " . $extends;
+            $classDefinition .= " extends " . $extends;
         }
         if (count($interfaces) > 0) {
-            $class .= " implements " . implode(',', $interfaces) . "{}";
+            $classDefinition .= " implements " . implode(',', $interfaces) . "{}";
         }
 
         /** @var class-string $className */
-        $className = "AccesorPairConstraintIntersectionClass" . md5($class);
-        if (isset(self::$createdClasses[$className]) === false) {
-            $class = "abstract class " . $className . " " . $class;
-            eval($class);
-
-            self::$createdClasses[$className] = true;
+        $className = "AccesorPairConstraintIntersectionClass" . md5($classDefinition);
+        if (class_exists($classDefinition) === false) {
+            $classDefinition = "abstract class " . $className . " " . $classDefinition;
+            eval($classDefinition);
         }
 
         $mockGenerator = new Generator();
