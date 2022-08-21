@@ -45,8 +45,9 @@ class IntersectionProvider implements ValueProvider
             $classDefinition .= " extends " . $extends;
         }
         if (count($interfaces) > 0) {
-            $classDefinition .= " implements " . implode(',', $interfaces) . "{}";
+            $classDefinition .= " implements " . implode(',', $interfaces);
         }
+        $classDefinition .= " {}";
 
         /** @var class-string $className */
         $className = "AccesorPairConstraintIntersectionClass" . md5($classDefinition);
