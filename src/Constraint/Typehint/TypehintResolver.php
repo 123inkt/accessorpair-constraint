@@ -8,30 +8,29 @@ use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\ContextFactory;
+use ReflectionIntersectionType;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
+use ReflectionType;
+use ReflectionUnionType;
 
+/**
+ * Resolve the PHP signature's typehint + parse the PHPDoc's typehint and turn into a Type object
+ */
 class TypehintResolver
 {
-    /** @var PhpDocParser */
-    protected $phpDocParser;
-
-    /** @var ReflectionMethod */
-    protected $method;
-
-    /** @var TypeResolver */
-    protected $resolver;
-
-    /** @var Context */
-    private $resolverContext;
+    protected PhpDocParser     $phpDocParser;
+    protected ReflectionMethod $method;
+    protected TypeResolver     $resolver;
+    protected Context          $resolverContext;
 
     public function __construct(ReflectionMethod $method)
     {
         $this->phpDocParser = new PhpDocParser();
         $this->method       = $method;
 
-        // Setup the internal type resolver
+        // Set up the internal type resolver
         $this->resolverContext = (new ContextFactory())->createFromReflector($method);
         $this->resolver        = new TypeResolver();
     }
@@ -42,15 +41,7 @@ class TypehintResolver
     public function getParamTypehint(ReflectionParameter $parameter): Type
     {
         // Get parameter type from method signature
-        $parameterType = $parameter->getType();
-        if ($parameterType instanceof ReflectionNamedType) {
-            $signatureType = $parameterType->getName();
-            if ($parameter->allowsNull()) {
-                $signatureType = '?' . $signatureType;
-            }
-        } else {
-            $signatureType = 'mixed';
-        }
+        $signatureType = $this->getReflectionType($parameter->getType());
 
         // Get parameter type from phpDoc
         $docComment = $this->method->getDocComment();
@@ -68,15 +59,7 @@ class TypehintResolver
     public function getReturnTypehint(): Type
     {
         // Get return type from method signature
-        $returnType = $this->method->getReturnType();
-        if ($returnType instanceof ReflectionNamedType) {
-            $signatureType = $returnType->getName();
-            if ($returnType->allowsNull()) {
-                $signatureType = '?' . $signatureType;
-            }
-        } else {
-            $signatureType = 'mixed';
-        }
+        $signatureType = $this->getReflectionType($this->method->getReturnType());
 
         // Get return type from phpDoc
         $docComment = $this->method->getDocComment();
@@ -88,6 +71,45 @@ class TypehintResolver
         return $this->resolveTypes($signatureType, $phpDocType);
     }
 
+    /**
+     * Turn PHP's reflection type object into typehint string
+     * Resolved union/intersection/nullable types
+     */
+    protected function getReflectionType(?ReflectionType $type): string
+    {
+        if ($type instanceof ReflectionIntersectionType) {
+            $signatureType = [];
+            foreach ($type->getTypes() as $subType) {
+                $signatureType[] = $this->getReflectionType($subType);
+            }
+
+            return implode('&', $signatureType);
+        }
+
+        if ($type instanceof ReflectionUnionType) {
+            $signatureType = [];
+            foreach ($type->getTypes() as $subType) {
+                $signatureType[] = $this->getReflectionType($subType);
+            }
+
+            return implode('|', $signatureType);
+        }
+
+        if ($type instanceof ReflectionNamedType) {
+            $signatureType = $type->getName();
+            if ($type->allowsNull()) {
+                $signatureType = '?' . $signatureType;
+            }
+
+            return $signatureType;
+        }
+
+        return 'mixed';
+    }
+
+    /**
+     * Turns typehint string into PHPDocumentor Type object
+     */
     protected function resolveTypes(string $signatureType, string $phpDocType): Type
     {
         $phpDocType = $this->resolveTemplateTypes($phpDocType) ?? $phpDocType;

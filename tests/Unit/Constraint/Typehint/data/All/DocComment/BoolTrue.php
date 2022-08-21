@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\DocComment;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\All\DocComment;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Type;
-use phpDocumentor\Reflection\Types\False_;
+use phpDocumentor\Reflection\Types\True_;
 
-class BoolFalse implements DataInterface
+class BoolTrue implements DataInterface
 {
     /**
-     * @param false $param
+     * @param true $param
      *
-     * @return false
+     * @return true
      */
     public function testMethod(bool $param): bool
     {
@@ -21,6 +21,6 @@ class BoolFalse implements DataInterface
 
     public function getExpectedType(): Type
     {
-        return new False_();
+        return new True_();
     }
 }

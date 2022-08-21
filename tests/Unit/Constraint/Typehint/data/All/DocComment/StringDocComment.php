@@ -1,21 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\DocComment;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\All\DocComment;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\String_;
 
-/**
- * @template T of string
- */
-class TemplateStringPhpstan implements DataInterface
+class StringDocComment implements DataInterface
 {
     /**
-     * @phpstan-param T $param
+     * @param string $param
      *
-     * @phpstan-return T
+     * @return string
      */
     public function testMethod($param)
     {

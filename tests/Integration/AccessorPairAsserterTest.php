@@ -6,7 +6,10 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration;
 use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\CustomConstructorParameters;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\IntersectionClassProperty;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\IntersectionInterfaceProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\SetterTransformer;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\UnionProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -27,9 +30,10 @@ use TypeError;
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IntersectionProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\TrueProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\FalseProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider
@@ -160,6 +164,33 @@ class AccessorPairAsserterTest extends TestCase
         });
 
         static::assertAccessorPairs(CustomConstructorParameters::class, $config);
+    }
+
+    /**
+     * @requires PHP >= 8.0
+     */
+    public function testUnionProperty(): void
+    {
+        // Test a method with a union typehint: A|B
+        static::assertAccessorPairs(UnionProperty::class);
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testIntersectionInterfaceProperty(): void
+    {
+        // Test a method with an intersection typehint: A&B
+        static::assertAccessorPairs(IntersectionInterfaceProperty::class);
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testIntersectionClassProperty(): void
+    {
+        // Test a method with an intersection typehint: A&B
+        static::assertAccessorPairs(IntersectionClassProperty::class);
     }
 
     /**

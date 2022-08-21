@@ -1,22 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\DocComment;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\All\DocComment;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\String_;
-use phpDocumentor\Reflection\Types\Nullable as NullableType;
 
 /**
  * @template T of string
  */
-class TemplateNullable implements DataInterface
+class TemplateStringPhpstan implements DataInterface
 {
     /**
-     * @param T|null $param
+     * @phpstan-param T $param
      *
-     * @return T|null
+     * @phpstan-return T
      */
     public function testMethod($param)
     {
@@ -25,6 +24,6 @@ class TemplateNullable implements DataInterface
 
     public function getExpectedType(): Type
     {
-        return new NullableType(new String_());
+        return new String_();
     }
 }

@@ -1,20 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\DocComment;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\All\DocComment;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Type;
-use phpDocumentor\Reflection\Types\Compound;
-use phpDocumentor\Reflection\Types\Float_;
 use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\Nullable as NullableType;
 
-class Union implements DataInterface
+class Nullable implements DataInterface
 {
     /**
-     * @param int|float $param
+     * @param  ?int $param
      *
-     * @return int|float
+     * @return ?int
      */
     public function testMethod($param)
     {
@@ -23,6 +22,6 @@ class Union implements DataInterface
 
     public function getExpectedType(): Type
     {
-        return new Compound([new Integer(), new Float_()]);
+        return new NullableType(new Integer());
     }
 }

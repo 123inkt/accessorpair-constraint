@@ -4,10 +4,12 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IntersectionProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider;
 use LogicException;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Compound;
+use phpDocumentor\Reflection\Types\Intersection;
 use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 
@@ -32,6 +34,11 @@ class ValueProviderFactory
      */
     public function getProvider(Type $typehint): ValueProvider
     {
+        // Support intersection typehints, such as "Iterator&Countable"
+        if ($typehint instanceof Intersection) {
+            return new IntersectionProvider(iterator_to_array($typehint));
+        }
+
         // Support union typehints, such as "string|null"
         if ($typehint instanceof Compound) {
             return new ValueProviderList(...$this->getProviders(iterator_to_array($typehint)));

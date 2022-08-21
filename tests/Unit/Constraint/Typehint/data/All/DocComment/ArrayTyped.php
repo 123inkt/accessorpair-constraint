@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\DocComment;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\All\DocComment;
 
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Array_;
-use phpDocumentor\Reflection\Types\String_;
+use phpDocumentor\Reflection\Types\Integer;
 
-class ArrayTypedFull implements DataInterface
+class ArrayTyped implements DataInterface
 {
     /**
-     * @param array<string, string> $param
+     * @param int[] $param
      *
-     * @return array<string, string>
+     * @return int[]
      */
     public function testMethod(array $param): array
     {
@@ -22,6 +22,6 @@ class ArrayTypedFull implements DataInterface
 
     public function getExpectedType(): Type
     {
-        return new Array_(new String_(), new String_());
+        return new Array_(new Integer());
     }
 }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\Signature;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\All\DocComment;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
@@ -9,9 +9,14 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Object_;
 
-class InterfaceImport implements DataInterface
+class InterfaceDocblock implements DataInterface
 {
-    public function testMethod(ValueProvider $param): ValueProvider
+    /**
+     * @param ValueProvider $param
+     *
+     * @return ValueProvider
+     */
+    public function testMethod($param)
     {
         return $param;
     }
