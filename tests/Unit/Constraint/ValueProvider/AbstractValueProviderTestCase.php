@@ -8,7 +8,7 @@ use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 /**
  * @suppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractValueProviderTest extends TestCase
+abstract class AbstractValueProviderTestCase extends TestCase
 {
     abstract public function testGetValues(): void;
 

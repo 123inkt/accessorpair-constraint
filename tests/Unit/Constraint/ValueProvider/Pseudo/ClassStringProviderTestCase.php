@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace Constraint\ValueProvider\Pseudo;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTest;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider
  * @covers ::__construct
  */
-class ClassStringProviderTest extends AbstractValueProviderTest
+class ClassStringProviderTestCase extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

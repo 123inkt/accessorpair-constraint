@@ -98,7 +98,7 @@ class ValueProviderFactoryTest extends TestCase
     /**
      * @return Generator<string, array{0: Type, 1: ValueProvider}>
      */
-    public function dataProvider(): Generator
+    public static function dataProvider(): Generator
     {
         yield 'Union type' => [
             new Compound([new Integer(), new LiteralString()]),

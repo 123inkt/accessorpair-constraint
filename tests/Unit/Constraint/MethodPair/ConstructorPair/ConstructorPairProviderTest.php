@@ -48,8 +48,8 @@ class ConstructorPairProviderTest extends TestCase
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
-    public function dataProvider(): Generator
+    public static function dataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/data', __NAMESPACE__ . '\\data');
+        yield from static::getClassDataProvider(__DIR__ . '/data', __NAMESPACE__ . '\\data');
     }
 }

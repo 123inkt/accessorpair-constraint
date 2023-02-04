@@ -53,7 +53,7 @@ class PhpDocParserTest extends TestCase
     /**
      * @return Generator<int, array<string|null>>
      */
-    public function paramTypehintProvider(): Generator
+    public static function paramTypehintProvider(): Generator
     {
         // Empty docblock, no param type
         yield ['', null];
@@ -98,7 +98,7 @@ class PhpDocParserTest extends TestCase
     /**
      * @return Generator<int, array<string|null>>
      */
-    public function returnTypehintProvider(): Generator
+    public static function returnTypehintProvider(): Generator
     {
         // Empty docblock, no return type
         yield ['', null];
@@ -137,7 +137,7 @@ class PhpDocParserTest extends TestCase
     /**
      * @return Generator<int, array{0: string, 1: array<string, string>}>
      */
-    public function templateTypehintProvider(): Generator
+    public static function templateTypehintProvider(): Generator
     {
         // Empty docblock, no return type
         yield ['', []];

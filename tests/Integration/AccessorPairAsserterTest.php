@@ -197,53 +197,53 @@ class AccessorPairAsserterTest extends TestCase
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
-    public function successDataProvider(): Generator
+    public static function successDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/data/success/Regular', __NAMESPACE__ . "\data\success\Regular");
+        yield from static::getClassDataProvider(__DIR__ . '/data/success/Regular', __NAMESPACE__ . "\data\success\Regular");
     }
 
     /**
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
-    public function failureDataProvider(): Generator
+    public static function failureDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/Regular', __NAMESPACE__ . "\data\\failure\Regular");
+        yield from static::getClassDataProvider(__DIR__ . '/data/failure/Regular', __NAMESPACE__ . "\data\\failure\Regular");
     }
 
     /**
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
-    public function successInitialStateDataProvider(): Generator
+    public static function successInitialStateDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/data/success/InitialState', __NAMESPACE__ . "\data\success\InitialState");
+        yield from static::getClassDataProvider(__DIR__ . '/data/success/InitialState', __NAMESPACE__ . "\data\success\InitialState");
     }
 
     /**
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
-    public function failureInitialStateDataProvider(): Generator
+    public static function failureInitialStateDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/InitialState', __NAMESPACE__ . "\data\\failure\InitialState");
+        yield from static::getClassDataProvider(__DIR__ . '/data/failure/InitialState', __NAMESPACE__ . "\data\\failure\InitialState");
     }
 
     /**
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
-    public function successConstructorDataProvider(): Generator
+    public static function successConstructorDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/data/success/Regular/Constructor', __NAMESPACE__ . "\data\\success\Regular\\Constructor");
+        yield from static::getClassDataProvider(__DIR__ . '/data/success/Regular/Constructor', __NAMESPACE__ . "\data\\success\Regular\\Constructor");
     }
 
     /**
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
-    public function failureConstructorDataProvider(): Generator
+    public static function failureConstructorDataProvider(): Generator
     {
-        yield from $this->getClassDataProvider(__DIR__ . '/data/failure/Regular/Constructor', __NAMESPACE__ . "\data\\failure\Regular\\Constructor");
+        yield from static::getClassDataProvider(__DIR__ . '/data/failure/Regular/Constructor', __NAMESPACE__ . "\data\\failure\Regular\\Constructor");
     }
 }

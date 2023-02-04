@@ -110,7 +110,7 @@ class PseudoValueProviderFactoryTest extends TestCase
     /**
      * @return Generator<string, array{0: Type, 1: ValueProvider}>
      */
-    public function pseudoTypeProvider(): Generator
+    public static function pseudoTypeProvider(): Generator
     {
         yield "PseudoType ArrayKey" => [new ArrayKey(), new ValueProviderList(new StringProvider(), new IntProvider())];
         yield "PseudoType ClassString" => [new ClassString(), new ClassStringProvider()];
@@ -121,7 +121,7 @@ class PseudoValueProviderFactoryTest extends TestCase
         yield "PseudoType CallableString" => [new CallableString(), new CallableStringProvider()];
         yield "PseudoType HtmlEscapedString" => [new HtmlEscapedString(), new HtmlEscapedStringProvider()];
         yield "PseudoType IntegerRange" => [new IntegerRange('0', '5'), new IntProvider(0, 5)];
-        yield "PseudoType List" => [new List_(), new ListProvider($this->getMixedProvider())];
+        yield "PseudoType List" => [new List_(), new ListProvider(static::getMixedProvider())];
         yield "PseudoType LiteralString" => [new LiteralString(), new LiteralStringProvider()];
         yield "PseudoType LowercaseString" => [new LowercaseString(), new LowercaseStringProvider(new StringProvider())];
         yield "PseudoType NegativeInteger" => [new NegativeInteger(), new IntProvider(PHP_INT_MIN, -1)];
@@ -139,7 +139,7 @@ class PseudoValueProviderFactoryTest extends TestCase
         yield "PseudoType TraitString" => [new TraitString(), new TraitStringProvider()];
     }
 
-    private function getMixedProvider(): ValueProviderList
+    private static function getMixedProvider(): ValueProviderList
     {
         return new ValueProviderList(
             new StringProvider(),
