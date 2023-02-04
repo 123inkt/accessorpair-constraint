@@ -115,7 +115,7 @@ class NativeValueProviderFactoryTest extends TestCase
     {
         yield "NativeType Array" => [
             new Array_(),
-            new ArrayProvider(static::getMixedProvider(), new ValueProviderList(new StringProvider(), new IntProvider()))
+            new ArrayProvider(self::getMixedProvider(), new ValueProviderList(new StringProvider(), new IntProvider()))
         ];
         yield "NativeType Callable" => [new Callable_(), new CallableProvider()];
         yield "NativeType Iterable" => [new Iterable_(), new IterableProvider()];
@@ -128,7 +128,7 @@ class NativeValueProviderFactoryTest extends TestCase
         yield "NativeType String" => [new String_(), new StringProvider()];
         yield "NativeType Null" => [new Null_(), new NullProvider()];
         yield "NativeType Resource" => [new Resource_(), new ResourceProvider()];
-        yield "NativeType Mixed" => [new Mixed_(), static::getMixedProvider()];
+        yield "NativeType Mixed" => [new Mixed_(), self::getMixedProvider()];
     }
 
     private static function getMixedProvider(): ValueProviderList

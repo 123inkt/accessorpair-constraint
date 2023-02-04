@@ -121,7 +121,7 @@ class PseudoValueProviderFactoryTest extends TestCase
         yield "PseudoType CallableString" => [new CallableString(), new CallableStringProvider()];
         yield "PseudoType HtmlEscapedString" => [new HtmlEscapedString(), new HtmlEscapedStringProvider()];
         yield "PseudoType IntegerRange" => [new IntegerRange('0', '5'), new IntProvider(0, 5)];
-        yield "PseudoType List" => [new List_(), new ListProvider(static::getMixedProvider())];
+        yield "PseudoType List" => [new List_(), new ListProvider(self::getMixedProvider())];
         yield "PseudoType LiteralString" => [new LiteralString(), new LiteralStringProvider()];
         yield "PseudoType LowercaseString" => [new LowercaseString(), new LowercaseStringProvider(new StringProvider())];
         yield "PseudoType NegativeInteger" => [new NegativeInteger(), new IntProvider(PHP_INT_MIN, -1)];
