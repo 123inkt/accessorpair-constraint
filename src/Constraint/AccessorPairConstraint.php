@@ -50,6 +50,9 @@ class AccessorPairConstraint extends Constraint
 
     /**
      * @inheritDoc
+     *
+     * @param mixed $other
+     *
      * @throws Exception
      */
     public function matches($other): bool
@@ -99,6 +102,8 @@ class AccessorPairConstraint extends Constraint
 
     /**
      * @inheritDoc
+     *
+     * @param mixed $other
      */
     public function additionalFailureDescription($other): string
     {
