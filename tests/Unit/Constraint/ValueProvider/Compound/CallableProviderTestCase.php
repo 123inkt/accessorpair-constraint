@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\Compound;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTest;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider
  */
-class CallableProviderTest extends AbstractValueProviderTest
+class CallableProviderTestCase extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

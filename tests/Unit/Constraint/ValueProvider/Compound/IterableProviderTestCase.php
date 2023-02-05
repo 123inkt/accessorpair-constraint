@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\Compound;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTest;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider
  */
-class IterableProviderTest extends AbstractValueProviderTest
+class IterableProviderTestCase extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

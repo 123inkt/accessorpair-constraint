@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace Constraint\ValueProvider\Pseudo;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTest;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
 
 /**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider
+ * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyStringProvider
  * @covers ::__construct
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
  */
-class LowercaseStringProviderTest extends AbstractValueProviderTest
+class NonEmptyStringProviderTestCase extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues
@@ -21,12 +21,12 @@ class LowercaseStringProviderTest extends AbstractValueProviderTest
      */
     public function testGetValues(): void
     {
-        $valueProvider = new LowercaseStringProvider(new StringProvider());
+        $valueProvider = new NonEmptyStringProvider(new StringProvider());
         $values        = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['string']);
         foreach ($values as $value) {
-            static::assertTrue(strtolower($value) === $value);
+            static::assertNotEmpty($value);
         }
     }
 }

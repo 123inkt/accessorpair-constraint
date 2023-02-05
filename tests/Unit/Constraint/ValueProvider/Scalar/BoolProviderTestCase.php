@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\Scalar;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTest;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider
  */
-class BoolProviderTest extends AbstractValueProviderTest
+class BoolProviderTestCase extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

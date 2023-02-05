@@ -13,4 +13,4 @@ parameters:
 		-
 			message: "#^Class DigitalRevolution\\\\AccessorPairConstraint\\\\Tests\\\\Integration\\\\data\\\\TestEnum not found\\.$#"
 			count: 2
-			path: tests/Unit/Constraint/ValueProvider/Compound/InstanceProviderTest.php
+			path: tests/Unit/Constraint/ValueProvider/Compound/InstanceProviderTestCase.php

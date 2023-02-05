@@ -5,14 +5,14 @@ namespace Constraint\ValueProvider\Pseudo;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTest;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
 
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider
  * @covers ::__construct
  */
-class ListProviderTest extends AbstractValueProviderTest
+class ListProviderTestCase extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

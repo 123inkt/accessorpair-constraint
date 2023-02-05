@@ -17,7 +17,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @return Generator<string, array<object>>
      * @throws ReflectionException
      */
-    public function getClassDataProvider(string $path, string $namespacePrefix): Generator
+    public static function getClassDataProvider(string $path, string $namespacePrefix): Generator
     {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
 

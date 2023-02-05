@@ -5,7 +5,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\TestEnum;
-use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTest;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
 use Iterator;
 use LogicException;
@@ -13,7 +13,7 @@ use LogicException;
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider
  */
-class InstanceProviderTest extends AbstractValueProviderTest
+class InstanceProviderTestCase extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::__construct
