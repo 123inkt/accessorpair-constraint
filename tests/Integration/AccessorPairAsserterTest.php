@@ -9,6 +9,7 @@ use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\Custo
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\IntersectionClassProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\IntersectionInterfaceProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\SetterTransformer;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\UnionNullableProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\UnionProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
@@ -173,6 +174,7 @@ class AccessorPairAsserterTest extends TestCase
     {
         // Test a method with a union typehint: A|B
         static::assertAccessorPairs(UnionProperty::class);
+        static::assertAccessorPairs(UnionNullableProperty::class);
     }
 
     /**

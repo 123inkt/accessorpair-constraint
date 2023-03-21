@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\Typehint;
@@ -97,7 +98,7 @@ class TypehintResolver
 
         if ($type instanceof ReflectionNamedType) {
             $signatureType = $type->getName();
-            if ($type->allowsNull()) {
+            if ($signatureType !== 'null' && $type->allowsNull()) {
                 $signatureType = '?' . $signatureType;
             }
 

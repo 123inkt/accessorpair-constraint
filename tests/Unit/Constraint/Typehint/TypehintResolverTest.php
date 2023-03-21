@@ -6,6 +6,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehin
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\PHP80\Union;
+use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\PHP80\UnionNullable;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\data\PHP81\Intersection;
 use Generator;
 use ReflectionClass;
@@ -42,6 +43,7 @@ class TypehintResolverTest extends TestCase
     public function testGetParamTypehintUnionType(): void
     {
         static::assertParamTypehint(new Union());
+        static::assertParamTypehint(new UnionNullable());
     }
 
     /**
