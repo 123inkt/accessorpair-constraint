@@ -57,6 +57,7 @@ class IntersectionProvider implements ValueProvider
         }
 
         if (class_exists('PHPUnit\Framework\MockObject\Generator\Generator')) {
+            /** @var \PHPUnit\Framework\MockObject\Generator $mockGenerator */
             $mockGenerator = new Generator();
         } else {
             $mockGenerator = new \PHPUnit\Framework\MockObject\Generator();

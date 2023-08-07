@@ -17,6 +17,3 @@ parameters:
     html-escaped-string: 'string'
     lowercase-string: 'string'
     non-empty-string: 'string'
-
-  ignoreErrors:
-    - '#on an unknown class PHPUnit\Framework\MockObject\Generator\Generator#'
