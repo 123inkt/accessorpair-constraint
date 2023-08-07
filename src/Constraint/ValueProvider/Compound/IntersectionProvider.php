@@ -5,7 +5,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Comp
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvider;
 use phpDocumentor\Reflection\Type;
-use PHPUnit\Framework\MockObject\Generator;
+use PHPUnit\Framework\MockObject\Generator\Generator;
 
 /**
  * @SuppressWarnings(PHPMD.EvalExpression)
@@ -56,8 +56,13 @@ class IntersectionProvider implements ValueProvider
             eval($classDefinition);
         }
 
-        $mockGenerator = new Generator();
-        $instance      = $mockGenerator->getMockForAbstractClass($className, [], '', false, false);
+        if (class_exists('PHPUnit\Framework\MockObject\Generator\Generator')) {
+            /** @var \PHPUnit\Framework\MockObject\Generator $mockGenerator */
+            $mockGenerator = new Generator();
+        } else {
+            $mockGenerator = new \PHPUnit\Framework\MockObject\Generator();
+        }
+        $instance = $mockGenerator->getMockForAbstractClass($className, [], '', false, false);
 
         return [$instance];
     }
