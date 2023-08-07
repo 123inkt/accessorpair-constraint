@@ -34,10 +34,10 @@ class InstanceProvider implements ValueProvider
             return $enum::cases();
         }
 
-        if (class_exists('PHPUnit\Framework\MockObject\Generator')) {
-            $mockGenerator = new \PHPUnit\Framework\MockObject\Generator();
-        } else {
+        if (class_exists('PHPUnit\Framework\MockObject\Generator\Generator')) {
             $mockGenerator = new Generator();
+        } else {
+            $mockGenerator = new \PHPUnit\Framework\MockObject\Generator();
         }
         $instance = $mockGenerator->getMock($this->typehint, [], [], '', false);
 
