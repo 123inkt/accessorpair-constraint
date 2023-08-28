@@ -41,7 +41,8 @@ class PhpDocParser
             return null;
         }
 
-        $docComment = preg_replace('/array<(.*?),\s(.*?)>/', 'array<$1,$2>', $docComment);
+        // Convert array<int, string> to array<int,string>
+        $docComment = preg_replace('/(\w+)<(.*?),\s(.*?)>/', '$1<$2,$3>', $docComment);
         if ($docComment === null) {
             return null; // @codeCoverageIgnore
         }
