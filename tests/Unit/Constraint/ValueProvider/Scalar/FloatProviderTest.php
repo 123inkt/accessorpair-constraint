@@ -12,7 +12,7 @@ use Exception;
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
  */
-class FloatProviderTestCase extends AbstractValueProviderTestCase
+class FloatProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::__construct

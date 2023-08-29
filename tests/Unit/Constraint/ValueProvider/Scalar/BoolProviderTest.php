@@ -9,7 +9,7 @@ use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider
  */
-class BoolProviderTestCase extends AbstractValueProviderTestCase
+class BoolProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

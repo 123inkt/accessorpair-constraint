@@ -10,7 +10,7 @@ use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider
  * @covers ::__construct
  */
-class ClassStringProviderTestCase extends AbstractValueProviderTestCase
+class ClassStringProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

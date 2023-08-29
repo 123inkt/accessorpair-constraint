@@ -10,7 +10,7 @@ use Exception;
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider
  */
-class HtmlEscapedStringProviderTestCase extends AbstractValueProviderTestCase
+class HtmlEscapedStringProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

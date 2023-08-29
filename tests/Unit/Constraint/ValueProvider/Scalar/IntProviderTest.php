@@ -11,7 +11,7 @@ use Exception;
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
  * @covers ::__construct
  */
-class IntProviderTestCase extends AbstractValueProviderTestCase
+class IntProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues
