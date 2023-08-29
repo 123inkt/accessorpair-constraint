@@ -13,7 +13,7 @@
     "require": {
         "php": ">=7.4",
         "doctrine/inflector": "^2.0",
-        "phpdocumentor/type-resolver": "^1.6",
+        "phpdocumentor/type-resolver": "^1.7",
         "phpunit/phpunit": "^9.0 || ^10.0"
     },
     "require-dev": {
