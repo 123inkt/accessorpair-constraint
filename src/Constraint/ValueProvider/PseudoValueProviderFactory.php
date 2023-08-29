@@ -5,6 +5,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider;
@@ -17,8 +18,10 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\Int
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use LogicException;
 use phpDocumentor\Reflection\PseudoTypes\CallableString;
+use phpDocumentor\Reflection\PseudoTypes\FloatValue;
 use phpDocumentor\Reflection\PseudoTypes\HtmlEscapedString;
 use phpDocumentor\Reflection\PseudoTypes\IntegerRange;
+use phpDocumentor\Reflection\PseudoTypes\IntegerValue;
 use phpDocumentor\Reflection\PseudoTypes\List_;
 use phpDocumentor\Reflection\PseudoTypes\LiteralString;
 use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
@@ -29,6 +32,7 @@ use phpDocumentor\Reflection\PseudoTypes\NonEmptyString;
 use phpDocumentor\Reflection\PseudoTypes\Numeric_;
 use phpDocumentor\Reflection\PseudoTypes\NumericString;
 use phpDocumentor\Reflection\PseudoTypes\PositiveInteger;
+use phpDocumentor\Reflection\PseudoTypes\StringValue;
 use phpDocumentor\Reflection\PseudoTypes\TraitString;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\ArrayKey;
@@ -87,6 +91,10 @@ class PseudoValueProviderFactory
                 return new ClassStringProvider($fqsen);
             case CallableString::class:
                 return new CallableStringProvider();
+            case FloatValue::class:
+            case IntegerValue::class:
+            case StringValue::class:
+                return new DirectValueProvider($typehint);
             case HtmlEscapedString::class:
                 return new HtmlEscapedStringProvider();
             case LiteralString::class:

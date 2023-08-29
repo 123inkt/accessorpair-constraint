@@ -8,6 +8,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\C
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider;
@@ -28,8 +29,10 @@ use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\PseudoTypes\CallableString;
+use phpDocumentor\Reflection\PseudoTypes\FloatValue;
 use phpDocumentor\Reflection\PseudoTypes\HtmlEscapedString;
 use phpDocumentor\Reflection\PseudoTypes\IntegerRange;
+use phpDocumentor\Reflection\PseudoTypes\IntegerValue;
 use phpDocumentor\Reflection\PseudoTypes\List_;
 use phpDocumentor\Reflection\PseudoTypes\LiteralString;
 use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
@@ -40,6 +43,7 @@ use phpDocumentor\Reflection\PseudoTypes\NonEmptyString;
 use phpDocumentor\Reflection\PseudoTypes\Numeric_;
 use phpDocumentor\Reflection\PseudoTypes\NumericString;
 use phpDocumentor\Reflection\PseudoTypes\PositiveInteger;
+use phpDocumentor\Reflection\PseudoTypes\StringValue;
 use phpDocumentor\Reflection\PseudoTypes\TraitString;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\ArrayKey;
@@ -57,6 +61,7 @@ use phpDocumentor\Reflection\Types\ClassString;
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\FalseProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider
+ * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider
@@ -120,6 +125,9 @@ class PseudoValueProviderFactoryTest extends TestCase
             new ClassStringProvider('\\' . ValueProvider::class)
         ];
         yield "PseudoType CallableString" => [new CallableString(), new CallableStringProvider()];
+        yield "PseudoType FloatValue" => [new FloatValue(1.0), new DirectValueProvider(new FloatValue(1.0))];
+        yield "PseudoType IntegerValue" => [new IntegerValue(1), new DirectValueProvider(new IntegerValue(1))];
+        yield "PseudoType StringValue" => [new StringValue('foo'), new DirectValueProvider(new StringValue('foo'))];
         yield "PseudoType HtmlEscapedString" => [new HtmlEscapedString(), new HtmlEscapedStringProvider()];
         yield "PseudoType IntegerRange" => [new IntegerRange('0', '5'), new IntProvider(0, 5)];
         yield "PseudoType List" => [new List_(), new ListProvider(self::getMixedProvider())];
