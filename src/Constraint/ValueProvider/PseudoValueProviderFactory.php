@@ -5,11 +5,12 @@ namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider;
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider;
@@ -17,17 +18,21 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\Int
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use LogicException;
 use phpDocumentor\Reflection\PseudoTypes\CallableString;
+use phpDocumentor\Reflection\PseudoTypes\FloatValue;
 use phpDocumentor\Reflection\PseudoTypes\HtmlEscapedString;
 use phpDocumentor\Reflection\PseudoTypes\IntegerRange;
+use phpDocumentor\Reflection\PseudoTypes\IntegerValue;
 use phpDocumentor\Reflection\PseudoTypes\List_;
 use phpDocumentor\Reflection\PseudoTypes\LiteralString;
 use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
 use phpDocumentor\Reflection\PseudoTypes\NegativeInteger;
+use phpDocumentor\Reflection\PseudoTypes\NonEmptyList;
 use phpDocumentor\Reflection\PseudoTypes\NonEmptyLowercaseString;
 use phpDocumentor\Reflection\PseudoTypes\NonEmptyString;
 use phpDocumentor\Reflection\PseudoTypes\Numeric_;
 use phpDocumentor\Reflection\PseudoTypes\NumericString;
 use phpDocumentor\Reflection\PseudoTypes\PositiveInteger;
+use phpDocumentor\Reflection\PseudoTypes\StringValue;
 use phpDocumentor\Reflection\PseudoTypes\TraitString;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\ArrayKey;
@@ -57,6 +62,8 @@ class PseudoValueProviderFactory
                 return new IntProvider((int)$typehint->getMinValue(), (int)$typehint->getMaxValue());
             case List_::class:
                 return new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType()));
+            case NonEmptyList::class:
+                return new NonEmptyValueProvider(new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType())));
             case NegativeInteger::class:
                 return new IntProvider(PHP_INT_MIN, -1);
             case Numeric_::class:
@@ -84,6 +91,10 @@ class PseudoValueProviderFactory
                 return new ClassStringProvider($fqsen);
             case CallableString::class:
                 return new CallableStringProvider();
+            case FloatValue::class:
+            case IntegerValue::class:
+            case StringValue::class:
+                return new DirectValueProvider($typehint);
             case HtmlEscapedString::class:
                 return new HtmlEscapedStringProvider();
             case LiteralString::class:
@@ -91,9 +102,9 @@ class PseudoValueProviderFactory
             case LowercaseString::class:
                 return new LowercaseStringProvider(new StringProvider());
             case NonEmptyLowercaseString::class:
-                return new NonEmptyStringProvider(new LowercaseStringProvider(new StringProvider()));
+                return new NonEmptyValueProvider(new LowercaseStringProvider(new StringProvider()));
             case NonEmptyString::class:
-                return new NonEmptyStringProvider(new StringProvider());
+                return new NonEmptyValueProvider(new StringProvider());
             case NumericString::class:
                 return new NumericStringProvider();
             case TraitString::class:

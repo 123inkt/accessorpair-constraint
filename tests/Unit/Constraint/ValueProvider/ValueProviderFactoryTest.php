@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider;
 
+use Countable;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IntersectionProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\FalseProvider;
@@ -22,6 +24,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvi
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
+use Iterator;
 use LogicException;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\PseudoTypes\LiteralString;
@@ -29,6 +32,7 @@ use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
 use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\Intersection;
 use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
@@ -41,6 +45,7 @@ use phpDocumentor\Reflection\Types\String_;
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider
+ * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IntersectionProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\TrueProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\FalseProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider
@@ -49,7 +54,7 @@ use phpDocumentor\Reflection\Types\String_;
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyStringProvider
+ * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider
@@ -100,6 +105,10 @@ class ValueProviderFactoryTest extends TestCase
      */
     public static function dataProvider(): Generator
     {
+        yield 'Intersection type' => [
+            new Intersection([new Object_(new Fqsen('\\' . Iterator::class)), new Object_(new Fqsen('\\' . Countable::class))]),
+            new IntersectionProvider([new Object_(new Fqsen('\\' . Iterator::class)), new Object_(new Fqsen('\\' . Countable::class))])
+        ];
         yield 'Union type' => [
             new Compound([new Integer(), new LiteralString()]),
             new ValueProviderList(new IntProvider(), new LiteralStringProvider())

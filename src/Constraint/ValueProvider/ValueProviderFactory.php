@@ -8,6 +8,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\I
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider;
 use LogicException;
 use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\Types\Collection;
 use phpDocumentor\Reflection\Types\Compound;
 use phpDocumentor\Reflection\Types\Intersection;
 use phpDocumentor\Reflection\Types\Nullable;
@@ -50,7 +51,7 @@ class ValueProviderFactory
         }
 
         // Support for fully namespaced class name
-        if ($typehint instanceof Object_ && $typehint->getFqsen() !== null) {
+        if (($typehint instanceof Object_ || $typehint instanceof Collection) && $typehint->getFqsen() !== null) {
             return new InstanceProvider((string)$typehint->getFqsen());
         }
 
