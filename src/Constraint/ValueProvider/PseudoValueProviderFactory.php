@@ -9,7 +9,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Htm
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider;
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider;
@@ -23,6 +23,7 @@ use phpDocumentor\Reflection\PseudoTypes\List_;
 use phpDocumentor\Reflection\PseudoTypes\LiteralString;
 use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
 use phpDocumentor\Reflection\PseudoTypes\NegativeInteger;
+use phpDocumentor\Reflection\PseudoTypes\NonEmptyList;
 use phpDocumentor\Reflection\PseudoTypes\NonEmptyLowercaseString;
 use phpDocumentor\Reflection\PseudoTypes\NonEmptyString;
 use phpDocumentor\Reflection\PseudoTypes\Numeric_;
@@ -57,6 +58,8 @@ class PseudoValueProviderFactory
                 return new IntProvider((int)$typehint->getMinValue(), (int)$typehint->getMaxValue());
             case List_::class:
                 return new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType()));
+            case NonEmptyList::class:
+                return new NonEmptyValueProvider(new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType())));
             case NegativeInteger::class:
                 return new IntProvider(PHP_INT_MIN, -1);
             case Numeric_::class:
@@ -91,9 +94,9 @@ class PseudoValueProviderFactory
             case LowercaseString::class:
                 return new LowercaseStringProvider(new StringProvider());
             case NonEmptyLowercaseString::class:
-                return new NonEmptyStringProvider(new LowercaseStringProvider(new StringProvider()));
+                return new NonEmptyValueProvider(new LowercaseStringProvider(new StringProvider()));
             case NonEmptyString::class:
-                return new NonEmptyStringProvider(new StringProvider());
+                return new NonEmptyValueProvider(new StringProvider());
             case NumericString::class:
                 return new NumericStringProvider();
             case TraitString::class:
