@@ -9,7 +9,7 @@ use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider
  */
-class TraitStringProviderTestCase extends AbstractValueProviderTestCase
+class TraitStringProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

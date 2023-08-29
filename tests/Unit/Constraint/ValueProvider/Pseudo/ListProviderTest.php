@@ -12,7 +12,7 @@ use Exception;
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider
  * @covers ::__construct
  */
-class ListProviderTestCase extends AbstractValueProviderTestCase
+class ListProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

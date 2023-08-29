@@ -13,7 +13,7 @@ use LogicException;
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider
  */
-class InstanceProviderTestCase extends AbstractValueProviderTestCase
+class InstanceProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::__construct

@@ -10,7 +10,7 @@ use Exception;
 /**
  * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
  */
-class StringProviderTestCase extends AbstractValueProviderTestCase
+class StringProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues

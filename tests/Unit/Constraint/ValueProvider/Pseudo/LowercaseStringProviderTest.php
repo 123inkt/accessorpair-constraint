@@ -13,7 +13,7 @@ use Exception;
  * @covers ::__construct
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
  */
-class LowercaseStringProviderTestCase extends AbstractValueProviderTestCase
+class LowercaseStringProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @covers ::getValues
