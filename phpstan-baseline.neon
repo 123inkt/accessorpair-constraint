@@ -14,3 +14,8 @@ parameters:
 			message: "#^Class DigitalRevolution\\\\AccessorPairConstraint\\\\Tests\\\\Integration\\\\data\\\\TestEnum not found\\.$#"
 			count: 2
 			path: tests/Unit/Constraint/ValueProvider/Compound/InstanceProviderTest.php
+
+		-
+			message: "#^Call to function method_exists\\(\\) with 'PHPUnit\\\\\\\\Runner\\\\\\\\Version' and 'majorVersionNumber' will always evaluate to false\\.$#"
+			count: 1
+			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
