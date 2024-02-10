@@ -40,7 +40,12 @@ class InstanceProvider implements ValueProvider
         } else {
             $mockGenerator = new \PHPUnit\Framework\MockObject\Generator();
         }
-        $instance = $mockGenerator->getMock($this->typehint, [], [], '', false);
+
+        if (method_exists($mockGenerator, 'testDouble')) {
+            $instance = $mockGenerator->testDouble($this->typehint, true, true, [], [], '', false, false, false, false);
+        } else {
+            $instance = $mockGenerator->getMock($this->typehint, [], [], '', false);
+        }
 
         return [$instance];
     }

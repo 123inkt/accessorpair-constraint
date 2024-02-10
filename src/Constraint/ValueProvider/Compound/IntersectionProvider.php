@@ -62,7 +62,13 @@ class IntersectionProvider implements ValueProvider
         } else {
             $mockGenerator = new \PHPUnit\Framework\MockObject\Generator();
         }
-        $instance = $mockGenerator->getMockForAbstractClass($className, [], '', false, false);
+
+        // since phpunit 11 mockAbstractClass is deprecated, and will be removed in phpunit 12.
+        if (method_exists($mockGenerator, 'testDouble')) {
+            $instance = $mockGenerator->testDouble($className, true, true, [], [], '', false, false, false, false);
+        } else {
+            $instance = $mockGenerator->getMockForAbstractClass($className, [], '', false, false);
+        }
 
         return [$instance];
     }
