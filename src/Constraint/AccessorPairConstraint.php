@@ -17,6 +17,7 @@ use PHPUnit\Framework\Constraint\Constraint;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
+use SebastianBergmann\Exporter\Exporter;
 
 class AccessorPairConstraint extends Constraint
 {
@@ -131,7 +132,6 @@ class AccessorPairConstraint extends Constraint
 
     /**
      * Test all accessorPairs, by passing test values to the setter and expect the exact same value back from the getter.
-     *
      * @throws Exception
      */
     protected function testAccessorPair(AccessorPair $accessorPair): void
@@ -154,7 +154,6 @@ class AccessorPairConstraint extends Constraint
     /**
      * The setter's parameter has a default value
      * Call the setter without provider a parameter. Then call the getter and expect the default value return.
-     *
      * @throws Exception
      */
     protected function testOptionalParameter(AccessorPair $accessorPair, ReflectionParameter $parameter): void
@@ -173,10 +172,11 @@ class AccessorPairConstraint extends Constraint
         $storedValue = $accessorPair->getGetMethod()->invoke($instance);
 
         if ($storedValue !== $expectedReturn) {
+            $exporter = new Exporter();
             $this->fail(
                 $accessorPair->getClass()->getNamespaceName(),
-                "Stored value (" . $this->exporter()->export($storedValue) . ") does not match " .
-                "default value (" . $this->exporter()->export($expectedReturn) . ")"
+                "Stored value (" . $exporter->export($storedValue) . ") does not match " .
+                "default value (" . $exporter->export($expectedReturn) . ")"
             );
         }
     }
@@ -218,10 +218,11 @@ class AccessorPairConstraint extends Constraint
             }
 
             if ($storedValue !== $expectedReturn) {
+                $exporter = new Exporter();
                 $this->fail(
                     $accessorPair->getClass()->getNamespaceName(),
-                    "Stored value (" . $this->exporter()->export($storedValue) . ") does not match " .
-                    "given value (" . $this->exporter()->export($expectedReturn) . ")"
+                    "Stored value (" . $exporter->export($storedValue) . ") does not match " .
+                    "given value (" . $exporter->export($expectedReturn) . ")"
                 );
             }
         }
@@ -263,10 +264,11 @@ class AccessorPairConstraint extends Constraint
             }
 
             if ($storedValue !== $expectedReturn) {
+                $exporter = new Exporter();
                 $this->fail(
                     $constructorPair->getClass()->getNamespaceName(),
-                    "Stored value (" . $this->exporter()->export($storedValue) . ") does not match " .
-                    "given value (" . $this->exporter()->export($expectedReturn) . ")"
+                    "Stored value (" . $exporter->export($storedValue) . ") does not match " .
+                    "given value (" . $exporter->export($expectedReturn) . ")"
                 );
             }
         }
