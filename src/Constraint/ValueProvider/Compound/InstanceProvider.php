@@ -6,6 +6,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Comp
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvider;
 use LogicException;
 use PHPUnit\Framework\MockObject\Generator\Generator;
+use PHPUnit\Runner\Version;
 use UnitEnum;
 
 class InstanceProvider implements ValueProvider
@@ -38,7 +39,11 @@ class InstanceProvider implements ValueProvider
             /** @var \PHPUnit\Framework\MockObject\Generator $mockGenerator */
             $mockGenerator = new Generator();
             if (method_exists($mockGenerator, 'testDouble')) {
-                $instance = $mockGenerator->testDouble($this->typehint, true, [], [], '', false);
+                if (method_exists(Version::class, 'majorVersionNumber') && Version::majorVersionNumber() >= 11) {
+                    $instance = $mockGenerator->testDouble($this->typehint, true, true, [], [], '', false);
+                } else {
+                    $instance = $mockGenerator->testDouble($this->typehint, true, [], [], '', false);
+                }
             } else {
                 $instance = $mockGenerator->getMock($this->typehint, [], [], '', false);
             }
