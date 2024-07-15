@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\Compound;
 
+use DateTimeInterface;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\TestEnum;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
@@ -18,6 +19,7 @@ class InstanceProviderTest extends AbstractValueProviderTestCase
     /**
      * @covers ::__construct
      * @covers ::getValues
+     * @covers ::getMockObject
      * @throws Exception
      */
     public function testGetValues(): void
@@ -36,6 +38,7 @@ class InstanceProviderTest extends AbstractValueProviderTestCase
      * When the requested class has a constructor requirement
      * @covers ::__construct
      * @covers ::getValues
+     * @covers ::getMockObject
      *
      * @throws Exception
      */
@@ -66,6 +69,7 @@ class InstanceProviderTest extends AbstractValueProviderTestCase
      *
      * @covers ::__construct
      * @covers ::getValues
+     * @covers ::getMockObject
      * @throws Exception
      * @requires PHP >= 8.1
      */
@@ -77,6 +81,25 @@ class InstanceProviderTest extends AbstractValueProviderTestCase
         static::assertNotEmpty($values);
         foreach ($values as $value) {
             static::assertInstanceOf(TestEnum::class, $value);
+        }
+    }
+
+    /**
+     * Test getting test cases from a DateTimeInterface
+     *
+     * @covers ::__construct
+     * @covers ::getValues
+     * @covers ::getMockObject
+     * @throws Exception
+     */
+    public function testGetDateTimeInterfaceValues(): void
+    {
+        $valueProvider = new InstanceProvider(DateTimeInterface::class);
+        $values        = $valueProvider->getValues();
+
+        static::assertNotEmpty($values);
+        foreach ($values as $value) {
+            static::assertInstanceOf(DateTimeInterface::class, $value);
         }
     }
 }
