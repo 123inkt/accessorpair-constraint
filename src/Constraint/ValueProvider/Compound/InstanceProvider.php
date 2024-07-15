@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound;
 
+use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvider;
 use LogicException;
 use PHPUnit\Framework\MockObject\Generator\Generator;
@@ -35,23 +38,33 @@ class InstanceProvider implements ValueProvider
             return $enum::cases();
         }
 
+        // It's not allowed to make mocks of the DateTimeInterface class itself
+        if ($this->typehint === DateTimeInterface::class) {
+            return [$this->getMockObject(DateTime::class), $this->getMockObject(DateTimeImmutable::class)];
+        }
+
+        return [$this->getMockObject($this->typehint)];
+    }
+
+    private function getMockObject(string $typehint): object
+    {
         if (class_exists('PHPUnit\Framework\MockObject\Generator\Generator')) {
             /** @var \PHPUnit\Framework\MockObject\Generator $mockGenerator */
             $mockGenerator = new Generator();
             if (method_exists($mockGenerator, 'testDouble')) {
                 if (method_exists(Version::class, 'majorVersionNumber') && Version::majorVersionNumber() >= 11) {
-                    $instance = $mockGenerator->testDouble($this->typehint, true, true, [], [], '', false);
+                    $instance = $mockGenerator->testDouble($typehint, true, true, [], [], '', false);
                 } else {
-                    $instance = $mockGenerator->testDouble($this->typehint, true, [], [], '', false);
+                    $instance = $mockGenerator->testDouble($typehint, true, [], [], '', false);
                 }
             } else {
-                $instance = $mockGenerator->getMock($this->typehint, [], [], '', false);
+                $instance = $mockGenerator->getMock($typehint, [], [], '', false);
             }
         } else {
             $mockGenerator = new \PHPUnit\Framework\MockObject\Generator();
-            $instance      = $mockGenerator->getMock($this->typehint, [], [], '', false);
+            $instance      = $mockGenerator->getMock($typehint, [], [], '', false);
         }
 
-        return [$instance];
+        return $instance;
     }
 }
