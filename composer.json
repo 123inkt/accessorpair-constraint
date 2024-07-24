@@ -11,10 +11,10 @@
         }
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "doctrine/inflector": "^2.0",
         "phpdocumentor/type-resolver": "^1.7",
-        "phpunit/phpunit": "^9.0 || ^10.0 || ^11.0"
+        "phpunit/phpunit": "^10.0 || ^11.0"
     },
     "require-dev": {
         "phpmd/phpmd": "@stable",
