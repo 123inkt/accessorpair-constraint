@@ -78,12 +78,7 @@ class PhpDocParser
             return []; // @codeCoverageIgnore
         }
 
-        $templates = array_combine($matches[1], $matches[2]);
-        if ($templates === false) {
-            return []; // @codeCoverageIgnore
-        }
-
-        return $templates;
+        return array_combine($matches[1], $matches[2]);
     }
 
     /**

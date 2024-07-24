@@ -31,7 +31,7 @@ class InstanceProvider implements ValueProvider
      */
     public function getValues(): array
     {
-        if (PHP_VERSION_ID >= 80100 && enum_exists($this->typehint)) {
+        if (enum_exists($this->typehint)) {
             /** @var UnitEnum $enum */
             $enum = $this->typehint;
 
