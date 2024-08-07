@@ -93,6 +93,9 @@ class PhpDocParserTest extends TestCase
         yield ['/** @param array$param */', 'array'];
         yield ['/**@param array$param*/', 'array'];
         yield ["/**\n     *@param array\$param\n     */", 'array'];
+
+        // Don't match parameters where the name is a substring of another parameter
+        yield ['/** @param string $paramList */', null];
     }
 
     /**
