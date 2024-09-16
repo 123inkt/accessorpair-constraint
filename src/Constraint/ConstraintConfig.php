@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint;
 
-use phpDocumentor\Reflection\Type;
-
 class ConstraintConfig
 {
     /** @var bool */

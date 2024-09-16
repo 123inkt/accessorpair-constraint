@@ -14,8 +14,6 @@ use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\Union
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\UnionProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
-use phpDocumentor\Reflection\Type;
-use phpDocumentor\Reflection\Types\Object_;
 use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
 use TypeError;
