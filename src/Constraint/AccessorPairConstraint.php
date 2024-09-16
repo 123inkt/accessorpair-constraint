@@ -13,6 +13,7 @@ use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use Exception;
 use LogicException;
+use phpDocumentor\Reflection\Types\Object_;
 use PHPUnit\Framework\Constraint\Constraint;
 use ReflectionClass;
 use ReflectionMethod;
@@ -282,6 +283,14 @@ class AccessorPairConstraint extends Constraint
     {
         $resolver = new TypehintResolver($method);
         $typehint = $resolver->getParamTypehint($parameter);
+
+        $valueProvider = $this->config->getValueProvider();
+        if ($valueProvider !== null && $typehint instanceof Object_) {
+            $value = $valueProvider(ltrim((string)$typehint->getFqsen(), '\\'));
+            if ($value !== null) {
+                return [$value];
+            }
+        }
 
         return $this->valueProviderFactory->getProvider($typehint)->getValues();
     }

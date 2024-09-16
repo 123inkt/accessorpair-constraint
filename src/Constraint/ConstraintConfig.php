@@ -23,6 +23,9 @@ class ConstraintConfig
     /** @var null|callable(): mixed[] */
     private $constructorCallback = null;
 
+    /** @var null|(callable(class-string): ?object) */
+    private $valueProvider = null;
+
     public function hasAccessorPairCheck(): bool
     {
         return $this->assertAccessorPair;
@@ -126,6 +129,25 @@ class ConstraintConfig
     public function setConstructorCallback(callable $callback): self
     {
         $this->constructorCallback = $callback;
+
+        return $this;
+    }
+
+    public function getValueProvider(): ?callable
+    {
+        return $this->valueProvider;
+    }
+
+    /**
+     * Callback function to allow for a custom value provider. For instance for final classes. The argument
+     * is the class-string of the value, the return value should be the provided value. Return <code>null</code>
+     * to skip the value provider and use the default value providers.
+     *
+     * @param callable(class-string): ?object $valueProvider
+     */
+    public function setValueProvider(callable $valueProvider): self
+    {
+        $this->valueProvider = $valueProvider;
 
         return $this;
     }
