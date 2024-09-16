@@ -200,13 +200,7 @@ class AccessorPairAsserterTest extends TestCase
     public function testFinalClassWithCustomValueProvider(): void
     {
         $config = new ConstraintConfig();
-        $config->setValueProvider(static function (Type $type) {
-            if ($type instanceof Object_ && (string)$type->getFqsen() !== FinalClass::class) {
-                return new FinalClass();
-            }
-
-            return null;
-        });
+        $config->setValueProvider(static fn(string $class) => $class === FinalClass::class ? new FinalClass() : null);
 
         static::assertAccessorPairs(FinalClass::class, $config);
     }
