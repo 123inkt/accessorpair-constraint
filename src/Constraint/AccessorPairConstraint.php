@@ -281,6 +281,14 @@ class AccessorPairConstraint extends Constraint
         $resolver = new TypehintResolver($method);
         $typehint = $resolver->getParamTypehint($parameter);
 
+        $valueProvider = $this->config->getValueProvider();
+        if ($valueProvider !== null) {
+            $value = $valueProvider($typehint);
+            if ($value !== null) {
+                return [$value];
+            }
+        }
+
         return $this->valueProviderFactory->getProvider($typehint)->getValues();
     }
 

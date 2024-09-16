@@ -6,6 +6,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration;
 use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\CustomConstructorParameters;
+use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\FinalClass;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\IntersectionClassProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\IntersectionInterfaceProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\SetterTransformer;
@@ -13,6 +14,8 @@ use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\Union
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\UnionProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
+use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\Types\Object_;
 use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
 use TypeError;
@@ -101,7 +104,6 @@ class AccessorPairAsserterTest extends TestCase
 
     /**
      * When turning off the propertyDefaultCheck, we can safely pass classes we know will fail the constraint
-     *
      * @dataProvider failureInitialStateDataProvider
      */
     public function testExcludingInitialStateCheck(object $class): void
@@ -119,7 +121,6 @@ class AccessorPairAsserterTest extends TestCase
 
     /**
      * When turning off the constructorPairCheck, we can safely pass classes we know will fail the constraint
-     *
      * @dataProvider failureConstructorDataProvider
      */
     public function testExcludingConstructorPair(object $class): void
@@ -194,6 +195,20 @@ class AccessorPairAsserterTest extends TestCase
     {
         // Test a method with an intersection typehint: A&B
         static::assertAccessorPairs(IntersectionClassProperty::class);
+    }
+
+    public function testFinalClassWithCustomValueProvider(): void
+    {
+        $config = new ConstraintConfig();
+        $config->setValueProvider(static function (Type $type) {
+            if ($type instanceof Object_ && (string)$type->getFqsen() !== FinalClass::class) {
+                return new FinalClass();
+            }
+
+            return null;
+        });
+
+        static::assertAccessorPairs(FinalClass::class, $config);
     }
 
     /**
