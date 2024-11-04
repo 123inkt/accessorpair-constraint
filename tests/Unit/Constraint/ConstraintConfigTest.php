@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Constraint;
+namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
