@@ -36,6 +36,7 @@ class PhpDocParser
     public function getReturnTypehint(string $originalDocComment): ?string
     {
         $docComment = trim($originalDocComment);
+        $docComment = str_replace([', ', ': '], [',', ':'], $docComment);
         // empty docblock provided, no typehint found
         if ($docComment === '') {
             return null;
@@ -52,7 +53,7 @@ class PhpDocParser
             return $this->normalizeDocblock((string)$matches[1]);
         }
 
-        preg_match('/\*\s*@return\s+([^#\r\n]*?)(\s*(\/\/.*|#.*))?$/m', $docComment, $matches);
+        preg_match('/\*\s*@return\s+(.*?)(?:\s+|\*)/', $docComment, $matches);
         if (isset($matches[1])) {
             return $this->normalizeDocblock((string)$matches[1]);
         }
