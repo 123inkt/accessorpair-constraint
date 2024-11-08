@@ -43,8 +43,8 @@
         "check:phpcs": "phpcs src tests",
         "fix": "@fix:phpcbf",
         "fix:phpcbf": "phpcbf src tests",
-        "test": "phpunit",
-        "test:integration": "phpunit --testsuite integration",
-        "test:unit": "phpunit --testsuite unit"
+        "test": "phpunit --coverage-filter=src",
+        "test:integration": "phpunit --testsuite integration --coverage-filter=src",
+        "test:unit": "phpunit --testsuite unit --coverage-filter=src"
     }
 }
