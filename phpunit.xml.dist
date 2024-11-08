@@ -20,10 +20,9 @@
             <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
-    <coverage/>
-    <source>
+    <coverage>
         <include>
-            <directory suffix=".php">./src</directory>
+            <directory suffix=".php">src</directory>
         </include>
-    </source>
+    </coverage>
 </phpunit>
