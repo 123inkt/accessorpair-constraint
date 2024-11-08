@@ -9,8 +9,11 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\Str
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass(ArrayShapeProvider::class)]
+#[UsesClass(IntProvider::class)]
+#[UsesClass(StringProvider::class)]
 class ArrayShapeProviderTest extends AbstractValueProviderTestCase
 {
     /**
