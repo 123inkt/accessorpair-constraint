@@ -8,12 +8,13 @@
         "sort-packages": true,
         "allow-plugins": {
             "phpstan/extension-installer": true
-        }
+        },
+        "lock": false
     },
     "require": {
         "php": ">=8.1",
         "doctrine/inflector": "^2.0",
-        "phpdocumentor/type-resolver": "^1.7",
+        "phpdocumentor/type-resolver": "^1.9",
         "phpunit/phpunit": "^10.0 || ^11.0"
     },
     "require-dev": {

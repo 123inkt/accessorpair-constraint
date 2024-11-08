@@ -19,12 +19,12 @@ class PhpDocParser
 
         preg_match('/\*\s*@(?:phpstan|psalm)-param\s+(.*?)\s*(?:\.\.\.)?' . preg_quote('$' . $parameterName, '/') . '\W/i', $docComment, $matches);
         if (isset($matches[1])) {
-            return $this->normalizeDocblock((string)$matches[1]);
+            return $this->normalizeDocblock($matches[1]);
         }
 
         preg_match('/\*\s*@param\s+(.*?)\s*(?:\.\.\.)?' . preg_quote('$' . $parameterName, '/') . '\W/i', $docComment, $matches);
         if (isset($matches[1])) {
-            return $this->normalizeDocblock((string)$matches[1]);
+            return $this->normalizeDocblock($matches[1]);
         }
 
         return null;
@@ -36,6 +36,7 @@ class PhpDocParser
     public function getReturnTypehint(string $originalDocComment): ?string
     {
         $docComment = trim($originalDocComment);
+        $docComment = str_replace([', ', ': '], [',', ':'], $docComment);
         // empty docblock provided, no typehint found
         if ($docComment === '') {
             return null;
@@ -49,12 +50,12 @@ class PhpDocParser
 
         preg_match('/\*\s*@(?:phpstan|psalm)-return\s+(.*?)(?:\s+|\*)/', $docComment, $matches);
         if (isset($matches[1])) {
-            return $this->normalizeDocblock((string)$matches[1]);
+            return $this->normalizeDocblock($matches[1]);
         }
 
         preg_match('/\*\s*@return\s+(.*?)(?:\s+|\*)/', $docComment, $matches);
         if (isset($matches[1])) {
-            return $this->normalizeDocblock((string)$matches[1]);
+            return $this->normalizeDocblock($matches[1]);
         }
 
         return null;
@@ -74,9 +75,6 @@ class PhpDocParser
         }
 
         preg_match_all('/\*\s*@template\s+(.*?)\sof\s(.*?)(?:\s+|\*)/', $docComment, $matches);
-        if (isset($matches[1], $matches[2]) === false) {
-            return []; // @codeCoverageIgnore
-        }
 
         return array_combine($matches[1], $matches[2]);
     }

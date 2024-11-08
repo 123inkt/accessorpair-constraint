@@ -31,6 +31,7 @@ use TypeError;
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider
+ * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayShapeProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider
  * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IntersectionProvider

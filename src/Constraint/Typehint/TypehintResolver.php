@@ -21,10 +21,10 @@ use ReflectionUnionType;
  */
 class TypehintResolver
 {
-    protected PhpDocParser     $phpDocParser;
+    protected PhpDocParser $phpDocParser;
     protected ReflectionMethod $method;
-    protected TypeResolver     $resolver;
-    protected Context          $resolverContext;
+    protected TypeResolver $resolver;
+    protected Context $resolverContext;
 
     public function __construct(ReflectionMethod $method)
     {
