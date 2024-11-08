@@ -15,6 +15,7 @@ class ArrayShapeProvider implements ValueProvider
     }
 
     /**
+     * @return array<array<int|string, mixed>>
      * @inheritDoc
      */
     public function getValues(): array
