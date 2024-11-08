@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayShapeProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider;
@@ -16,6 +17,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\Str
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\ResourceProvider;
 use LogicException;
+use phpDocumentor\Reflection\PseudoTypes\ArrayShape;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -79,6 +81,13 @@ class NativeValueProviderFactory
                     $this->valueProviderFactory->getProvider($typehint->getValueType()),
                     $this->valueProviderFactory->getProvider($typehint->getKeyType())
                 );
+            case ArrayShape::class:
+                $items = $typehint->getItems();
+                $itemProviders = [];
+                foreach ($items as $item) {
+                    $itemProviders[$item->getKey()] = $this->valueProviderFactory->getProvider($item->getValue());
+                }
+                return new ArrayShapeProvider($itemProviders);
             case Callable_::class:
                 return new CallableProvider();
             case Iterable_::class:
