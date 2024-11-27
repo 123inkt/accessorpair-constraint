@@ -13,6 +13,7 @@ use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use Exception;
 use LogicException;
+use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 use PHPUnit\Framework\Constraint\Constraint;
 use ReflectionClass;
@@ -285,8 +286,9 @@ class AccessorPairConstraint extends Constraint
         $typehint = $resolver->getParamTypehint($parameter);
 
         $valueProvider = $this->config->getValueProvider();
-        if ($valueProvider !== null && $typehint instanceof Object_) {
-            $value = $valueProvider(ltrim((string)$typehint->getFqsen(), '\\'));
+        $nonNullType   = $typehint instanceof Nullable ? $typehint->getActualType() : $typehint;
+        if ($valueProvider !== null && $nonNullType instanceof Object_) {
+            $value = $valueProvider(ltrim((string)$nonNullType->getFqsen(), '\\'));
             if ($value !== null) {
                 return [$value];
             }
