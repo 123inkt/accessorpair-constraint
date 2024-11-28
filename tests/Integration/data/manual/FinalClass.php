@@ -8,6 +8,8 @@ final class FinalClass
 {
     private int $intValue;
     private FinalClass $property;
+    private ?FinalClass $nullableProperty = null;
+    private FinalClass|null $nullUnionProperty = null;
 
     public function getIntValue(): int
     {
@@ -27,5 +29,25 @@ final class FinalClass
     public function setProperty(FinalClass $property): void
     {
         $this->property = $property;
+    }
+
+    public function getNullableProperty(): ?FinalClass
+    {
+        return $this->nullableProperty;
+    }
+
+    public function setNullableProperty(?FinalClass $nullableProperty): void
+    {
+        $this->nullableProperty = $nullableProperty;
+    }
+
+    public function getNullUnionProperty(): FinalClass|null
+    {
+        return $this->nullUnionProperty;
+    }
+
+    public function setNullUnionProperty(FinalClass|null $nullUnionProperty): void
+    {
+        $this->nullUnionProperty = $nullUnionProperty;
     }
 }
