@@ -5,6 +5,7 @@ namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ConstExpressionProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
@@ -18,6 +19,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\Int
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use LogicException;
 use phpDocumentor\Reflection\PseudoTypes\CallableString;
+use phpDocumentor\Reflection\PseudoTypes\ConstExpression;
 use phpDocumentor\Reflection\PseudoTypes\FloatValue;
 use phpDocumentor\Reflection\PseudoTypes\HtmlEscapedString;
 use phpDocumentor\Reflection\PseudoTypes\IntegerRange;
@@ -37,6 +39,7 @@ use phpDocumentor\Reflection\PseudoTypes\TraitString;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\ArrayKey;
 use phpDocumentor\Reflection\Types\ClassString;
+use ReflectionMethod;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -53,7 +56,7 @@ class PseudoValueProviderFactory
     /**
      * @throws LogicException
      */
-    public function getProvider(Type $typehint): ?ValueProvider
+    public function getProvider(Type $typehint, ?ReflectionMethod $method = null): ?ValueProvider
     {
         switch (get_class($typehint)) {
             case ArrayKey::class:
@@ -61,15 +64,17 @@ class PseudoValueProviderFactory
             case IntegerRange::class:
                 return new IntProvider((int)$typehint->getMinValue(), (int)$typehint->getMaxValue());
             case List_::class:
-                return new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType()));
+                return new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType(), $method));
             case NonEmptyList::class:
-                return new NonEmptyValueProvider(new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType())));
+                return new NonEmptyValueProvider(new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType(), $method)));
             case NegativeInteger::class:
                 return new IntProvider(PHP_INT_MIN, -1);
             case Numeric_::class:
                 return new ValueProviderList(new NumericStringProvider(), new IntProvider(), new FloatProvider(new IntProvider()));
             case PositiveInteger::class:
                 return new IntProvider(1, PHP_INT_MAX);
+            case ConstExpression::class:
+                return new ConstExpressionProvider($typehint->getOwner(), $typehint->getExpression(), $method);
         }
 
         return $this->getPseudoStringProvider($typehint);
