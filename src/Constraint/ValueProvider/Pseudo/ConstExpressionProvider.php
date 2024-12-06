@@ -30,7 +30,10 @@ class ConstExpressionProvider implements ValueProvider
     public function getValues(): array
     {
         if ($this->owner instanceof Object_ && $this->owner->getFqsen() !== null) {
-            $constClass = new ReflectionClass((string)$this->owner->getFqsen());
+            /** @var class-string $fqsen */
+            $fqsen = (string)$this->owner->getFqsen();
+
+            $constClass = new ReflectionClass($fqsen);
         } elseif ($this->owner instanceof Self_ && $this->method !== null) {
             $constClass = $this->method->getDeclaringClass();
         } else {
