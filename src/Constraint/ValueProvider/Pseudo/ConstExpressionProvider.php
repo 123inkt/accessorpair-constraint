@@ -29,7 +29,7 @@ class ConstExpressionProvider implements ValueProvider
      */
     public function getValues(): array
     {
-        if ($this->owner instanceof Object_) {
+        if ($this->owner instanceof Object_ && $this->owner->getFqsen() !== null) {
             $constClass = new ReflectionClass($this->owner->getFqsen());
         } elseif ($this->owner instanceof Self_ && $this->method !== null) {
             $constClass = $this->method->getDeclaringClass();
@@ -41,7 +41,7 @@ class ConstExpressionProvider implements ValueProvider
         $expression = str_replace('*', '.*', $this->expression);
         $values = [];
         foreach ($constants as $constant => $value) {
-            if (preg_match('/^' . $expression . '$/', $constant)) {
+            if (preg_match('/^' . $expression . '$/', $constant) === 1) {
                 $values[] = $value;
             }
         }

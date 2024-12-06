@@ -136,10 +136,9 @@ class PhpDocParserTest extends TestCase
         yield ['/**@return array*/', 'array'];
         yield ["/**\n     *@return array\n     */", 'array'];
 
-
-
-
+        // Constant expressions
         yield ['/** @return self::CONSTANT_* */', 'self::CONSTANT_*'];
+        yield ['/** @return SomeClass::CONSTANT_* */', 'SomeClass::CONSTANT_*'];
     }
 
     /**
