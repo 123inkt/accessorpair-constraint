@@ -13,6 +13,7 @@ use phpDocumentor\Reflection\Types\Compound;
 use phpDocumentor\Reflection\Types\Intersection;
 use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
+use ReflectionMethod;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -33,7 +34,7 @@ class ValueProviderFactory
      *
      * @throws LogicException
      */
-    public function getProvider(Type $typehint): ValueProvider
+    public function getProvider(Type $typehint, ?ReflectionMethod $method = null): ValueProvider
     {
         // Support intersection typehints, such as "Iterator&Countable"
         if ($typehint instanceof Intersection) {
@@ -42,12 +43,12 @@ class ValueProviderFactory
 
         // Support union typehints, such as "string|null"
         if ($typehint instanceof Compound) {
-            return new ValueProviderList(...$this->getProviders(iterator_to_array($typehint)));
+            return new ValueProviderList(...$this->getProviders(iterator_to_array($typehint), $method));
         }
 
         // Support nullable typehints, such as "?string". Adds a NullProvider to the regular typehint's ValueProvider.
         if ($typehint instanceof Nullable) {
-            return new ValueProviderList(new NullProvider(), $this->getProvider($typehint->getActualType()));
+            return new ValueProviderList(new NullProvider(), $this->getProvider($typehint->getActualType(), $method));
         }
 
         // Support for fully namespaced class name
@@ -56,13 +57,13 @@ class ValueProviderFactory
         }
 
         // Check if the provider typehint is a PHP scalar type
-        $nativeProvider = $this->nativeProviderFactory->getProvider($typehint);
+        $nativeProvider = $this->nativeProviderFactory->getProvider($typehint, $method);
         if ($nativeProvider !== null) {
             return $nativeProvider;
         }
 
         // Check if the provider typehint is a PHP pseudoType
-        $pseudoProvider = $this->pseudoProviderFactory->getProvider($typehint);
+        $pseudoProvider = $this->pseudoProviderFactory->getProvider($typehint, $method);
         if ($pseudoProvider !== null) {
             return $pseudoProvider;
         }
@@ -76,11 +77,11 @@ class ValueProviderFactory
      * @return ValueProvider[]
      * @throws LogicException
      */
-    protected function getProviders(array $typehints): array
+    protected function getProviders(array $typehints, ?ReflectionMethod $method): array
     {
         $providers = [];
         foreach ($typehints as $typehint) {
-            $providers[] = $this->getProvider($typehint);
+            $providers[] = $this->getProvider($typehint, $method);
         }
 
         return $providers;

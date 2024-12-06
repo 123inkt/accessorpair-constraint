@@ -53,7 +53,7 @@ class PhpDocParser
             return $this->normalizeDocblock($matches[1]);
         }
 
-        preg_match('/\*\s*@return\s+(.*?)(?:\s+|\*)/', $docComment, $matches);
+        preg_match('/\*\s*@return\s+(.*?)(?:\s+|\*\/)/', $docComment, $matches);
         if (isset($matches[1])) {
             return $this->normalizeDocblock($matches[1]);
         }

@@ -294,7 +294,7 @@ class AccessorPairConstraint extends Constraint
             }
         }
 
-        return $this->valueProviderFactory->getProvider($typehint)->getValues();
+        return $this->valueProviderFactory->getProvider($typehint, $method)->getValues();
     }
 
     /**

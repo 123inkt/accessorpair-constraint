@@ -32,6 +32,7 @@ use phpDocumentor\Reflection\Types\Resource_;
 use phpDocumentor\Reflection\Types\String_;
 use phpDocumentor\Reflection\PseudoTypes\False_;
 use phpDocumentor\Reflection\PseudoTypes\True_;
+use ReflectionMethod;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -48,9 +49,9 @@ class NativeValueProviderFactory
     /**
      * @throws LogicException
      */
-    public function getProvider(Type $typehint): ?ValueProvider
+    public function getProvider(Type $typehint, ?ReflectionMethod $method = null): ?ValueProvider
     {
-        $provider = $this->getCompoundProvider($typehint);
+        $provider = $this->getCompoundProvider($typehint, $method);
         if ($provider !== null) {
             return $provider;
         }
@@ -73,13 +74,13 @@ class NativeValueProviderFactory
         return null;
     }
 
-    protected function getCompoundProvider(Type $typehint): ?ValueProvider
+    protected function getCompoundProvider(Type $typehint, ?ReflectionMethod $method): ?ValueProvider
     {
         switch (get_class($typehint)) {
             case Array_::class:
                 return new ArrayProvider(
-                    $this->valueProviderFactory->getProvider($typehint->getValueType()),
-                    $this->valueProviderFactory->getProvider($typehint->getKeyType())
+                    $this->valueProviderFactory->getProvider($typehint->getValueType(), $method),
+                    $this->valueProviderFactory->getProvider($typehint->getKeyType(), $method)
                 );
             case ArrayShape::class:
                 $items = $typehint->getItems();
