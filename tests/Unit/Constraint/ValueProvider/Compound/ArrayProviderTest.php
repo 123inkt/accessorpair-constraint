@@ -23,7 +23,7 @@ class ArrayProviderTest extends AbstractValueProviderTestCase
     public function testGetValues(): void
     {
         $valueProvider = new ArrayProvider();
-        $values        = $valueProvider->getValues();
+        $values = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['iterable']);
         static::assertValueTypes(array_merge(...$values), ['integer', 'double', 'string', 'NULL']);
@@ -41,7 +41,7 @@ class ArrayProviderTest extends AbstractValueProviderTestCase
     public function testGetValuesTyped(): void
     {
         $valueProvider = new ArrayProvider(new IntProvider(), new StringProvider());
-        $values        = $valueProvider->getValues();
+        $values = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['iterable']);
         static::assertValueTypes(array_merge(...$values), ['integer']);

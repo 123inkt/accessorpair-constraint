@@ -15,9 +15,6 @@ use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 use ReflectionMethod;
 
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class ValueProviderFactory
 {
     private NativeValueProviderFactory $nativeProviderFactory;
@@ -53,7 +50,10 @@ class ValueProviderFactory
 
         // Support for fully namespaced class name
         if (($typehint instanceof Object_ || $typehint instanceof Collection) && $typehint->getFqsen() !== null) {
-            return new InstanceProvider((string)$typehint->getFqsen());
+            /** @var class-string $fqsen */
+            $fqsen = (string)$typehint->getFqsen();
+
+            return new InstanceProvider($fqsen);
         }
 
         // Check if the provider typehint is a PHP scalar type

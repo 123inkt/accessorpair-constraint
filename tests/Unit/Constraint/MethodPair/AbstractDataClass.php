@@ -5,9 +5,6 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodP
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 
-/**
- * @suppressWarnings(PHPMD.NumberOfChildren)
- */
 abstract class AbstractDataClass
 {
     /**

@@ -78,7 +78,6 @@ use phpDocumentor\Reflection\Types\ClassString;
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory
  * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class PseudoValueProviderFactoryTest extends TestCase
 {
