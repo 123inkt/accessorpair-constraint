@@ -25,7 +25,7 @@ class ArrayProvider implements ValueProvider
     {
         $keys = [];
         if ($this->keyProvider !== null) {
-            $keys = array_filter($this->keyProvider->getValues());
+            $keys = array_filter($this->keyProvider->getValues(), static fn($key): bool => $key !== '');
         }
 
         $testArray = [];
@@ -38,7 +38,7 @@ class ArrayProvider implements ValueProvider
     }
 
     /**
-     * @return array<int, mixed>
+     * @return mixed[]
      * @throws Exception
      */
     protected function getArrayValues(): array

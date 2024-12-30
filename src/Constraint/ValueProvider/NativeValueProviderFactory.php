@@ -34,9 +34,6 @@ use phpDocumentor\Reflection\PseudoTypes\False_;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 use ReflectionMethod;
 
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class NativeValueProviderFactory
 {
     private ValueProviderFactory $valueProviderFactory;

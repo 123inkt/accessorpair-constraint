@@ -113,6 +113,9 @@ class ConstraintConfig
         return $this;
     }
 
+    /**
+     * @return callable(): mixed[]|null
+     */
     public function getConstructorCallback(): ?callable
     {
         return $this->constructorCallback;

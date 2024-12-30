@@ -14,9 +14,12 @@ use UnitEnum;
 
 class InstanceProvider implements ValueProvider
 {
-    /** @var string */
+    /** @var class-string */
     protected $typehint;
 
+    /**
+     * @param class-string $typehint
+     */
     public function __construct(string $typehint)
     {
         $this->typehint = ltrim($typehint, '\\');
@@ -32,7 +35,7 @@ class InstanceProvider implements ValueProvider
     public function getValues(): array
     {
         if (enum_exists($this->typehint)) {
-            /** @var UnitEnum $enum */
+            /** @var class-string<UnitEnum> $enum */
             $enum = $this->typehint;
 
             return $enum::cases();
@@ -49,7 +52,6 @@ class InstanceProvider implements ValueProvider
     private function getMockObject(string $typehint): object
     {
         if (class_exists('PHPUnit\Framework\MockObject\Generator\Generator')) {
-            /** @var \PHPUnit\Framework\MockObject\Generator $mockGenerator */
             $mockGenerator = new Generator();
             if (method_exists($mockGenerator, 'testDouble')) {
                 if (method_exists(Version::class, 'majorVersionNumber') && Version::majorVersionNumber() >= 11) {

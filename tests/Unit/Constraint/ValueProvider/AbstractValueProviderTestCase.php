@@ -5,9 +5,6 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 
-/**
- * @suppressWarnings(PHPMD.NumberOfChildren)
- */
 abstract class AbstractValueProviderTestCase extends TestCase
 {
     abstract public function testGetValues(): void;

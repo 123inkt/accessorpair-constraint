@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<phpmd-baseline>
+  <violation rule="PHPMD\Rule\Design\EvalExpression" file="src/Constraint/ValueProvider/Compound/IntersectionProvider.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="src/Constraint/ValueProvider/NativeValueProviderFactory.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="src/Constraint/ValueProvider/PseudoValueProviderFactory.php"/>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Constraint/ValueProvider/PseudoValueProviderFactory.php" method="getPseudoStringProvider"/>
+  <violation rule="PHPMD\Rule\Design\NumberOfChildren" file="tests/Unit/Constraint/MethodPair/AbstractDataClass.php"/>
+  <violation rule="PHPMD\Rule\UnusedPrivateMethod" file="tests/Unit/Constraint/MethodPair/AccessorPair/data/failure/GetPrivateSet.php" method="getProperty"/>
+  <violation rule="PHPMD\Rule\UnusedPrivateMethod" file="tests/Unit/Constraint/MethodPair/AccessorPair/data/failure/GetSetPrivate.php" method="setProperty"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="tests/Unit/Constraint/MethodPair/AccessorPair/data/parentchild/ExcludeParentGetterChildSetter.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="tests/Unit/Constraint/MethodPair/AccessorPair/data/parentchild/IncludeParentGetterChildSetter.php"/>
+  <violation rule="PHPMD\Rule\Design\NumberOfChildren" file="tests/Unit/Constraint/ValueProvider/AbstractValueProviderTestCase.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="tests/Unit/Constraint/ValueProvider/NativeValueProviderFactoryTest.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="tests/Unit/Constraint/ValueProvider/PseudoValueProviderFactoryTest.php"/>
+  <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="tests/Unit/Constraint/ValueProvider/ValueProviderFactoryTest.php"/>
+</phpmd-baseline>

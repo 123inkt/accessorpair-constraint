@@ -41,9 +41,6 @@ use phpDocumentor\Reflection\Types\ArrayKey;
 use phpDocumentor\Reflection\Types\ClassString;
 use ReflectionMethod;
 
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class PseudoValueProviderFactory
 {
     private ValueProviderFactory $valueProviderFactory;
@@ -80,16 +77,13 @@ class PseudoValueProviderFactory
         return $this->getPseudoStringProvider($typehint);
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     */
     protected function getPseudoStringProvider(Type $typehint): ?ValueProvider
     {
         switch (get_class($typehint)) {
             case ClassString::class:
                 $fqsen = null;
                 if ($typehint->getFqsen() !== null) {
-                    /** @var class-string|null $fqsen */
+                    /** @var class-string $fqsen */
                     $fqsen = (string)$typehint->getFqsen();
                 }
 

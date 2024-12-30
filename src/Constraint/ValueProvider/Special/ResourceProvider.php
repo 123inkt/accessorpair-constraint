@@ -10,7 +10,6 @@ class ResourceProvider implements ValueProvider
 {
     /**
      * @return resource[]
-     * @throws Exception
      */
     public function getValues(): array
     {

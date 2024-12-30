@@ -1,46 +1,91 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to function method_exists\\(\\) with 'PHPUnit\\\\\\\\Runner\\\\\\\\Version' and 'majorVersionNumber' will always evaluate to true\\.$#"
+			message: '#^Call to an undefined method PHPUnit\\Framework\\MockObject\\Generator\\Generator\:\:getMock\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
 
 		-
-			message: "#^Call to method getMock\\(\\) on an unknown class PHPUnit\\\\Framework\\\\MockObject\\\\Generator\\.$#"
-			count: 2
-			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
-
-		-
-			message: "#^Call to method testDouble\\(\\) on an unknown class PHPUnit\\\\Framework\\\\MockObject\\\\Generator\\.$#"
-			count: 2
-			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
-
-		-
-			message: "#^Instantiated class PHPUnit\\\\Framework\\\\MockObject\\\\Generator not found\\.$#"
+			message: '#^Call to function method_exists\(\) with ''PHPUnit\\\\Runner\\\\Version'' and ''majorVersionNumber'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
 			count: 1
 			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
 
 		-
-			message: "#^PHPDoc tag @var for variable \\$mockGenerator contains unknown class PHPUnit\\\\Framework\\\\MockObject\\\\Generator\\.$#"
+			message: '#^Call to function method_exists\(\) with PHPUnit\\Framework\\MockObject\\Generator\\Generator and ''testDouble'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
 			count: 1
 			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
 
 		-
-			message: "#^Call to method getMockForAbstractClass\\(\\) on an unknown class PHPUnit\\\\Framework\\\\MockObject\\\\Generator\\.$#"
-			count: 2
+			message: '#^Call to method getMock\(\) on an unknown class PHPUnit\\Framework\\MockObject\\Generator\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
+
+		-
+			message: '#^Instantiated class PHPUnit\\Framework\\MockObject\\Generator not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
+
+		-
+			message: '#^Method DigitalRevolution\\AccessorPairConstraint\\Constraint\\ValueProvider\\Compound\\InstanceProvider\:\:getMockObject\(\) should return object but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
+
+		-
+			message: '#^Parameter \#3 \$methods of method PHPUnit\\Framework\\MockObject\\Generator\\Generator\:\:testDouble\(\) expects array\|null, true given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
+
+		-
+			message: '#^Parameter \#5 \$mockClassName of method PHPUnit\\Framework\\MockObject\\Generator\\Generator\:\:testDouble\(\) expects string, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
+
+		-
+			message: '#^Parameter \#6 \$callOriginalConstructor of method PHPUnit\\Framework\\MockObject\\Generator\\Generator\:\:testDouble\(\) expects bool, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
+
+		-
+			message: '#^Call to an undefined method PHPUnit\\Framework\\MockObject\\Generator\\Generator\:\:getMockForAbstractClass\(\)\.$#'
+			identifier: method.notFound
+			count: 1
 			path: src/Constraint/ValueProvider/Compound/IntersectionProvider.php
 
 		-
-			message: "#^Call to method mockObjectForAbstractClass\\(\\) on an unknown class PHPUnit\\\\Framework\\\\MockObject\\\\Generator\\.$#"
+			message: '#^Call to function method_exists\(\) with PHPUnit\\Framework\\MockObject\\Generator\\Generator and ''mockObjectForAbstra…'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
 			count: 1
 			path: src/Constraint/ValueProvider/Compound/IntersectionProvider.php
 
 		-
-			message: "#^Instantiated class PHPUnit\\\\Framework\\\\MockObject\\\\Generator not found\\.$#"
+			message: '#^Call to method getMockForAbstractClass\(\) on an unknown class PHPUnit\\Framework\\MockObject\\Generator\.$#'
+			identifier: class.notFound
 			count: 1
 			path: src/Constraint/ValueProvider/Compound/IntersectionProvider.php
 
 		-
-			message: "#^PHPDoc tag @var for variable \\$mockGenerator contains unknown class PHPUnit\\\\Framework\\\\MockObject\\\\Generator\\.$#"
+			message: '#^Instantiated class PHPUnit\\Framework\\MockObject\\Generator not found\.$#'
+			identifier: class.notFound
 			count: 1
 			path: src/Constraint/ValueProvider/Compound/IntersectionProvider.php
+
+		-
+			message: '#^Call to function array_filter\(\) requires parameter \#2 to be passed to avoid loose comparison semantics\.$#'
+			identifier: arrayFilter.strict
+			count: 1
+			path: src/Constraint/ValueProvider/Pseudo/NonEmptyValueProvider.php
+
+		-
+			message: '#^Parameter \#1 \$typehint of class DigitalRevolution\\AccessorPairConstraint\\Constraint\\ValueProvider\\Compound\\InstanceProvider constructor expects class\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/Unit/Constraint/ValueProvider/Compound/InstanceProviderTest.php

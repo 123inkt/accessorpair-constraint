@@ -24,7 +24,10 @@ abstract class AbstractDtoTestCase extends TestCase
             if ($attribute->getName() === 'PHPUnit\Framework\Attributes\CoversClass') {
                 $testedAttributes = true;
                 $config = $this->getAccessorPairConfig();
-                static::assertAccessorPairs($attribute->getArguments()[0], $config);
+
+                /** @var array{0: class-string} $arguments */
+                $arguments = $attribute->getArguments();
+                static::assertAccessorPairs($arguments[0], $config);
             }
         }
         static::assertTrue($testedAttributes, 'Missing CoversClass attribute');

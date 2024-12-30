@@ -29,7 +29,6 @@ class ListProviderTest extends AbstractValueProviderTestCase
     }
 
     /**
-     * @covers ::__construct
      * @covers ::getValues
      * @throws Exception
      * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
