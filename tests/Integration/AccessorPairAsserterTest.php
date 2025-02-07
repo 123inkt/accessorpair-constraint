@@ -26,6 +26,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\Tr
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ConstExpressionProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
@@ -100,6 +101,7 @@ use TypeError;
 #[UsesClass(PseudoValueProviderFactory::class)]
 #[UsesClass(ValueProviderList::class)]
 #[UsesClass(ValueProviderFactory::class)]
+#[UsesClass(ConstExpressionProvider::class)]
 class AccessorPairAsserterTest extends TestCase
 {
     use AccessorPairAsserter;

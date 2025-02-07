@@ -13,6 +13,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\Tr
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ConstExpressionProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
@@ -35,6 +36,7 @@ use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\PseudoTypes\CallableString;
+use phpDocumentor\Reflection\PseudoTypes\ConstExpression;
 use phpDocumentor\Reflection\PseudoTypes\FloatValue;
 use phpDocumentor\Reflection\PseudoTypes\HtmlEscapedString;
 use phpDocumentor\Reflection\PseudoTypes\IntegerRange;
@@ -54,9 +56,11 @@ use phpDocumentor\Reflection\PseudoTypes\TraitString;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\ArrayKey;
 use phpDocumentor\Reflection\Types\ClassString;
+use phpDocumentor\Reflection\Types\Object_;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
+use stdClass;
 
 #[CoversClass(PseudoValueProviderFactory::class)]
 #[UsesClass(ArrayProvider::class)]
@@ -85,6 +89,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(ValueProviderList::class)]
 #[UsesClass(NativeValueProviderFactory::class)]
 #[UsesClass(ValueProviderFactory::class)]
+#[UsesClass(ConstExpressionProvider::class)]
 class PseudoValueProviderFactoryTest extends TestCase
 {
     #[DataProvider('pseudoTypeProvider')]
@@ -144,6 +149,10 @@ class PseudoValueProviderFactoryTest extends TestCase
         yield "PseudoType NumericString" => [new NumericString(), new NumericStringProvider()];
         yield "PseudoType PositiveInteger" => [new PositiveInteger(), new IntProvider(1, PHP_INT_MAX)];
         yield "PseudoType TraitString" => [new TraitString(), new TraitStringProvider()];
+        yield "PseudoType ConstExpression" => [
+            new ConstExpression(new Object_(new Fqsen("\\" . stdClass::class)), "CONST_*"),
+            new ConstExpressionProvider(new Object_(new Fqsen("\\" . stdClass::class)), "CONST_*", null)
+        ];
     }
 
     private static function getMixedProvider(): ValueProviderList

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayShapeProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider;
@@ -32,6 +33,8 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvi
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
+use phpDocumentor\Reflection\PseudoTypes\ArrayShape;
+use phpDocumentor\Reflection\PseudoTypes\ArrayShapeItem;
 use phpDocumentor\Reflection\PseudoTypes\False_;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 use phpDocumentor\Reflection\Type;
@@ -52,6 +55,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass(NativeValueProviderFactory::class)]
 #[UsesClass(ArrayProvider::class)]
+#[UsesClass(ArrayShapeProvider::class)]
 #[UsesClass(CallableProvider::class)]
 #[UsesClass(IterableProvider::class)]
 #[UsesClass(ObjectProvider::class)]
@@ -109,6 +113,10 @@ class NativeValueProviderFactoryTest extends TestCase
         yield "NativeType Array" => [
             new Array_(),
             new ArrayProvider(self::getMixedProvider(), new ValueProviderList(new StringProvider(), new IntProvider()))
+        ];
+        yield "NativeType ArrayShape" => [
+            new ArrayShape(new ArrayShapeItem("foo", new String_(), false)),
+            new ArrayShapeProvider(["foo" => new StringProvider()])
         ];
         yield "NativeType Callable" => [new Callable_(), new CallableProvider()];
         yield "NativeType Iterable" => [new Iterable_(), new IterableProvider()];
