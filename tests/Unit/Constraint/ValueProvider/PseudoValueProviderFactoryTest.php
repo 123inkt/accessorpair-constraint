@@ -5,9 +5,15 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\FalseProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\TrueProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ConstExpressionProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
@@ -22,6 +28,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\Flo
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\ResourceProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList;
@@ -29,6 +36,7 @@ use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\PseudoTypes\CallableString;
+use phpDocumentor\Reflection\PseudoTypes\ConstExpression;
 use phpDocumentor\Reflection\PseudoTypes\FloatValue;
 use phpDocumentor\Reflection\PseudoTypes\HtmlEscapedString;
 use phpDocumentor\Reflection\PseudoTypes\IntegerRange;
@@ -48,54 +56,49 @@ use phpDocumentor\Reflection\PseudoTypes\TraitString;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\ArrayKey;
 use phpDocumentor\Reflection\Types\ClassString;
+use phpDocumentor\Reflection\Types\Object_;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
+use stdClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\PseudoValueProviderFactory
- * @covers ::__construct
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\TrueProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\FalseProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\ResourceProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory
- */
+#[CoversClass(PseudoValueProviderFactory::class)]
+#[UsesClass(ArrayProvider::class)]
+#[UsesClass(CallableProvider::class)]
+#[UsesClass(IterableProvider::class)]
+#[UsesClass(ObjectProvider::class)]
+#[UsesClass(InstanceProvider::class)]
+#[UsesClass(TrueProvider::class)]
+#[UsesClass(FalseProvider::class)]
+#[UsesClass(CallableStringProvider::class)]
+#[UsesClass(ClassStringProvider::class)]
+#[UsesClass(DirectValueProvider::class)]
+#[UsesClass(HtmlEscapedStringProvider::class)]
+#[UsesClass(ListProvider::class)]
+#[UsesClass(LiteralStringProvider::class)]
+#[UsesClass(LowercaseStringProvider::class)]
+#[UsesClass(NonEmptyValueProvider::class)]
+#[UsesClass(NumericStringProvider::class)]
+#[UsesClass(TraitStringProvider::class)]
+#[UsesClass(BoolProvider::class)]
+#[UsesClass(FloatProvider::class)]
+#[UsesClass(IntProvider::class)]
+#[UsesClass(StringProvider::class)]
+#[UsesClass(NullProvider::class)]
+#[UsesClass(ResourceProvider::class)]
+#[UsesClass(ValueProviderList::class)]
+#[UsesClass(NativeValueProviderFactory::class)]
+#[UsesClass(ValueProviderFactory::class)]
+#[UsesClass(ConstExpressionProvider::class)]
 class PseudoValueProviderFactoryTest extends TestCase
 {
-    /**
-     * @dataProvider pseudoTypeProvider
-     * @covers ::getProvider
-     * @covers ::getPseudoStringProvider
-     */
+    #[DataProvider('pseudoTypeProvider')]
     public function testGetProvider(Type $type, ValueProvider $expectedProvider): void
     {
         $providerFactory = new PseudoValueProviderFactory(new ValueProviderFactory());
         static::assertEquals($expectedProvider, $providerFactory->getProvider($type));
     }
 
-    /**
-     * @covers ::getProvider
-     * @covers ::getPseudoStringProvider
-     */
     public function testGetProviderUnknown(): void
     {
         $providerFactory = new PseudoValueProviderFactory($this->createMock(ValueProviderFactory::class));
@@ -146,6 +149,10 @@ class PseudoValueProviderFactoryTest extends TestCase
         yield "PseudoType NumericString" => [new NumericString(), new NumericStringProvider()];
         yield "PseudoType PositiveInteger" => [new PositiveInteger(), new IntProvider(1, PHP_INT_MAX)];
         yield "PseudoType TraitString" => [new TraitString(), new TraitStringProvider()];
+        yield "PseudoType ConstExpression" => [
+            new ConstExpression(new Object_(new Fqsen("\\" . stdClass::class)), "CONST_*"),
+            new ConstExpressionProvider(new Object_(new Fqsen("\\" . stdClass::class)), "CONST_*", null)
+        ];
     }
 
     private static function getMixedProvider(): ValueProviderList

@@ -5,16 +5,11 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider
- * @covers ::__construct
- */
+#[CoversClass(ClassStringProvider::class)]
 class ClassStringProviderTest extends AbstractValueProviderTestCase
 {
-    /**
-     * @covers ::getValues
-     */
     public function testGetValues(): void
     {
         $valueProvider = new ClassStringProvider();
@@ -26,9 +21,6 @@ class ClassStringProviderTest extends AbstractValueProviderTestCase
         }
     }
 
-    /**
-     * @covers ::getValues
-     */
     public function testGetValuesFqsen(): void
     {
         $valueProvider = new ClassStringProvider(self::class);

@@ -8,16 +8,15 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\Int
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider
- */
+#[CoversClass(ArrayProvider::class)]
+#[UsesClass(IntProvider::class)]
+#[UsesClass(StringProvider::class)]
 class ArrayProviderTest extends AbstractValueProviderTestCase
 {
     /**
-     * @covers ::__construct
-     * @covers ::getValues
-     * @covers ::getArrayValues
      * @throws Exception
      */
     public function testGetValues(): void
@@ -31,12 +30,7 @@ class ArrayProviderTest extends AbstractValueProviderTestCase
     }
 
     /**
-     * @covers ::__construct
-     * @covers ::getValues
-     * @covers ::getArrayValues
      * @throws Exception
-     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
-     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
      */
     public function testGetValuesTyped(): void
     {

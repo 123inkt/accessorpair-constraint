@@ -7,16 +7,11 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use phpDocumentor\Reflection\PseudoTypes\StringValue;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider
- */
+#[CoversClass(DirectValueProvider::class)]
 class DirectValueProviderTest extends AbstractValueProviderTestCase
 {
-    /**
-     * @covers ::__construct
-     * @covers ::getValues
-     */
     public function testGetValues(): void
     {
         $provider = new DirectValueProvider(new StringValue('value'));

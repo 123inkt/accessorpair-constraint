@@ -7,21 +7,20 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Lis
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider
- * @covers ::__construct
- */
+#[CoversClass(ListProvider::class)]
+#[UsesClass(IntProvider::class)]
 class ListProviderTest extends AbstractValueProviderTestCase
 {
     /**
-     * @covers ::getValues
      * @throws Exception
      */
     public function testGetValues(): void
     {
         $valueProvider = new ListProvider();
-        $values        = $valueProvider->getValues();
+        $values = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['iterable']);
         static::assertValueTypes(array_merge(...$values), ['integer', 'double', 'string', 'NULL']);
@@ -29,14 +28,12 @@ class ListProviderTest extends AbstractValueProviderTestCase
     }
 
     /**
-     * @covers ::getValues
      * @throws Exception
-     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
      */
     public function testGetValuesTyped(): void
     {
         $valueProvider = new ListProvider(new IntProvider());
-        $values        = $valueProvider->getValues();
+        $values = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['iterable']);
         static::assertValueTypes(array_merge(...$values), ['integer']);

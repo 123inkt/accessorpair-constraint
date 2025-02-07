@@ -5,15 +5,11 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider
- */
+#[CoversClass(BoolProvider::class)]
 class BoolProviderTest extends AbstractValueProviderTestCase
 {
-    /**
-     * @covers ::getValues
-     */
     public function testGetValues(): void
     {
         $valueProvider = new BoolProvider();

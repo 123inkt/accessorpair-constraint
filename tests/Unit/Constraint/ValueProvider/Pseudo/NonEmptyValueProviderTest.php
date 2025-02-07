@@ -8,17 +8,15 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Non
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider
- * @covers ::__construct
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider
- */
+#[CoversClass(NonEmptyValueProvider::class)]
+#[UsesClass(ListProvider::class)]
+#[UsesClass(StringProvider::class)]
 class NonEmptyValueProviderTest extends AbstractValueProviderTestCase
 {
     /**
-     * @covers ::getValues
      * @throws Exception
      */
     public function testGetValues(): void
@@ -33,7 +31,6 @@ class NonEmptyValueProviderTest extends AbstractValueProviderTestCase
     }
 
     /**
-     * @covers ::getValues
      * @throws Exception
      */
     public function testGetValuesList(): void

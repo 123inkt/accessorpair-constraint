@@ -4,7 +4,46 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Integration;
 
 use DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter;
+use DigitalRevolution\AccessorPairConstraint\Constraint\AccessorPairConstraint;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPairProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser;
+use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayShapeProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IntersectionProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\FalseProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\TrueProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ConstExpressionProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\PseudoValueProviderFactory;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\ResourceProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\CustomConstructorParameters;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\FinalClass;
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\IntersectionClassProperty;
@@ -14,52 +53,55 @@ use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\Union
 use DigitalRevolution\AccessorPairConstraint\Tests\Integration\data\manual\UnionProperty;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhp;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
 use TypeError;
 
-/**
- * @covers \DigitalRevolution\AccessorPairConstraint\Constraint\AccessorPairConstraint
- * @covers \DigitalRevolution\AccessorPairConstraint\AccessorPairAsserter
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPair
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AccessorPair\AccessorPairProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPairProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayShapeProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IntersectionProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IterableProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\TrueProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\FalseProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\DirectValueProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\HtmlEscapedStringProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\ResourceProvider
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\NativeValueProviderFactory
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\PseudoValueProviderFactory
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList
- * @uses   \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderFactory
- */
+#[CoversClass(AccessorPairAsserter::class)]
+#[CoversClass(AccessorPairConstraint::class)]
+#[UsesClass(ConstraintConfig::class)]
+#[UsesClass(AbstractMethodPair::class)]
+#[UsesClass(ClassMethodProvider::class)]
+#[UsesClass(AccessorPair::class)]
+#[UsesClass(AccessorPairProvider::class)]
+#[UsesClass(ConstructorPair::class)]
+#[UsesClass(ConstructorPairProvider::class)]
+#[UsesClass(PhpDocParser::class)]
+#[UsesClass(TypehintResolver::class)]
+#[UsesClass(ArrayProvider::class)]
+#[UsesClass(ArrayShapeProvider::class)]
+#[UsesClass(CallableProvider::class)]
+#[UsesClass(InstanceProvider::class)]
+#[UsesClass(IntersectionProvider::class)]
+#[UsesClass(IterableProvider::class)]
+#[UsesClass(ObjectProvider::class)]
+#[UsesClass(TrueProvider::class)]
+#[UsesClass(FalseProvider::class)]
+#[UsesClass(CallableStringProvider::class)]
+#[UsesClass(ClassStringProvider::class)]
+#[UsesClass(DirectValueProvider::class)]
+#[UsesClass(HtmlEscapedStringProvider::class)]
+#[UsesClass(ListProvider::class)]
+#[UsesClass(LiteralStringProvider::class)]
+#[UsesClass(LowercaseStringProvider::class)]
+#[UsesClass(NonEmptyValueProvider::class)]
+#[UsesClass(NumericStringProvider::class)]
+#[UsesClass(TraitStringProvider::class)]
+#[UsesClass(BoolProvider::class)]
+#[UsesClass(FloatProvider::class)]
+#[UsesClass(IntProvider::class)]
+#[UsesClass(StringProvider::class)]
+#[UsesClass(NullProvider::class)]
+#[UsesClass(ResourceProvider::class)]
+#[UsesClass(NativeValueProviderFactory::class)]
+#[UsesClass(PseudoValueProviderFactory::class)]
+#[UsesClass(ValueProviderList::class)]
+#[UsesClass(ValueProviderFactory::class)]
+#[UsesClass(ConstExpressionProvider::class)]
 class AccessorPairAsserterTest extends TestCase
 {
     use AccessorPairAsserter;
@@ -77,25 +119,19 @@ class AccessorPairAsserterTest extends TestCase
         static::assertNotNull($exception);
     }
 
-    /**
-     * @dataProvider successDataProvider
-     */
+    #[DataProvider('successDataProvider')]
     public function testMatchesSuccess(object $class): void
     {
         static::assertAccessorPairs(get_class($class));
     }
 
-    /**
-     * @dataProvider successInitialStateDataProvider
-     */
+    #[DataProvider('successInitialStateDataProvider')]
     public function testMatchesSuccessInitialState(object $class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(true));
     }
 
-    /**
-     * @dataProvider successInitialStateDataProvider
-     */
+    #[DataProvider('successInitialStateDataProvider')]
     public function testMatchesSuccessInitialStateWithDefaultMethod(object $class): void
     {
         static::assertAccessorPropertyDefaults(get_class($class));
@@ -103,16 +139,14 @@ class AccessorPairAsserterTest extends TestCase
 
     /**
      * When turning off the propertyDefaultCheck, we can safely pass classes we know will fail the constraint
-     * @dataProvider failureInitialStateDataProvider
      */
+    #[DataProvider('failureInitialStateDataProvider')]
     public function testExcludingInitialStateCheck(object $class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertPropertyDefaults(false));
     }
 
-    /**
-     * @dataProvider successConstructorDataProvider
-     */
+    #[DataProvider('successConstructorDataProvider')]
     public function testMatchesSuccessConstructorPair(object $class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertConstructor(true));
@@ -120,25 +154,21 @@ class AccessorPairAsserterTest extends TestCase
 
     /**
      * When turning off the constructorPairCheck, we can safely pass classes we know will fail the constraint
-     * @dataProvider failureConstructorDataProvider
      */
+    #[DataProvider('failureConstructorDataProvider')]
     public function testExcludingConstructorPair(object $class): void
     {
         static::assertAccessorPairs(get_class($class), (new ConstraintConfig())->setAssertConstructor(false));
     }
 
-    /**
-     * @dataProvider failureDataProvider
-     */
+    #[DataProvider('failureDataProvider')]
     public function testMatchesFailureState(object $class): void
     {
         $this->expectException(ExpectationFailedException::class);
         static::assertAccessorPairs(get_class($class));
     }
 
-    /**
-     * @dataProvider failureInitialStateDataProvider
-     */
+    #[DataProvider('failureInitialStateDataProvider')]
     public function testMatchesFailureInitialState(object $class): void
     {
         $this->expectException(TypeError::class);
@@ -168,9 +198,7 @@ class AccessorPairAsserterTest extends TestCase
         static::assertAccessorPairs(CustomConstructorParameters::class, $config);
     }
 
-    /**
-     * @requires PHP >= 8.0
-     */
+    #[RequiresPhp('>=8.0')]
     public function testUnionProperty(): void
     {
         // Test a method with a union typehint: A|B
@@ -178,18 +206,14 @@ class AccessorPairAsserterTest extends TestCase
         static::assertAccessorPairs(UnionNullableProperty::class);
     }
 
-    /**
-     * @requires PHP >= 8.1
-     */
+    #[RequiresPhp('>=8.1')]
     public function testIntersectionInterfaceProperty(): void
     {
         // Test a method with an intersection typehint: A&B
         static::assertAccessorPairs(IntersectionInterfaceProperty::class);
     }
 
-    /**
-     * @requires PHP >= 8.1
-     */
+    #[RequiresPhp('>=8.1')]
     public function testIntersectionClassProperty(): void
     {
         // Test a method with an intersection typehint: A&B

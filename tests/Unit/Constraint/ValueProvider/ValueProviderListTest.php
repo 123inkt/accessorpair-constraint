@@ -9,18 +9,16 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvi
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList;
 use Exception;
 use LogicException;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProviderList
- */
+#[CoversClass(ValueProviderList::class)]
+#[UsesClass(IntProvider::class)]
+#[UsesClass(StringProvider::class)]
 class ValueProviderListTest extends AbstractValueProviderTestCase
 {
     /**
-     * @covers ::__construct
-     * @covers ::getValues
      * @throws Exception
-     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
-     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
      */
     public function testGetValues(): void
     {
@@ -30,9 +28,6 @@ class ValueProviderListTest extends AbstractValueProviderTestCase
         static::assertValueTypes($values, ['string', 'integer']);
     }
 
-    /**
-     * @covers ::__construct
-     */
     public function testGetValuesNoProviders(): void
     {
         $this->expectException(LogicException::class);
@@ -42,8 +37,6 @@ class ValueProviderListTest extends AbstractValueProviderTestCase
     }
 
     /**
-     * @covers ::__construct
-     * @covers ::getValues
      * @throws Exception
      */
     public function testGetValuesEmptyProviderValues(): void

@@ -5,15 +5,11 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider
- */
+#[CoversClass(TraitStringProvider::class)]
 class TraitStringProviderTest extends AbstractValueProviderTestCase
 {
-    /**
-     * @covers ::getValues
-     */
     public function testGetValues(): void
     {
         $valueProvider = new TraitStringProvider();

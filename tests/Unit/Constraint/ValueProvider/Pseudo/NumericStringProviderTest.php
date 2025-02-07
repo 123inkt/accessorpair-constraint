@@ -6,14 +6,12 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider
- */
+#[CoversClass(NumericStringProvider::class)]
 class NumericStringProviderTest extends AbstractValueProviderTestCase
 {
     /**
-     * @covers ::getValues
      * @throws Exception
      */
     public function testGetValues(): void
