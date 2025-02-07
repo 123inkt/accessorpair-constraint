@@ -17,7 +17,3 @@ parameters:
     html-escaped-string: 'string'
     lowercase-string: 'string'
     non-empty-string: 'string'
-
-  ignoreErrors:
-    -
-      identifier: phpunit.coversMethod
