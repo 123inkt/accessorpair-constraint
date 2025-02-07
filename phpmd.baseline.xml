@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <phpmd-baseline>
+  <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Constraint/ValueProvider/Compound/IntersectionProvider.php" method="getValues"/>
   <violation rule="PHPMD\Rule\Design\EvalExpression" file="src/Constraint/ValueProvider/Compound/IntersectionProvider.php"/>
   <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="src/Constraint/ValueProvider/NativeValueProviderFactory.php"/>
   <violation rule="PHPMD\Rule\Design\CouplingBetweenObjects" file="src/Constraint/ValueProvider/PseudoValueProviderFactory.php"/>
