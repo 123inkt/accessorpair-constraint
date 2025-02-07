@@ -40,7 +40,7 @@ class ConstraintConfigTest extends TestCase
         static::assertSame($callback, $config->setConstructorCallback($callback)->getConstructorCallback());
 
         $config = new ConstraintConfig();
-        $valueProvider = static function (string $class): ?object {
+        $valueProvider = static function (): ?object {
             return null;
         };
 
