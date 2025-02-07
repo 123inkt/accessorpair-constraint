@@ -5,26 +5,11 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
- */
+#[CoversClass(ConstraintConfig::class)]
 class ConstraintConfigTest extends TestCase
 {
-    /**
-     * @covers ::setAssertAccessorPair
-     * @covers ::hasAccessorPairCheck
-     * @covers ::setAssertConstructor
-     * @covers ::hasAssertConstructor
-     * @covers ::setAssertPropertyDefaults
-     * @covers ::hasPropertyDefaultCheck
-     * @covers ::setAssertParentMethods
-     * @covers ::isAssertParentMethods
-     * @covers ::setExcludedMethods
-     * @covers ::getExcludedMethods
-     * @covers ::getConstructorCallback
-     * @covers ::setConstructorCallback
-     */
     public function testConfig(): void
     {
         $config = new ConstraintConfig();

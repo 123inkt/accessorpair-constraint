@@ -6,14 +6,12 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider
- */
+#[CoversClass(NullProvider::class)]
 class NullProviderTest extends AbstractValueProviderTestCase
 {
     /**
-     * @covers ::getValues
      * @throws Exception
      */
     public function testGetValues(): void

@@ -11,17 +11,12 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Callable_;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\Self_;
+use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionMethod;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ConstExpressionProvider
- * @covers ::__construct
- */
+#[CoversClass(ConstExpressionProvider::class)]
 class ConstExpressionProviderTest extends AbstractValueProviderTestCase
 {
-    /**
-     * @covers ::getValues
-     */
     public function testGetValues(): void
     {
         $valueProvider = new ConstExpressionProvider(new Object_(new Fqsen('\\' . ClassWithConsts::class)), 'CONST_*', null);
@@ -33,9 +28,6 @@ class ConstExpressionProviderTest extends AbstractValueProviderTestCase
         static::assertNotContains('CONSTANT_A', $values);
     }
 
-    /**
-     * @covers ::getValues
-     */
     public function testGetValuesSelf(): void
     {
         $valueProvider = new ConstExpressionProvider(new Self_(), 'CONST_*', new ReflectionMethod(ClassWithConsts::class, 'setConst'));
@@ -47,9 +39,6 @@ class ConstExpressionProviderTest extends AbstractValueProviderTestCase
         static::assertNotContains('CONSTANT_A', $values);
     }
 
-    /**
-     * @covers ::getValues
-     */
     public function testGetValuesInvalidType(): void
     {
         $this->expectException(\RuntimeException::class);

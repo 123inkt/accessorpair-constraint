@@ -6,19 +6,16 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehin
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use Generator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
- */
+#[CoversClass(PhpDocParser::class)]
 class PhpDocParserTest extends TestCase
 {
     /**
      * @param string|null $expectedTypehint PHP typehint as string, or null in case of missing phpdoc typehint
-     *
-     * @dataProvider paramTypehintProvider
-     * @covers ::getParamTypehint
-     * @covers ::normalizeDocblock
      */
+    #[DataProvider('paramTypehintProvider')]
     public function testGetParamTypehint(string $docComment, ?string $expectedTypehint): void
     {
         $parser = new PhpDocParser();
@@ -27,11 +24,8 @@ class PhpDocParserTest extends TestCase
 
     /**
      * @param string|null $expectedTypehint PHP typehint as string, or null in case of missing phpdoc typehint
-     *
-     * @dataProvider returnTypehintProvider
-     * @covers ::getReturnTypehint
-     * @covers ::normalizeDocblock
      */
+    #[DataProvider('returnTypehintProvider')]
     public function testGetReturnTypehint(string $docComment, ?string $expectedTypehint): void
     {
         $parser = new PhpDocParser();
@@ -40,10 +34,8 @@ class PhpDocParserTest extends TestCase
 
     /**
      * @param array<string, string> $expectedTypehint
-     *
-     * @dataProvider templateTypehintProvider
-     * @covers ::getTemplateTypehints
      */
+    #[DataProvider('templateTypehintProvider')]
     public function testGetTemplateTypehints(string $docComment, array $expectedTypehint): void
     {
         $parser = new PhpDocParser();

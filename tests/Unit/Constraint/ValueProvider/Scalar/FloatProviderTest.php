@@ -7,16 +7,14 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\Flo
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider
- */
+#[CoversClass(FloatProvider::class)]
+#[UsesClass(IntProvider::class)]
 class FloatProviderTest extends AbstractValueProviderTestCase
 {
     /**
-     * @covers ::__construct
-     * @covers ::getValues
      * @throws Exception
      */
     public function testGetValues(): void

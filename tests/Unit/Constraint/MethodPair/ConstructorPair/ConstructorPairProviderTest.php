@@ -3,35 +3,35 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\ConstructorPair;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair;
 use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPairProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser;
+use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver;
 use DigitalRevolution\AccessorPairConstraint\Tests\TestCase;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\AbstractDataClass;
 use Generator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
 use ReflectionClass;
 use ReflectionException;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPairProvider
- * @covers ::__construct
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\PhpDocParser
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\TypehintResolver
- */
+#[CoversClass(ConstructorPairProvider::class)]
+#[UsesClass(TypehintResolver::class)]
+#[UsesClass(PhpDocParser::class)]
+#[UsesClass(ConstraintConfig::class)]
+#[UsesClass(ClassMethodProvider::class)]
+#[CoversClass(AbstractMethodPair::class)]
+#[CoversClass(ConstructorPair::class)]
 class ConstructorPairProviderTest extends TestCase
 {
-    /**
-     * @dataProvider dataProvider
-     * @covers ::getConstructorPairs
-     * @covers ::validateConstructorPair
-     * @covers ::getParameters
-     * @covers ::getMethodBaseNames
-     * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\AbstractMethodPair
-     * @covers       \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ConstructorPair\ConstructorPair
-     * @uses         \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
-     * @uses         \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider
-     */
+    #[DataProvider('dataProvider')]
     public function testGetConstructorPairs(AbstractDataClass $class): void
     {
-        $provider    = new ConstructorPairProvider($class->getConfig());
+        $provider = new ConstructorPairProvider($class->getConfig());
         $actualPairs = $provider->getConstructorPairs(new ReflectionClass($class));
 
         $expectedPairs = $class->getExpectedPairs();

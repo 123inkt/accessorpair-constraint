@@ -7,19 +7,15 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig;
 use DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\data\SimpleClassWithOneMethod;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\MethodPair\data\SimpleClassWithParent;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\MethodPair\ClassMethodProvider
- * @covers ::__construct
- */
+#[CoversClass(ClassMethodProvider::class)]
+#[UsesClass(ConstraintConfig::class)]
 class ClassMethodProviderTest extends TestCase
 {
-    /**
-     * @covers ::getMethods
-     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
-     */
     public function testGetMethods(): void
     {
         $provider = new ClassMethodProvider(new ConstraintConfig());
@@ -29,10 +25,6 @@ class ClassMethodProviderTest extends TestCase
         static::assertSame('foobar', $methods[0]->getName());
     }
 
-    /**
-     * @covers ::getMethods
-     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
-     */
     public function testGetMethodsWithParent(): void
     {
         $provider = new ClassMethodProvider(new ConstraintConfig());
@@ -43,10 +35,6 @@ class ClassMethodProviderTest extends TestCase
         static::assertSame('foobar', $methods[1]->getName());
     }
 
-    /**
-     * @covers ::getMethods
-     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
-     */
     public function testGetMethodsWithParentExcluded(): void
     {
         $provider = new ClassMethodProvider((new ConstraintConfig())->setAssertParentMethods(false));
@@ -56,10 +44,6 @@ class ClassMethodProviderTest extends TestCase
         static::assertSame('childMethod', $methods[0]->getName());
     }
 
-    /**
-     * @covers ::getMethods
-     * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ConstraintConfig
-     */
     public function testGetMethodsWithMethodExcluded(): void
     {
         $provider = new ClassMethodProvider((new ConstraintConfig())->setExcludedMethods(['childMethod']));

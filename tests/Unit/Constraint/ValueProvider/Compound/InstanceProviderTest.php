@@ -10,16 +10,13 @@ use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider
 use Exception;
 use Iterator;
 use LogicException;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider
- */
+#[CoversClass(InstanceProvider::class)]
 class InstanceProviderTest extends AbstractValueProviderTestCase
 {
     /**
-     * @covers ::__construct
-     * @covers ::getValues
-     * @covers ::getMockObject
      * @throws Exception
      */
     public function testGetValues(): void
@@ -36,9 +33,6 @@ class InstanceProviderTest extends AbstractValueProviderTestCase
     /**
      * Test that the InstanceProvider returns a correct value
      * When the requested class has a constructor requirement
-     * @covers ::__construct
-     * @covers ::getValues
-     * @covers ::getMockObject
      *
      * @throws Exception
      */
@@ -54,7 +48,6 @@ class InstanceProviderTest extends AbstractValueProviderTestCase
     }
 
     /**
-     * @covers ::__construct
      * @throws Exception
      */
     public function testGetValuesError(): void
@@ -67,12 +60,9 @@ class InstanceProviderTest extends AbstractValueProviderTestCase
     /**
      * Test getting test cases from an enum
      *
-     * @covers ::__construct
-     * @covers ::getValues
-     * @covers ::getMockObject
      * @throws Exception
-     * @requires PHP >= 8.1
      */
+    #[RequiresPhp('>=8.1')]
     public function testGetEnumValues(): void
     {
         $valueProvider = new InstanceProvider(TestEnum::class);
@@ -87,9 +77,6 @@ class InstanceProviderTest extends AbstractValueProviderTestCase
     /**
      * Test getting test cases from a DateTimeInterface
      *
-     * @covers ::__construct
-     * @covers ::getValues
-     * @covers ::getMockObject
      * @throws Exception
      */
     public function testGetDateTimeInterfaceValues(): void

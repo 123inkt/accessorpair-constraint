@@ -7,22 +7,20 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Low
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 
-/**
- * @coversDefaultClass \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider
- * @covers ::__construct
- * @uses \DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider
- */
+#[CoversClass(LowercaseStringProvider::class)]
+#[UsesClass(StringProvider::class)]
 class LowercaseStringProviderTest extends AbstractValueProviderTestCase
 {
     /**
-     * @covers ::getValues
      * @throws Exception
      */
     public function testGetValues(): void
     {
         $valueProvider = new LowercaseStringProvider(new StringProvider());
-        $values        = $valueProvider->getValues();
+        $values = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['string']);
         foreach ($values as $value) {
