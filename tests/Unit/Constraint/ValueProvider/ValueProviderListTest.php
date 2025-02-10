@@ -26,7 +26,7 @@ class ValueProviderListTest extends AbstractValueProviderTestCase
         $valueProvider = new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider());
         $values        = $valueProvider->getValues();
 
-        static::assertValueTypes($values, ['string', 'integer']);
+        static::assertValueTypes($values, ['string', 'integer', 'numeric-string']);
     }
 
     public function testGetValuesNoProviders(): void

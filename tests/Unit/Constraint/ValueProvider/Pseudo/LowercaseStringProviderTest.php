@@ -24,7 +24,7 @@ class LowercaseStringProviderTest extends AbstractValueProviderTestCase
         $valueProvider = new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
         $values = $valueProvider->getValues();
 
-        static::assertValueTypes($values, ['string']);
+        static::assertValueTypes($values, ['string', 'numeric-string']);
         foreach ($values as $value) {
             static::assertTrue(strtolower($value) === $value);
         }
