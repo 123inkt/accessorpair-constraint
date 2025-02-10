@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\ValueProvider;
@@ -15,6 +16,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[CoversClass(ValueProviderList::class)]
 #[UsesClass(IntProvider::class)]
 #[UsesClass(StringProvider::class)]
+#[UsesClass(NumericStringProvider::class)]
 class ValueProviderListTest extends AbstractValueProviderTestCase
 {
     /**
@@ -22,10 +24,10 @@ class ValueProviderListTest extends AbstractValueProviderTestCase
      */
     public function testGetValues(): void
     {
-        $valueProvider = new ValueProviderList(new StringProvider(), new IntProvider());
+        $valueProvider = new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider());
         $values        = $valueProvider->getValues();
 
-        static::assertValueTypes($values, ['string', 'integer']);
+        static::assertValueTypes($values, ['string', 'integer', 'numeric-string']);
     }
 
     public function testGetValuesNoProviders(): void

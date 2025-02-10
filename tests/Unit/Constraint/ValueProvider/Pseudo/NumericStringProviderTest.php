@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\Pseudo;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(NumericStringProvider::class)]
+#[CoversClass(IntProvider::class)]
 class NumericStringProviderTest extends AbstractValueProviderTestCase
 {
     /**
@@ -16,10 +18,10 @@ class NumericStringProviderTest extends AbstractValueProviderTestCase
      */
     public function testGetValues(): void
     {
-        $valueProvider = new NumericStringProvider();
+        $valueProvider = new NumericStringProvider(new IntProvider());
         $values = $valueProvider->getValues();
 
-        static::assertValueTypes($values, ['string']);
+        static::assertValueTypes($values, ['numeric-string']);
         static::assertContainsOnly('numeric', $values);
     }
 }

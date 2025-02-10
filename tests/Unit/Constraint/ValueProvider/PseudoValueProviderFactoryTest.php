@@ -92,6 +92,69 @@ use stdClass;
 #[UsesClass(ConstExpressionProvider::class)]
 class PseudoValueProviderFactoryTest extends TestCase
 {
+    /**
+     * @return Generator<string, array{0: Type, 1: ValueProvider}>
+     */
+    public static function pseudoTypeProvider(): Generator
+    {
+        yield "PseudoType ArrayKey" => [
+            new ArrayKey(),
+            new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider())
+        ];
+        yield "PseudoType ClassString" => [new ClassString(), new ClassStringProvider()];
+        yield "PseudoType ClassString Fqsen" => [
+            new ClassString(new Fqsen('\\' . ValueProvider::class)),
+            new ClassStringProvider('\\' . ValueProvider::class)
+        ];
+        yield "PseudoType CallableString" => [new CallableString(), new CallableStringProvider()];
+        yield "PseudoType FloatValue" => [new FloatValue(1.0), new DirectValueProvider(new FloatValue(1.0))];
+        yield "PseudoType IntegerValue" => [new IntegerValue(1), new DirectValueProvider(new IntegerValue(1))];
+        yield "PseudoType StringValue" => [new StringValue('foo'), new DirectValueProvider(new StringValue('foo'))];
+        yield "PseudoType HtmlEscapedString" => [new HtmlEscapedString(), new HtmlEscapedStringProvider()];
+        yield "PseudoType IntegerRange" => [new IntegerRange('0', '5'), new IntProvider(0, 5)];
+        yield "PseudoType List" => [new List_(), new ListProvider(self::getMixedProvider())];
+        yield "PseudoType NonEmptyList" => [new NonEmptyList(), new NonEmptyValueProvider(new ListProvider(self::getMixedProvider()))];
+        yield "PseudoType LiteralString" => [new LiteralString(), new LiteralStringProvider()];
+        yield "PseudoType LowercaseString" => [
+            new LowercaseString(),
+            new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())))
+        ];
+        yield "PseudoType NegativeInteger" => [new NegativeInteger(), new IntProvider(PHP_INT_MIN, -1)];
+        yield "PseudoType NonEmptyLowercaseString" => [
+            new NonEmptyLowercaseString(),
+            new NonEmptyValueProvider(new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider()))))
+        ];
+        yield "PseudoType NonEmptyString" => [
+            new NonEmptyString(),
+            new NonEmptyValueProvider(new StringProvider(new NumericStringProvider(new IntProvider())))
+        ];
+        yield "PseudoType Numeric" => [
+            new Numeric_(),
+            new ValueProviderList(new NumericStringProvider(new IntProvider()), new IntProvider(), new FloatProvider(new IntProvider()))
+        ];
+        yield "PseudoType NumericString" => [new NumericString(), new NumericStringProvider(new IntProvider())];
+        yield "PseudoType PositiveInteger" => [new PositiveInteger(), new IntProvider(1, PHP_INT_MAX)];
+        yield "PseudoType TraitString" => [new TraitString(), new TraitStringProvider()];
+        yield "PseudoType ConstExpression" => [
+            new ConstExpression(new Object_(new Fqsen("\\" . stdClass::class)), "CONST_*"),
+            new ConstExpressionProvider(new Object_(new Fqsen("\\" . stdClass::class)), "CONST_*", null)
+        ];
+    }
+
+    private static function getMixedProvider(): ValueProviderList
+    {
+        return new ValueProviderList(
+            new StringProvider(new NumericStringProvider(new IntProvider())),
+            new BoolProvider(),
+            new IntProvider(),
+            new FloatProvider(new IntProvider()),
+            new ArrayProvider(),
+            new ObjectProvider(),
+            new CallableProvider(),
+            new NullProvider()
+        );
+    }
+
     #[DataProvider('pseudoTypeProvider')]
     public function testGetProvider(Type $type, ValueProvider $expectedProvider): void
     {
@@ -112,60 +175,6 @@ class PseudoValueProviderFactoryTest extends TestCase
                     }
                 }
             )
-        );
-    }
-
-    /**
-     * @return Generator<string, array{0: Type, 1: ValueProvider}>
-     */
-    public static function pseudoTypeProvider(): Generator
-    {
-        yield "PseudoType ArrayKey" => [new ArrayKey(), new ValueProviderList(new StringProvider(), new IntProvider())];
-        yield "PseudoType ClassString" => [new ClassString(), new ClassStringProvider()];
-        yield "PseudoType ClassString Fqsen" => [
-            new ClassString(new Fqsen('\\' . ValueProvider::class)),
-            new ClassStringProvider('\\' . ValueProvider::class)
-        ];
-        yield "PseudoType CallableString" => [new CallableString(), new CallableStringProvider()];
-        yield "PseudoType FloatValue" => [new FloatValue(1.0), new DirectValueProvider(new FloatValue(1.0))];
-        yield "PseudoType IntegerValue" => [new IntegerValue(1), new DirectValueProvider(new IntegerValue(1))];
-        yield "PseudoType StringValue" => [new StringValue('foo'), new DirectValueProvider(new StringValue('foo'))];
-        yield "PseudoType HtmlEscapedString" => [new HtmlEscapedString(), new HtmlEscapedStringProvider()];
-        yield "PseudoType IntegerRange" => [new IntegerRange('0', '5'), new IntProvider(0, 5)];
-        yield "PseudoType List" => [new List_(), new ListProvider(self::getMixedProvider())];
-        yield "PseudoType NonEmptyList" => [new NonEmptyList(), new NonEmptyValueProvider(new ListProvider(self::getMixedProvider()))];
-        yield "PseudoType LiteralString" => [new LiteralString(), new LiteralStringProvider()];
-        yield "PseudoType LowercaseString" => [new LowercaseString(), new LowercaseStringProvider(new StringProvider())];
-        yield "PseudoType NegativeInteger" => [new NegativeInteger(), new IntProvider(PHP_INT_MIN, -1)];
-        yield "PseudoType NonEmptyLowercaseString" => [
-            new NonEmptyLowercaseString(),
-            new NonEmptyValueProvider(new LowercaseStringProvider(new StringProvider()))
-        ];
-        yield "PseudoType NonEmptyString" => [new NonEmptyString(), new NonEmptyValueProvider(new StringProvider())];
-        yield "PseudoType Numeric" => [
-            new Numeric_(),
-            new ValueProviderList(new NumericStringProvider(), new IntProvider(), new FloatProvider(new IntProvider()))
-        ];
-        yield "PseudoType NumericString" => [new NumericString(), new NumericStringProvider()];
-        yield "PseudoType PositiveInteger" => [new PositiveInteger(), new IntProvider(1, PHP_INT_MAX)];
-        yield "PseudoType TraitString" => [new TraitString(), new TraitStringProvider()];
-        yield "PseudoType ConstExpression" => [
-            new ConstExpression(new Object_(new Fqsen("\\" . stdClass::class)), "CONST_*"),
-            new ConstExpressionProvider(new Object_(new Fqsen("\\" . stdClass::class)), "CONST_*", null)
-        ];
-    }
-
-    private static function getMixedProvider(): ValueProviderList
-    {
-        return new ValueProviderList(
-            new StringProvider(),
-            new BoolProvider(),
-            new IntProvider(),
-            new FloatProvider(new IntProvider()),
-            new ArrayProvider(),
-            new ObjectProvider(),
-            new CallableProvider(),
-            new NullProvider()
         );
     }
 }

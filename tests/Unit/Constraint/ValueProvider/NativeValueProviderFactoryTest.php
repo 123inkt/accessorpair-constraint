@@ -82,6 +82,50 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(ValueProviderFactory::class)]
 class NativeValueProviderFactoryTest extends TestCase
 {
+    /**
+     * @return Generator<string, array{0: Type, 1: ValueProvider}>
+     */
+    public static function nativeTypeProvider(): Generator
+    {
+        yield "NativeType Array" => [
+            new Array_(),
+            new ArrayProvider(
+                self::getMixedProvider(),
+                new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider())
+            )
+        ];
+        yield "NativeType ArrayShape" => [
+            new ArrayShape(new ArrayShapeItem("foo", new String_(), false)),
+            new ArrayShapeProvider(["foo" => new StringProvider(new NumericStringProvider(new IntProvider()))])
+        ];
+        yield "NativeType Callable" => [new Callable_(), new CallableProvider()];
+        yield "NativeType Iterable" => [new Iterable_(), new IterableProvider()];
+        yield "NativeType Object" => [new Object_(), new ObjectProvider()];
+        yield "NativeType True" => [new True_(), new TrueProvider()];
+        yield "NativeType False" => [new False_(), new FalseProvider()];
+        yield "NativeType Boolean" => [new Boolean(), new BoolProvider()];
+        yield "NativeType Float" => [new Float_(), new FloatProvider(new IntProvider())];
+        yield "NativeType Integer" => [new Integer(), new IntProvider()];
+        yield "NativeType String" => [new String_(), new StringProvider(new NumericStringProvider(new IntProvider()))];
+        yield "NativeType Null" => [new Null_(), new NullProvider()];
+        yield "NativeType Resource" => [new Resource_(), new ResourceProvider()];
+        yield "NativeType Mixed" => [new Mixed_(), self::getMixedProvider()];
+    }
+
+    private static function getMixedProvider(): ValueProviderList
+    {
+        return new ValueProviderList(
+            new StringProvider(new NumericStringProvider(new IntProvider())),
+            new BoolProvider(),
+            new IntProvider(),
+            new FloatProvider(new IntProvider()),
+            new ArrayProvider(),
+            new ObjectProvider(),
+            new CallableProvider(),
+            new NullProvider()
+        );
+    }
+
     #[DataProvider('nativeTypeProvider')]
     public function testGetProvider(Type $type, ValueProvider $expectedProvider): void
     {
@@ -102,47 +146,6 @@ class NativeValueProviderFactoryTest extends TestCase
                     }
                 }
             )
-        );
-    }
-
-    /**
-     * @return Generator<string, array{0: Type, 1: ValueProvider}>
-     */
-    public static function nativeTypeProvider(): Generator
-    {
-        yield "NativeType Array" => [
-            new Array_(),
-            new ArrayProvider(self::getMixedProvider(), new ValueProviderList(new StringProvider(), new IntProvider()))
-        ];
-        yield "NativeType ArrayShape" => [
-            new ArrayShape(new ArrayShapeItem("foo", new String_(), false)),
-            new ArrayShapeProvider(["foo" => new StringProvider()])
-        ];
-        yield "NativeType Callable" => [new Callable_(), new CallableProvider()];
-        yield "NativeType Iterable" => [new Iterable_(), new IterableProvider()];
-        yield "NativeType Object" => [new Object_(), new ObjectProvider()];
-        yield "NativeType True" => [new True_(), new TrueProvider()];
-        yield "NativeType False" => [new False_(), new FalseProvider()];
-        yield "NativeType Boolean" => [new Boolean(), new BoolProvider()];
-        yield "NativeType Float" => [new Float_(), new FloatProvider(new IntProvider())];
-        yield "NativeType Integer" => [new Integer(), new IntProvider()];
-        yield "NativeType String" => [new String_(), new StringProvider()];
-        yield "NativeType Null" => [new Null_(), new NullProvider()];
-        yield "NativeType Resource" => [new Resource_(), new ResourceProvider()];
-        yield "NativeType Mixed" => [new Mixed_(), self::getMixedProvider()];
-    }
-
-    private static function getMixedProvider(): ValueProviderList
-    {
-        return new ValueProviderList(
-            new StringProvider(),
-            new BoolProvider(),
-            new IntProvider(),
-            new FloatProvider(new IntProvider()),
-            new ArrayProvider(),
-            new ObjectProvider(),
-            new CallableProvider(),
-            new NullProvider()
         );
     }
 }

@@ -78,6 +78,30 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(NativeValueProviderFactory::class)]
 class ValueProviderFactoryTest extends TestCase
 {
+    /**
+     * @return Generator<string, array{0: Type, 1: ValueProvider}>
+     */
+    public static function dataProvider(): Generator
+    {
+        yield 'Intersection type' => [
+            new Intersection([new Object_(new Fqsen('\\' . Iterator::class)), new Object_(new Fqsen('\\' . Countable::class))]),
+            new IntersectionProvider([new Object_(new Fqsen('\\' . Iterator::class)), new Object_(new Fqsen('\\' . Countable::class))])
+        ];
+        yield 'Union type' => [
+            new Compound([new Integer(), new LiteralString()]),
+            new ValueProviderList(new IntProvider(), new LiteralStringProvider())
+        ];
+        yield 'Nullable type' => [new Nullable(new Integer()), new ValueProviderList(new NullProvider(), new IntProvider())];
+        yield 'Typed array' => [
+            new Array_(new Integer()),
+            new ArrayProvider(
+                new IntProvider(),
+                new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider())
+            )
+        ];
+        yield 'Interface typehint' => [new Object_(new Fqsen('\\' . ValueProvider::class)), new InstanceProvider(ValueProvider::class)];
+    }
+
     #[DataProvider('dataProvider')]
     public function testGetProvider(Type $type, ValueProvider $expectedProvider): void
     {
@@ -99,26 +123,5 @@ class ValueProviderFactoryTest extends TestCase
                 }
             }
         );
-    }
-
-    /**
-     * @return Generator<string, array{0: Type, 1: ValueProvider}>
-     */
-    public static function dataProvider(): Generator
-    {
-        yield 'Intersection type' => [
-            new Intersection([new Object_(new Fqsen('\\' . Iterator::class)), new Object_(new Fqsen('\\' . Countable::class))]),
-            new IntersectionProvider([new Object_(new Fqsen('\\' . Iterator::class)), new Object_(new Fqsen('\\' . Countable::class))])
-        ];
-        yield 'Union type' => [
-            new Compound([new Integer(), new LiteralString()]),
-            new ValueProviderList(new IntProvider(), new LiteralStringProvider())
-        ];
-        yield 'Nullable type' => [new Nullable(new Integer()), new ValueProviderList(new NullProvider(), new IntProvider())];
-        yield 'Typed array' => [
-            new Array_(new Integer()),
-            new ArrayProvider(new IntProvider(), new ValueProviderList(new StringProvider(), new IntProvider()))
-        ];
-        yield 'Interface typehint' => [new Object_(new Fqsen('\\' . ValueProvider::class)), new InstanceProvider(ValueProvider::class)];
     }
 }

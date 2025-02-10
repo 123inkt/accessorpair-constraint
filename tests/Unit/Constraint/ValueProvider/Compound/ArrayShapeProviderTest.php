@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Constraint\ValueProvider\Compound;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayShapeProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
@@ -14,6 +15,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[CoversClass(ArrayShapeProvider::class)]
 #[UsesClass(IntProvider::class)]
 #[UsesClass(StringProvider::class)]
+#[UsesClass(NumericStringProvider::class)]
 class ArrayShapeProviderTest extends AbstractValueProviderTestCase
 {
     /**
@@ -21,7 +23,9 @@ class ArrayShapeProviderTest extends AbstractValueProviderTestCase
      */
     public function testGetValues(): void
     {
-        $valueProvider = new ArrayShapeProvider(['foo' => new IntProvider(), 'bar' => new StringProvider()]);
+        $valueProvider = new ArrayShapeProvider(
+            ['foo' => new IntProvider(), 'bar' => new StringProvider(new NumericStringProvider(new IntProvider()))]
+        );
         $values        = $valueProvider->getValues();
 
         static::assertNotCount(0, $values);

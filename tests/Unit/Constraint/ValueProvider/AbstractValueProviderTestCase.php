@@ -46,6 +46,10 @@ abstract class AbstractValueProviderTestCase extends TestCase
             return "false";
         }
 
+        if (is_string($variable) && is_numeric($variable)) {
+            return 'numeric-string';
+        }
+
         return gettype($variable);
     }
 }
