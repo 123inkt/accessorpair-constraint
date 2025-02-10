@@ -14,6 +14,8 @@ use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass(LowercaseStringProvider::class)]
 #[UsesClass(StringProvider::class)]
+#[UsesClass(NumericStringProvider::class)]
+#[UsesClass(IntProvider::class)]
 class LowercaseStringProviderTest extends AbstractValueProviderTestCase
 {
     /**

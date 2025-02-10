@@ -16,6 +16,8 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[CoversClass(NonEmptyValueProvider::class)]
 #[UsesClass(ListProvider::class)]
 #[UsesClass(StringProvider::class)]
+#[UsesClass(NumericStringProvider::class)]
+#[UsesClass(IntProvider::class)]
 class NonEmptyValueProviderTest extends AbstractValueProviderTestCase
 {
     /**

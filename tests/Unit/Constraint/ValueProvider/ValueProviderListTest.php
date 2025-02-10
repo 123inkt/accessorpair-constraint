@@ -16,6 +16,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[CoversClass(ValueProviderList::class)]
 #[UsesClass(IntProvider::class)]
 #[UsesClass(StringProvider::class)]
+#[UsesClass(NumericStringProvider::class)]
 class ValueProviderListTest extends AbstractValueProviderTestCase
 {
     /**

@@ -11,6 +11,8 @@ use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(StringProvider::class)]
+#[CoversClass(NumericStringProvider::class)]
+#[CoversClass(IntProvider::class)]
 class StringProviderTest extends AbstractValueProviderTestCase
 {
     /**

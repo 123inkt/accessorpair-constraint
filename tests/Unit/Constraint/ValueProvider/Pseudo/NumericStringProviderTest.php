@@ -10,6 +10,7 @@ use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(NumericStringProvider::class)]
+#[CoversClass(IntProvider::class)]
 class NumericStringProviderTest extends AbstractValueProviderTestCase
 {
     /**

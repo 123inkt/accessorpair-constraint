@@ -15,6 +15,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[CoversClass(ArrayShapeProvider::class)]
 #[UsesClass(IntProvider::class)]
 #[UsesClass(StringProvider::class)]
+#[UsesClass(NumericStringProvider::class)]
 class ArrayShapeProviderTest extends AbstractValueProviderTestCase
 {
     /**
