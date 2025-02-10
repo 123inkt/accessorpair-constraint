@@ -20,6 +20,6 @@ class StringProviderTest extends AbstractValueProviderTestCase
     {
         $valueProvider = new StringProvider(new NumericStringProvider(new IntProvider()));
 
-        static::assertValueTypes($valueProvider->getValues(), ['string']);
+        static::assertValueTypes($valueProvider->getValues(), ['string', 'numeric-string']);
     }
 }
