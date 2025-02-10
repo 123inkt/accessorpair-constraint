@@ -112,11 +112,11 @@ class NativeValueProviderFactoryTest extends TestCase
     {
         yield "NativeType Array" => [
             new Array_(),
-            new ArrayProvider(self::getMixedProvider(), new ValueProviderList(new StringProvider(), new IntProvider()))
+            new ArrayProvider(self::getMixedProvider(), new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider()))
         ];
         yield "NativeType ArrayShape" => [
             new ArrayShape(new ArrayShapeItem("foo", new String_(), false)),
-            new ArrayShapeProvider(["foo" => new StringProvider()])
+            new ArrayShapeProvider(["foo" => new StringProvider(new NumericStringProvider(new IntProvider()))])
         ];
         yield "NativeType Callable" => [new Callable_(), new CallableProvider()];
         yield "NativeType Iterable" => [new Iterable_(), new IterableProvider()];
@@ -126,7 +126,7 @@ class NativeValueProviderFactoryTest extends TestCase
         yield "NativeType Boolean" => [new Boolean(), new BoolProvider()];
         yield "NativeType Float" => [new Float_(), new FloatProvider(new IntProvider())];
         yield "NativeType Integer" => [new Integer(), new IntProvider()];
-        yield "NativeType String" => [new String_(), new StringProvider()];
+        yield "NativeType String" => [new String_(), new StringProvider(new NumericStringProvider(new IntProvider()))];
         yield "NativeType Null" => [new Null_(), new NullProvider()];
         yield "NativeType Resource" => [new Resource_(), new ResourceProvider()];
         yield "NativeType Mixed" => [new Mixed_(), self::getMixedProvider()];
@@ -135,7 +135,7 @@ class NativeValueProviderFactoryTest extends TestCase
     private static function getMixedProvider(): ValueProviderList
     {
         return new ValueProviderList(
-            new StringProvider(),
+            new StringProvider(new NumericStringProvider(new IntProvider())),
             new BoolProvider(),
             new IntProvider(),
             new FloatProvider(new IntProvider()),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\Compound;
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
@@ -34,7 +35,7 @@ class ArrayProviderTest extends AbstractValueProviderTestCase
      */
     public function testGetValuesTyped(): void
     {
-        $valueProvider = new ArrayProvider(new IntProvider(), new StringProvider());
+        $valueProvider = new ArrayProvider(new IntProvider(), new StringProvider(new NumericStringProvider(new IntProvider())));
         $values = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['iterable']);

@@ -117,7 +117,7 @@ class ValueProviderFactoryTest extends TestCase
         yield 'Nullable type' => [new Nullable(new Integer()), new ValueProviderList(new NullProvider(), new IntProvider())];
         yield 'Typed array' => [
             new Array_(new Integer()),
-            new ArrayProvider(new IntProvider(), new ValueProviderList(new StringProvider(), new IntProvider()))
+            new ArrayProvider(new IntProvider(), new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider()))
         ];
         yield 'Interface typehint' => [new Object_(new Fqsen('\\' . ValueProvider::class)), new InstanceProvider(ValueProvider::class)];
     }

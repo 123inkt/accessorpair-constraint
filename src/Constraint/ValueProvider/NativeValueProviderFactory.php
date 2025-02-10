@@ -10,6 +10,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\I
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ObjectProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\FalseProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Keyword\TrueProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
@@ -119,7 +120,7 @@ class NativeValueProviderFactory
             case Integer::class:
                 return new IntProvider();
             case String_::class:
-                return new StringProvider();
+                return new StringProvider(new NumericStringProvider(new IntProvider()));
             default:
                 return null;
         }
@@ -145,7 +146,7 @@ class NativeValueProviderFactory
     protected function getMixedProvider(): ValueProvider
     {
         return new ValueProviderList(
-            new StringProvider(),
+            new StringProvider(new NumericStringProvider(new IntProvider())),
             new BoolProvider(),
             new IntProvider(),
             new FloatProvider(new IntProvider()),

@@ -5,6 +5,8 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValuePr
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ListProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
 use Exception;
@@ -21,7 +23,7 @@ class NonEmptyValueProviderTest extends AbstractValueProviderTestCase
      */
     public function testGetValues(): void
     {
-        $valueProvider = new NonEmptyValueProvider(new StringProvider());
+        $valueProvider = new NonEmptyValueProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
         $values        = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['string']);

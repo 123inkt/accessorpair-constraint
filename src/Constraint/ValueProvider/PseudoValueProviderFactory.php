@@ -57,7 +57,7 @@ class PseudoValueProviderFactory
     {
         switch (get_class($typehint)) {
             case ArrayKey::class:
-                return new ValueProviderList(new StringProvider(), new IntProvider());
+                return new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider());
             case IntegerRange::class:
                 return new IntProvider((int)$typehint->getMinValue(), (int)$typehint->getMaxValue());
             case List_::class:
@@ -67,7 +67,7 @@ class PseudoValueProviderFactory
             case NegativeInteger::class:
                 return new IntProvider(PHP_INT_MIN, -1);
             case Numeric_::class:
-                return new ValueProviderList(new NumericStringProvider(), new IntProvider(), new FloatProvider(new IntProvider()));
+                return new ValueProviderList(new NumericStringProvider(new IntProvider()), new IntProvider(), new FloatProvider(new IntProvider()));
             case PositiveInteger::class:
                 return new IntProvider(1, PHP_INT_MAX);
             case ConstExpression::class:
@@ -99,13 +99,13 @@ class PseudoValueProviderFactory
             case LiteralString::class:
                 return new LiteralStringProvider();
             case LowercaseString::class:
-                return new LowercaseStringProvider(new StringProvider());
+                return new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             case NonEmptyLowercaseString::class:
-                return new NonEmptyValueProvider(new LowercaseStringProvider(new StringProvider()));
+                return new NonEmptyValueProvider(new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider()))));
             case NonEmptyString::class:
-                return new NonEmptyValueProvider(new StringProvider());
+                return new NonEmptyValueProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             case NumericString::class:
-                return new NumericStringProvider();
+                return new NumericStringProvider(new IntProvider());
             case TraitString::class:
                 return new TraitStringProvider();
             default:
