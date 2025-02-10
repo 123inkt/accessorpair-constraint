@@ -22,7 +22,9 @@ class ArrayShapeProviderTest extends AbstractValueProviderTestCase
      */
     public function testGetValues(): void
     {
-        $valueProvider = new ArrayShapeProvider(['foo' => new IntProvider(), 'bar' => new StringProvider(new NumericStringProvider(new IntProvider()))]);
+        $valueProvider = new ArrayShapeProvider(
+            ['foo' => new IntProvider(), 'bar' => new StringProvider(new NumericStringProvider(new IntProvider()))]
+        );
         $values        = $valueProvider->getValues();
 
         static::assertNotCount(0, $values);

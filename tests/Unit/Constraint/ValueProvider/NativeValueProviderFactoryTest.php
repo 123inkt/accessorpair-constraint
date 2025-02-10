@@ -82,29 +82,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(ValueProviderFactory::class)]
 class NativeValueProviderFactoryTest extends TestCase
 {
-    #[DataProvider('nativeTypeProvider')]
-    public function testGetProvider(Type $type, ValueProvider $expectedProvider): void
-    {
-        $providerFactory = new NativeValueProviderFactory(new ValueProviderFactory());
-        static::assertEquals($expectedProvider, $providerFactory->getProvider($type));
-    }
-
-    public function testGetProviderUnknown(): void
-    {
-        $providerFactory = new NativeValueProviderFactory($this->createMock(ValueProviderFactory::class));
-
-        static::assertNull(
-            $providerFactory->getProvider(
-                new class implements Type {
-                    public function __toString(): string
-                    {
-                        return 'unknown';
-                    }
-                }
-            )
-        );
-    }
-
     /**
      * @return Generator<string, array{0: Type, 1: ValueProvider}>
      */
@@ -112,7 +89,10 @@ class NativeValueProviderFactoryTest extends TestCase
     {
         yield "NativeType Array" => [
             new Array_(),
-            new ArrayProvider(self::getMixedProvider(), new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider()))
+            new ArrayProvider(
+                self::getMixedProvider(),
+                new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider())
+            )
         ];
         yield "NativeType ArrayShape" => [
             new ArrayShape(new ArrayShapeItem("foo", new String_(), false)),
@@ -143,6 +123,29 @@ class NativeValueProviderFactoryTest extends TestCase
             new ObjectProvider(),
             new CallableProvider(),
             new NullProvider()
+        );
+    }
+
+    #[DataProvider('nativeTypeProvider')]
+    public function testGetProvider(Type $type, ValueProvider $expectedProvider): void
+    {
+        $providerFactory = new NativeValueProviderFactory(new ValueProviderFactory());
+        static::assertEquals($expectedProvider, $providerFactory->getProvider($type));
+    }
+
+    public function testGetProviderUnknown(): void
+    {
+        $providerFactory = new NativeValueProviderFactory($this->createMock(ValueProviderFactory::class));
+
+        static::assertNull(
+            $providerFactory->getProvider(
+                new class implements Type {
+                    public function __toString(): string
+                    {
+                        return 'unknown';
+                    }
+                }
+            )
         );
     }
 }
