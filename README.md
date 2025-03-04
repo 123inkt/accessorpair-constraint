@@ -145,14 +145,14 @@ class ConstraintConfig
      * Let the constraint pair all getter and setter methods,
      * and pass test data to the setter to assert that the getter returns the exact same value.
      */
-    public function setAssertAccessorPair(bool $assertAccessorPair);
+    public function setAssertAccessorPair(bool $assertAccessorPair): self;
     
     /**
      * Enabled by default.
      * Let the constraint pair the constructor's parameters with the class' getter methods.
      * These pairs will be tested in the same ways as the getter/setter method pairs.
      */
-    public function setAssertConstructor(bool $assertConstructor);
+    public function setAssertConstructor(bool $assertConstructor): self;
     
     /**
      * Disabled by default.
@@ -160,19 +160,19 @@ class ConstraintConfig
      * This makes sure that all the properties have the correct default type,
      * conforming the getter return typehint.
      */
-    public function setAssertPropertyDefaults(bool $assertPropertyDefaults);
+    public function setAssertPropertyDefaults(bool $assertPropertyDefaults): self;
 
     /**
      * Enabled by default.
      * When disabled, only the direct class methods will be asserted and none of the parent's
      * class methods.
      */
-    public function setAssertParentMethods(bool $assertParentMethods);
+    public function setAssertParentMethods(bool $assertParentMethods): self;
 
     /**
-     * A list of exact method names that should be excluded from the assertions.
+     * @param string[] $excludedMethods A list of exact method names that should be excluded from the assertions.
      */
-    public function setExcludedMethods(array $excludedMethods);
+    public function setExcludedMethods(array $excludedMethods): self;
 
     /**
      * Callback function to create the constructor arguments for the class under test.
@@ -183,6 +183,15 @@ class ConstraintConfig
      * @return $this
      */
     public function setConstructorCallback(callable $callback): self;
+    
+    /**
+     * Callback function to allow for a custom value provider. For instance for final classes. The argument
+     * is the class-string of the value, the return value should be the provided value. Return <code>null</code>
+     * to skip the value provider and use the default value providers.
+     *
+     * @param callable(class-string): ?object $valueProvider
+     */
+    public function setValueProvider(callable $valueProvider): self;
 }
 ```
 
