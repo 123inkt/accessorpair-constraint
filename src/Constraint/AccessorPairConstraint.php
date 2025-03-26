@@ -200,6 +200,10 @@ class AccessorPairConstraint extends Constraint
 
         /** @var mixed[] $addedValues */
         $addedValues = $instanceArgs[$this->inflector->pluralize(strtolower($setterBaseName))] ?? [];
+        if (is_array($addedValues) === false) {
+            $addedValues = [$addedValues];
+        }
+
         foreach ($testValues as $testValue) {
             // Pass test value to the instance
             $accessorPair->getSetMethod()->invoke($instance, $testValue);
