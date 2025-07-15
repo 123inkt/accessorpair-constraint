@@ -21,7 +21,7 @@ abstract class AbstractDtoTestCase extends TestCase
             ->getAttributes(CoversClass::class, ReflectionAttribute::IS_INSTANCEOF);
         $testedAttributes = false;
         foreach ($attributes as $attribute) {
-            if ($attribute->getName() !== 'PHPUnit\Framework\Attributes\CoversClass') {
+            if ($attribute->getName() !== CoversClass::class) {
                 continue;
             }
 
