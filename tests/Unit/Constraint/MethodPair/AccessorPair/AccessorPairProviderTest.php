@@ -20,12 +20,12 @@ use ReflectionClass;
 use ReflectionException;
 
 #[CoversClass(AccessorPairProvider::class)]
-#[CoversClass(AbstractMethodPair::class)]
-#[CoversClass(AccessorPair::class)]
-#[UsesClass(PhpDocParser::class)]
 #[UsesClass(TypehintResolver::class)]
+#[UsesClass(PhpDocParser::class)]
 #[UsesClass(ConstraintConfig::class)]
 #[UsesClass(ClassMethodProvider::class)]
+#[UsesClass(AbstractMethodPair::class)]
+#[UsesClass(AccessorPair::class)]
 class AccessorPairProviderTest extends TestCase
 {
     #[DataProvider('dataProvider')]
