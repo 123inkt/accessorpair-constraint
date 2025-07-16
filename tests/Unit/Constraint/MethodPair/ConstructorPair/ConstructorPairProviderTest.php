@@ -24,8 +24,8 @@ use ReflectionException;
 #[UsesClass(PhpDocParser::class)]
 #[UsesClass(ConstraintConfig::class)]
 #[UsesClass(ClassMethodProvider::class)]
-#[CoversClass(AbstractMethodPair::class)]
-#[CoversClass(ConstructorPair::class)]
+#[UsesClass(AbstractMethodPair::class)]
+#[UsesClass(ConstructorPair::class)]
 class ConstructorPairProviderTest extends TestCase
 {
     #[DataProvider('dataProvider')]

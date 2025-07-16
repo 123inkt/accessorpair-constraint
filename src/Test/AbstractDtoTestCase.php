@@ -17,18 +17,27 @@ abstract class AbstractDtoTestCase extends TestCase
 
     public function testModel(): void
     {
-        $attributes           = (new ReflectionClass(static::class))
+        $attributes = (new ReflectionClass(static::class))
             ->getAttributes(CoversClass::class, ReflectionAttribute::IS_INSTANCEOF);
         $testedAttributes = false;
         foreach ($attributes as $attribute) {
-            if ($attribute->getName() === 'PHPUnit\Framework\Attributes\CoversClass') {
-                $testedAttributes = true;
-                $config = $this->getAccessorPairConfig();
-
-                /** @var array{0: class-string} $arguments */
-                $arguments = $attribute->getArguments();
-                static::assertAccessorPairs($arguments[0], $config);
+            if ($attribute->getName() !== CoversClass::class) {
+                continue;
             }
+
+            $testedAttributes = true;
+            $config = $this->getAccessorPairConfig();
+
+            /** @var array{0: class-string} $arguments */
+            $arguments = $attribute->getArguments();
+
+            $className = $arguments[0];
+            $reflectionClass = new ReflectionClass($className);
+            if ($reflectionClass->isAbstract()) {
+                continue;
+            }
+
+            static::assertAccessorPairs($className, $config);
         }
         static::assertTrue($testedAttributes, 'Missing CoversClass attribute');
     }

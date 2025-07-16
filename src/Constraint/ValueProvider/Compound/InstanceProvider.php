@@ -49,6 +49,9 @@ class InstanceProvider implements ValueProvider
         return [$this->getMockObject($this->typehint)];
     }
 
+    /**
+     * @param class-string $typehint
+     */
     private function getMockObject(string $typehint): object
     {
         if (class_exists('PHPUnit\Framework\MockObject\Generator\Generator')) {
