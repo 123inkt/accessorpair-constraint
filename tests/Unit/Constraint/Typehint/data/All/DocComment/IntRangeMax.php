@@ -14,7 +14,7 @@ class IntRangeMax implements DataInterface
      *
      * @return int<1, max>
      */
-    public function testMethod(int $param): array
+    public function testMethod(int $param): int
     {
         return $param;
     }

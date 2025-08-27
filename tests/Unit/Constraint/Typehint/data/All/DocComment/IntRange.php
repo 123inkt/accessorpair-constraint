@@ -14,7 +14,7 @@ class IntRange implements DataInterface
      *
      * @return int<1, 10>
      */
-    public function testMethod(int $param): array
+    public function testMethod(int $param): int
     {
         return $param;
     }

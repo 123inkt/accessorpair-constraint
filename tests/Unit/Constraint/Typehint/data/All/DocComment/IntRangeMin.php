@@ -14,7 +14,7 @@ class IntRangeMin implements DataInterface
      *
      * @return int<min, 10>
      */
-    public function testMethod(int $param): array
+    public function testMethod(int $param): int
     {
         return $param;
     }
