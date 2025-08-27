@@ -112,6 +112,8 @@ class PseudoValueProviderFactoryTest extends TestCase
         yield "PseudoType StringValue" => [new StringValue('foo'), new DirectValueProvider(new StringValue('foo'))];
         yield "PseudoType HtmlEscapedString" => [new HtmlEscapedString(), new HtmlEscapedStringProvider()];
         yield "PseudoType IntegerRange" => [new IntegerRange('0', '5'), new IntProvider(0, 5)];
+        yield "PseudoType IntegerRangeMin" => [new IntegerRange('min', '0'), new IntProvider(PHP_INT_MIN, 0)];
+        yield "PseudoType IntegerRangeMax" => [new IntegerRange('0', 'max'), new IntProvider(0, PHP_INT_MAX)];
         yield "PseudoType List" => [new List_(), new ListProvider(self::getMixedProvider())];
         yield "PseudoType NonEmptyList" => [new NonEmptyList(), new NonEmptyValueProvider(new ListProvider(self::getMixedProvider()))];
         yield "PseudoType LiteralString" => [new LiteralString(), new LiteralStringProvider()];

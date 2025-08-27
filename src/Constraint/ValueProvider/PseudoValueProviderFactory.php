@@ -59,7 +59,10 @@ class PseudoValueProviderFactory
             case ArrayKey::class:
                 return new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider());
             case IntegerRange::class:
-                return new IntProvider((int)$typehint->getMinValue(), (int)$typehint->getMaxValue());
+                $minValue = $typehint->getMinValue() === 'min' ? PHP_INT_MIN : (int)$typehint->getMinValue();
+                $maxValue = $typehint->getMaxValue() === 'max' ? PHP_INT_MAX : (int)$typehint->getMaxValue();
+
+                return new IntProvider($minValue, $maxValue);
             case List_::class:
                 return new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType(), $method));
             case NonEmptyList::class:
