@@ -31,6 +31,7 @@ class ArrayProvider implements ValueProvider
         $testArray = [];
         $values    = $this->getArrayValues();
         foreach ($values as $i => $value) {
+            /** @phpstan-var array-key[] $keys */
             $testArray[$keys[$i] ?? $i] = $value;
         }
 
