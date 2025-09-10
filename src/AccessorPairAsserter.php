@@ -28,7 +28,7 @@ trait AccessorPairAsserter
      *                                       By default the getter/setter pairs and constructor/getter pairs will be tested
      * @param string                $message Custom PHPUnit error message in case of constraint failure
      */
-    public static function assertAccessorPairs(string $object, ConstraintConfig $config = null, string $message = ''): void
+    public static function assertAccessorPairs(string $object, ?ConstraintConfig $config = null, string $message = ''): void
     {
         if ($config === null) {
             $config = new ConstraintConfig();
