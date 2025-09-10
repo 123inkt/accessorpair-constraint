@@ -11,7 +11,7 @@ class ArrayProvider implements ValueProvider
     protected ?ValueProvider $valueProvider;
     protected ?ValueProvider $keyProvider;
 
-    public function __construct(ValueProvider $valueProvider = null, ValueProvider $keyProvider = null)
+    public function __construct(?ValueProvider $valueProvider = null, ?ValueProvider $keyProvider = null)
     {
         $this->valueProvider = $valueProvider;
         $this->keyProvider   = $keyProvider;
@@ -31,6 +31,7 @@ class ArrayProvider implements ValueProvider
         $testArray = [];
         $values    = $this->getArrayValues();
         foreach ($values as $i => $value) {
+            /** @phpstan-var array-key[] $keys */
             $testArray[$keys[$i] ?? $i] = $value;
         }
 

@@ -9,7 +9,7 @@ class ListProvider implements ValueProvider
 {
     protected ?ValueProvider $valueProvider;
 
-    public function __construct(ValueProvider $valueProvider = null)
+    public function __construct(?ValueProvider $valueProvider = null)
     {
         $this->valueProvider = $valueProvider;
     }
