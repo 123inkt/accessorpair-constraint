@@ -14,7 +14,7 @@ class ArrayProvider implements ValueProvider
     public function __construct(?ValueProvider $valueProvider = null, ?ValueProvider $keyProvider = null)
     {
         $this->valueProvider = $valueProvider;
-        $this->keyProvider   = $keyProvider;
+        $this->keyProvider = $keyProvider;
     }
 
     /**
@@ -29,9 +29,10 @@ class ArrayProvider implements ValueProvider
         }
 
         $testArray = [];
-        $values    = $this->getArrayValues();
+        $values = $this->getArrayValues();
         foreach ($values as $i => $value) {
-            $testArray[$keys[$i] ?? $i] = $value;
+            $key = array_key_exists($i, $keys) ? $keys[$i] : $i;
+            $testArray[$key] = $value;
         }
 
         return [$testArray];
