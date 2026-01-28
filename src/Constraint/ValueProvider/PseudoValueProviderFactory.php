@@ -18,7 +18,9 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\Flo
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use LogicException;
+use phpDocumentor\Reflection\PseudoTypes\ArrayKey;
 use phpDocumentor\Reflection\PseudoTypes\CallableString;
+use phpDocumentor\Reflection\PseudoTypes\ClassString;
 use phpDocumentor\Reflection\PseudoTypes\ConstExpression;
 use phpDocumentor\Reflection\PseudoTypes\FloatValue;
 use phpDocumentor\Reflection\PseudoTypes\HtmlEscapedString;
@@ -37,8 +39,7 @@ use phpDocumentor\Reflection\PseudoTypes\PositiveInteger;
 use phpDocumentor\Reflection\PseudoTypes\StringValue;
 use phpDocumentor\Reflection\PseudoTypes\TraitString;
 use phpDocumentor\Reflection\Type;
-use phpDocumentor\Reflection\Types\ArrayKey;
-use phpDocumentor\Reflection\Types\ClassString;
+use phpDocumentor\Reflection\Types\Object_;
 use ReflectionMethod;
 
 class PseudoValueProviderFactory
@@ -85,9 +86,11 @@ class PseudoValueProviderFactory
         switch (get_class($typehint)) {
             case ClassString::class:
                 $fqsen = null;
-                if ($typehint->getFqsen() !== null) {
+                /** @var null|Object_ $genericType */
+                $genericType = $typehint->getGenericType();
+                if ($genericType?->getFqsen() !== null) {
                     /** @var class-string $fqsen */
-                    $fqsen = (string)$typehint->getFqsen();
+                    $fqsen = (string)$genericType->getFqsen();
                 }
 
                 return new ClassStringProvider($fqsen);

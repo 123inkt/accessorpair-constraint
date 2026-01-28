@@ -54,8 +54,8 @@ use phpDocumentor\Reflection\PseudoTypes\PositiveInteger;
 use phpDocumentor\Reflection\PseudoTypes\StringValue;
 use phpDocumentor\Reflection\PseudoTypes\TraitString;
 use phpDocumentor\Reflection\Type;
-use phpDocumentor\Reflection\Types\ArrayKey;
-use phpDocumentor\Reflection\Types\ClassString;
+use phpDocumentor\Reflection\PseudoTypes\ArrayKey;
+use phpDocumentor\Reflection\PseudoTypes\ClassString;
 use phpDocumentor\Reflection\Types\Object_;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -103,7 +103,7 @@ class PseudoValueProviderFactoryTest extends TestCase
         ];
         yield "PseudoType ClassString" => [new ClassString(), new ClassStringProvider()];
         yield "PseudoType ClassString Fqsen" => [
-            new ClassString(new Fqsen('\\' . ValueProvider::class)),
+            new ClassString(new Object_(new Fqsen('\\' . ValueProvider::class))),
             new ClassStringProvider('\\' . ValueProvider::class)
         ];
         yield "PseudoType CallableString" => [new CallableString(), new CallableStringProvider()];
