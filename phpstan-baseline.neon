@@ -37,7 +37,7 @@ parameters:
 			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
 
 		-
-			message: '#^Parameter \#3 \$methods of method PHPUnit\\Framework\\MockObject\\Generator\\Generator\:\:testDouble\(\) expects array\|null, true given\.$#'
+			message: '#^Parameter \#3 \$methods of method PHPUnit\\Framework\\MockObject\\Generator\\Generator\:\:testDouble\(\) expects list\<non\-empty\-string\>\|null, true given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Constraint/ValueProvider/Compound/InstanceProvider.php
@@ -61,8 +61,8 @@ parameters:
 			path: src/Constraint/ValueProvider/Compound/IntersectionProvider.php
 
 		-
-			message: '#^Call to function method_exists\(\) with PHPUnit\\Framework\\MockObject\\Generator\\Generator and ''mockObjectForAbstra…'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
+			message: '#^Call to function method_exists\(\) with PHPUnit\\Framework\\MockObject\\Generator\\Generator and ''mockObjectForAbstra…'' will always evaluate to false\.$#'
+			identifier: function.impossibleType
 			count: 1
 			path: src/Constraint/ValueProvider/Compound/IntersectionProvider.php
 

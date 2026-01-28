@@ -44,7 +44,7 @@ class ConstExpressionProviderTest extends AbstractValueProviderTestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('ConstExpressionProvider can only be used with object or self typehints');
 
-        $valueProvider = new ConstExpressionProvider(new Callable_([]), 'CONST_*', null);
+        $valueProvider = new ConstExpressionProvider(new Callable_(''), 'CONST_*', null);
         $valueProvider->getValues();
     }
 }

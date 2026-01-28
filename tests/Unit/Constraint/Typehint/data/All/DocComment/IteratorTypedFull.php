@@ -6,8 +6,8 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehin
 use ArrayIterator;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\PseudoTypes\Generic;
 use phpDocumentor\Reflection\Type;
-use phpDocumentor\Reflection\Types\Collection;
 use phpDocumentor\Reflection\Types\String_;
 
 class IteratorTypedFull implements DataInterface
@@ -24,6 +24,6 @@ class IteratorTypedFull implements DataInterface
 
     public function getExpectedType(): Type
     {
-        return new Collection(new Fqsen('\\' . ArrayIterator::class), new String_(), new String_());
+        return new Generic(new Fqsen('\\' . ArrayIterator::class), [new String_(), new String_()]);
     }
 }
