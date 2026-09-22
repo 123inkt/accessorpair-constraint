@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider;
 
 use Countable;
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\NonEmptyUppercaseStringType;
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\UppercaseStringType;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
@@ -24,7 +22,6 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Low
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\UppercaseStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\PseudoValueProviderFactory;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider;
@@ -70,7 +67,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(NonEmptyValueProvider::class)]
 #[UsesClass(NumericStringProvider::class)]
 #[UsesClass(TraitStringProvider::class)]
-#[UsesClass(UppercaseStringProvider::class)]
 #[UsesClass(BoolProvider::class)]
 #[UsesClass(FloatProvider::class)]
 #[UsesClass(IntProvider::class)]
@@ -102,14 +98,6 @@ class ValueProviderFactoryTest extends TestCase
                 new IntProvider(),
                 new ValueProviderList(new StringProvider(new NumericStringProvider(new IntProvider())), new IntProvider())
             )
-        ];
-        yield 'Uppercase string marker type' => [
-            new Object_(new Fqsen('\\' . UppercaseStringType::class)),
-            new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())))
-        ];
-        yield 'Non-empty uppercase string marker type' => [
-            new Object_(new Fqsen('\\' . NonEmptyUppercaseStringType::class)),
-            new NonEmptyValueProvider(new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider()))))
         ];
         yield 'Interface typehint' => [new Object_(new Fqsen('\\' . ValueProvider::class)), new InstanceProvider(ValueProvider::class)];
     }

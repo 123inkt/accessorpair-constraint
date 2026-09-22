@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\NonEmptyUppercaseStringType;
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\UppercaseStringType;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ConstExpressionProvider;
@@ -17,7 +15,6 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Non
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonFalsyStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\UppercaseStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
@@ -122,8 +119,6 @@ class PseudoValueProviderFactory
                 return new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             case NonEmptyLowercaseString::class:
                 return new NonEmptyValueProvider(new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider()))));
-            case NonEmptyUppercaseStringType::class:
-                return new NonEmptyValueProvider(new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider()))));
             case NonFalsyString::class:
                 return new NonFalsyStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             case NonEmptyString::class:
@@ -132,8 +127,6 @@ class PseudoValueProviderFactory
                 return new NumericStringProvider(new IntProvider());
             case TraitString::class:
                 return new TraitStringProvider();
-            case UppercaseStringType::class:
-                return new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             default:
                 return null;
         }

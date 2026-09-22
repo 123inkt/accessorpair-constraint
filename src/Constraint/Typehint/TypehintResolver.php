@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\Typehint;
 
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\NonEmptyUppercaseStringType;
-use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\UppercaseStringType;
 use LogicException;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\TypeResolver;
@@ -123,7 +121,6 @@ class TypehintResolver
         }
 
         $phpDocType = str_replace(' ', '', $phpDocType);
-        $phpDocType = $this->replaceCustomTypes($phpDocType);
 
         return $this->resolver->resolve($phpDocType, $this->resolverContext);
     }
@@ -150,17 +147,5 @@ class TypehintResolver
         }
 
         return preg_replace($patterns, $replacements, $phpDocType);
-    }
-
-    protected function replaceCustomTypes(string $phpDocType): string
-    {
-        return preg_replace_callback(
-            '/(?<![A-Za-z0-9_-])(non-empty-uppercase-string|uppercase-string)(?![A-Za-z0-9_-])/',
-            static fn(array $matches): string => match ($matches[1]) {
-                'non-empty-uppercase-string' => '\\' . NonEmptyUppercaseStringType::class,
-                'uppercase-string' => '\\' . UppercaseStringType::class,
-            },
-            $phpDocType
-        ) ?? $phpDocType;
     }
 }

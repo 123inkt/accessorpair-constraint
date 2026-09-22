@@ -36,7 +36,6 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Non
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonFalsyStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\UppercaseStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\PseudoValueProviderFactory;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider;
@@ -94,7 +93,6 @@ use TypeError;
 #[UsesClass(NonFalsyStringProvider::class)]
 #[UsesClass(NumericStringProvider::class)]
 #[UsesClass(TraitStringProvider::class)]
-#[UsesClass(UppercaseStringProvider::class)]
 #[UsesClass(BoolProvider::class)]
 #[UsesClass(FloatProvider::class)]
 #[UsesClass(IntProvider::class)]
