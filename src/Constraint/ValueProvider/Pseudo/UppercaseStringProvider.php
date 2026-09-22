@@ -22,6 +22,6 @@ class UppercaseStringProvider implements ValueProvider
      */
     public function getValues(): array
     {
-        return array_map('strtoupper', $this->stringProvider->getValues());
+        return array_map(static fn(string $value): string => mb_strtoupper($value), $this->stringProvider->getValues());
     }
 }

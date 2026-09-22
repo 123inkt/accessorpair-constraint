@@ -154,21 +154,16 @@ class TypehintResolver
 
     protected function replaceCustomTypes(string $phpDocType): string
     {
-        $phpDocType = str_replace(
-            'non-empty-uppercase-string',
-            '__NON_EMPTY_UPPERCASE_STRING__',
-            $phpDocType
-        );
-        $phpDocType = str_replace(
-            'uppercase-string',
-            '\\' . UppercaseStringType::class,
-            $phpDocType
-        );
-
-        return str_replace(
-            '__NON_EMPTY_UPPERCASE_STRING__',
+        $phpDocType = preg_replace(
+            '/(?<![A-Za-z0-9_-])non-empty-uppercase-string(?![A-Za-z0-9_-])/',
             '\\' . NonEmptyUppercaseStringType::class,
             $phpDocType
-        );
+        ) ?? $phpDocType;
+
+        return preg_replace(
+            '/(?<![A-Za-z0-9_-])uppercase-string(?![A-Za-z0-9_-])/',
+            '\\' . UppercaseStringType::class,
+            $phpDocType
+        ) ?? $phpDocType;
     }
 }
