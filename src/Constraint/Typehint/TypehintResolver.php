@@ -164,6 +164,8 @@ class TypehintResolver
             'non-empty-uppercase-string' => new NonEmptyUppercaseStringType(),
             '?uppercase-string' => new Nullable(new UppercaseStringType()),
             '?non-empty-uppercase-string' => new Nullable(new NonEmptyUppercaseStringType()),
+            'uppercase-string|null', 'null|uppercase-string' => new Nullable(new UppercaseStringType()),
+            'non-empty-uppercase-string|null', 'null|non-empty-uppercase-string' => new Nullable(new NonEmptyUppercaseStringType()),
             default => null,
         };
     }
