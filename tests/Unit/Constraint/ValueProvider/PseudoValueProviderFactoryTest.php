@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\NonEmptyUppercaseStringType;
+use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\UppercaseStringType;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\ArrayProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\CallableProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
@@ -22,6 +24,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Low
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\UppercaseStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\PseudoValueProviderFactory;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\BoolProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider;
@@ -48,6 +51,10 @@ use phpDocumentor\Reflection\PseudoTypes\NegativeInteger;
 use phpDocumentor\Reflection\PseudoTypes\NonEmptyList;
 use phpDocumentor\Reflection\PseudoTypes\NonEmptyLowercaseString;
 use phpDocumentor\Reflection\PseudoTypes\NonEmptyString;
+use phpDocumentor\Reflection\PseudoTypes\NonFalsyString;
+use phpDocumentor\Reflection\PseudoTypes\NonNegativeInteger;
+use phpDocumentor\Reflection\PseudoTypes\NonPositiveInteger;
+use phpDocumentor\Reflection\PseudoTypes\NonZeroInteger;
 use phpDocumentor\Reflection\PseudoTypes\Numeric_;
 use phpDocumentor\Reflection\PseudoTypes\NumericString;
 use phpDocumentor\Reflection\PseudoTypes\PositiveInteger;
@@ -80,6 +87,7 @@ use stdClass;
 #[UsesClass(NonEmptyValueProvider::class)]
 #[UsesClass(NumericStringProvider::class)]
 #[UsesClass(TraitStringProvider::class)]
+#[UsesClass(UppercaseStringProvider::class)]
 #[UsesClass(BoolProvider::class)]
 #[UsesClass(FloatProvider::class)]
 #[UsesClass(IntProvider::class)]
@@ -122,6 +130,11 @@ class PseudoValueProviderFactoryTest extends TestCase
             new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())))
         ];
         yield "PseudoType NegativeInteger" => [new NegativeInteger(), new IntProvider(PHP_INT_MIN, -1)];
+        yield "PseudoType NonFalsyString" => [
+            new NonFalsyString(),
+            new NonEmptyValueProvider(new StringProvider(new NumericStringProvider(new IntProvider())))
+        ];
+        yield "PseudoType NonNegativeInteger" => [new NonNegativeInteger(), new IntProvider(0, PHP_INT_MAX)];
         yield "PseudoType NonEmptyLowercaseString" => [
             new NonEmptyLowercaseString(),
             new NonEmptyValueProvider(new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider()))))
@@ -130,6 +143,15 @@ class PseudoValueProviderFactoryTest extends TestCase
             new NonEmptyString(),
             new NonEmptyValueProvider(new StringProvider(new NumericStringProvider(new IntProvider())))
         ];
+        yield "PseudoType NonEmptyUppercaseString" => [
+            new NonEmptyUppercaseStringType(),
+            new NonEmptyValueProvider(new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider()))))
+        ];
+        yield "PseudoType NonPositiveInteger" => [new NonPositiveInteger(), new IntProvider(PHP_INT_MIN, 0)];
+        yield "PseudoType NonZeroInteger" => [
+            new NonZeroInteger(),
+            new ValueProviderList(new IntProvider(PHP_INT_MIN, -1), new IntProvider(1, PHP_INT_MAX))
+        ];
         yield "PseudoType Numeric" => [
             new Numeric_(),
             new ValueProviderList(new NumericStringProvider(new IntProvider()), new IntProvider(), new FloatProvider(new IntProvider()))
@@ -137,6 +159,10 @@ class PseudoValueProviderFactoryTest extends TestCase
         yield "PseudoType NumericString" => [new NumericString(), new NumericStringProvider(new IntProvider())];
         yield "PseudoType PositiveInteger" => [new PositiveInteger(), new IntProvider(1, PHP_INT_MAX)];
         yield "PseudoType TraitString" => [new TraitString(), new TraitStringProvider()];
+        yield "PseudoType UppercaseString" => [
+            new UppercaseStringType(),
+            new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())))
+        ];
         yield "PseudoType ConstExpression" => [
             new ConstExpression(new Object_(new Fqsen("\\" . stdClass::class)), "CONST_*"),
             new ConstExpressionProvider(new Object_(new Fqsen("\\" . stdClass::class)), "CONST_*", null)

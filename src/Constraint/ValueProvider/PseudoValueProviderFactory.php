@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\NonEmptyUppercaseStringType;
+use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\UppercaseStringType;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\CallableStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ClassStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\ConstExpressionProvider;
@@ -14,6 +16,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Low
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\UppercaseStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\FloatProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
@@ -33,6 +36,10 @@ use phpDocumentor\Reflection\PseudoTypes\NegativeInteger;
 use phpDocumentor\Reflection\PseudoTypes\NonEmptyList;
 use phpDocumentor\Reflection\PseudoTypes\NonEmptyLowercaseString;
 use phpDocumentor\Reflection\PseudoTypes\NonEmptyString;
+use phpDocumentor\Reflection\PseudoTypes\NonFalsyString;
+use phpDocumentor\Reflection\PseudoTypes\NonNegativeInteger;
+use phpDocumentor\Reflection\PseudoTypes\NonPositiveInteger;
+use phpDocumentor\Reflection\PseudoTypes\NonZeroInteger;
 use phpDocumentor\Reflection\PseudoTypes\Numeric_;
 use phpDocumentor\Reflection\PseudoTypes\NumericString;
 use phpDocumentor\Reflection\PseudoTypes\PositiveInteger;
@@ -68,6 +75,12 @@ class PseudoValueProviderFactory
                 return new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType(), $method));
             case NonEmptyList::class:
                 return new NonEmptyValueProvider(new ListProvider($this->valueProviderFactory->getProvider($typehint->getValueType(), $method)));
+            case NonNegativeInteger::class:
+                return new IntProvider(0, PHP_INT_MAX);
+            case NonPositiveInteger::class:
+                return new IntProvider(PHP_INT_MIN, 0);
+            case NonZeroInteger::class:
+                return new ValueProviderList(new IntProvider(PHP_INT_MIN, -1), new IntProvider(1, PHP_INT_MAX));
             case NegativeInteger::class:
                 return new IntProvider(PHP_INT_MIN, -1);
             case Numeric_::class:
@@ -108,12 +121,18 @@ class PseudoValueProviderFactory
                 return new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             case NonEmptyLowercaseString::class:
                 return new NonEmptyValueProvider(new LowercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider()))));
+            case NonEmptyUppercaseStringType::class:
+                return new NonEmptyValueProvider(new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider()))));
+            case NonFalsyString::class:
+                return new NonEmptyValueProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             case NonEmptyString::class:
                 return new NonEmptyValueProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             case NumericString::class:
                 return new NumericStringProvider(new IntProvider());
             case TraitString::class:
                 return new TraitStringProvider();
+            case UppercaseStringType::class:
+                return new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             default:
                 return null;
         }
