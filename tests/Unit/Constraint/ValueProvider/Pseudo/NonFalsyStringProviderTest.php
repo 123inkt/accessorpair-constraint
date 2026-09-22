@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\Pseudo;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonFalsyStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
-use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\UppercaseStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\ValueProvider\AbstractValueProviderTestCase;
@@ -12,42 +12,24 @@ use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
-#[CoversClass(UppercaseStringProvider::class)]
+#[CoversClass(NonFalsyStringProvider::class)]
 #[UsesClass(StringProvider::class)]
 #[UsesClass(NumericStringProvider::class)]
 #[UsesClass(IntProvider::class)]
-class UppercaseStringProviderTest extends AbstractValueProviderTestCase
+class NonFalsyStringProviderTest extends AbstractValueProviderTestCase
 {
     /**
      * @throws Exception
      */
     public function testGetValues(): void
     {
-        $valueProvider = new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
+        $valueProvider = new NonFalsyStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
         $values = $valueProvider->getValues();
 
         static::assertValueTypes($values, ['string', 'numeric-string']);
         foreach ($values as $value) {
-            static::assertTrue(strtoupper($value) === $value);
+            static::assertNotSame('', $value);
+            static::assertNotSame('0', $value);
         }
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testGetValuesTransformsLowercaseStrings(): void
-    {
-        $stringProvider = new class(new NumericStringProvider(new IntProvider())) extends StringProvider {
-            /**
-             * @return string[]
-             */
-            public function getValues(): array
-            {
-                return ['lowercase', 'MiXeD', '123'];
-            }
-        };
-        $valueProvider = new UppercaseStringProvider($stringProvider);
-
-        static::assertSame(['LOWERCASE', 'MIXED', '123'], $valueProvider->getValues());
     }
 }

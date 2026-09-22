@@ -14,6 +14,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Lis
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonFalsyStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\UppercaseStringProvider;
@@ -124,7 +125,7 @@ class PseudoValueProviderFactory
             case NonEmptyUppercaseStringType::class:
                 return new NonEmptyValueProvider(new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider()))));
             case NonFalsyString::class:
-                return new NonEmptyValueProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
+                return new NonFalsyStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             case NonEmptyString::class:
                 return new NonEmptyValueProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
             case NumericString::class:

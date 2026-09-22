@@ -22,6 +22,7 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\Lis
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LiteralStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\LowercaseStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonFalsyStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\TraitStringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\UppercaseStringProvider;
@@ -85,6 +86,7 @@ use stdClass;
 #[UsesClass(LiteralStringProvider::class)]
 #[UsesClass(LowercaseStringProvider::class)]
 #[UsesClass(NonEmptyValueProvider::class)]
+#[UsesClass(NonFalsyStringProvider::class)]
 #[UsesClass(NumericStringProvider::class)]
 #[UsesClass(TraitStringProvider::class)]
 #[UsesClass(UppercaseStringProvider::class)]
@@ -132,7 +134,7 @@ class PseudoValueProviderFactoryTest extends TestCase
         yield "PseudoType NegativeInteger" => [new NegativeInteger(), new IntProvider(PHP_INT_MIN, -1)];
         yield "PseudoType NonFalsyString" => [
             new NonFalsyString(),
-            new NonEmptyValueProvider(new StringProvider(new NumericStringProvider(new IntProvider())))
+            new NonFalsyStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())))
         ];
         yield "PseudoType NonNegativeInteger" => [new NonNegativeInteger(), new IntProvider(0, PHP_INT_MAX)];
         yield "PseudoType NonEmptyLowercaseString" => [
