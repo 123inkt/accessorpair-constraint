@@ -6,15 +6,17 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehin
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\UppercaseStringType;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\PseudoTypes\LiteralString;
 use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\Types\Compound;
 use phpDocumentor\Reflection\Types\Object_;
 
-class UppercaseString implements DataInterface
+class UnionUppercaseString implements DataInterface
 {
     /**
-     * @param uppercase-string $param
+     * @param uppercase-string|literal-string $param
      *
-     * @return uppercase-string
+     * @return uppercase-string|literal-string
      */
     public function testMethod(string $param): string
     {
@@ -23,6 +25,6 @@ class UppercaseString implements DataInterface
 
     public function getExpectedType(): Type
     {
-        return new Object_(new Fqsen('\\' . UppercaseStringType::class));
+        return new Compound([new Object_(new Fqsen('\\' . UppercaseStringType::class)), new LiteralString()]);
     }
 }

@@ -3,8 +3,15 @@ declare(strict_types=1);
 
 namespace DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider;
 
+use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\NonEmptyUppercaseStringType;
+use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\UppercaseStringType;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\InstanceProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Compound\IntersectionProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NonEmptyValueProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\NumericStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Pseudo\UppercaseStringProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\IntProvider;
+use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Scalar\StringProvider;
 use DigitalRevolution\AccessorPairConstraint\Constraint\ValueProvider\Special\NullProvider;
 use LogicException;
 use phpDocumentor\Reflection\PseudoTypes\Generic;
@@ -52,6 +59,14 @@ class ValueProviderFactory
         if ($typehint instanceof Object_ && $typehint->getFqsen() !== null) {
             /** @var class-string $fqsen */
             $fqsen = (string)$typehint->getFqsen();
+            if ($fqsen === '\\' . UppercaseStringType::class) {
+                return new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())));
+            }
+            if ($fqsen === '\\' . NonEmptyUppercaseStringType::class) {
+                return new NonEmptyValueProvider(
+                    new UppercaseStringProvider(new StringProvider(new NumericStringProvider(new IntProvider())))
+                );
+            }
 
             return new InstanceProvider($fqsen);
         }

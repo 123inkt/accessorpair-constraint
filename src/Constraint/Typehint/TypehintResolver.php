@@ -11,7 +11,6 @@ use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\ContextFactory;
-use phpDocumentor\Reflection\Types\Nullable;
 use ReflectionIntersectionType;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -124,11 +123,7 @@ class TypehintResolver
         }
 
         $phpDocType = str_replace(' ', '', $phpDocType);
-
-        $customType = $this->resolveCustomType($phpDocType);
-        if ($customType !== null) {
-            return $customType;
-        }
+        $phpDocType = $this->replaceCustomTypes($phpDocType);
 
         return $this->resolver->resolve($phpDocType, $this->resolverContext);
     }
@@ -157,16 +152,12 @@ class TypehintResolver
         return preg_replace($patterns, $replacements, $phpDocType);
     }
 
-    protected function resolveCustomType(string $phpDocType): ?Type
+    protected function replaceCustomTypes(string $phpDocType): string
     {
-        return match ($phpDocType) {
-            'uppercase-string' => new UppercaseStringType(),
-            'non-empty-uppercase-string' => new NonEmptyUppercaseStringType(),
-            '?uppercase-string' => new Nullable(new UppercaseStringType()),
-            '?non-empty-uppercase-string' => new Nullable(new NonEmptyUppercaseStringType()),
-            'uppercase-string|null', 'null|uppercase-string' => new Nullable(new UppercaseStringType()),
-            'non-empty-uppercase-string|null', 'null|non-empty-uppercase-string' => new Nullable(new NonEmptyUppercaseStringType()),
-            default => null,
-        };
+        return str_replace(
+            ['non-empty-uppercase-string', 'uppercase-string'],
+            ['\\' . NonEmptyUppercaseStringType::class, '\\' . UppercaseStringType::class],
+            $phpDocType
+        );
     }
 }

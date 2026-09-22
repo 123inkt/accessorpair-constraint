@@ -5,7 +5,9 @@ namespace DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehin
 
 use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\NonEmptyUppercaseStringType;
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
+use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\Types\Object_;
 
 class NonEmptyUppercaseString implements DataInterface
 {
@@ -21,6 +23,6 @@ class NonEmptyUppercaseString implements DataInterface
 
     public function getExpectedType(): Type
     {
-        return new NonEmptyUppercaseStringType();
+        return new Object_(new Fqsen('\\' . NonEmptyUppercaseStringType::class));
     }
 }

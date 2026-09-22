@@ -7,22 +7,23 @@ use DigitalRevolution\AccessorPairConstraint\Constraint\Typehint\Type\UppercaseS
 use DigitalRevolution\AccessorPairConstraint\Tests\Unit\Constraint\Typehint\DataInterface;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Object_;
 
-class UppercaseString implements DataInterface
+class ArrayUppercaseString implements DataInterface
 {
     /**
-     * @param uppercase-string $param
+     * @param array<uppercase-string> $param
      *
-     * @return uppercase-string
+     * @return array<uppercase-string>
      */
-    public function testMethod(string $param): string
+    public function testMethod(array $param): array
     {
         return $param;
     }
 
     public function getExpectedType(): Type
     {
-        return new Object_(new Fqsen('\\' . UppercaseStringType::class));
+        return new Array_(new Object_(new Fqsen('\\' . UppercaseStringType::class)));
     }
 }
